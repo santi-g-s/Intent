@@ -11,7 +11,7 @@ import SwiftUI
 struct IntentApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(habit: Habit.preview)
         }
     }
 }

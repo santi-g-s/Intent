@@ -14,6 +14,10 @@
 		C73D068D292815380055B13B /* IntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D068C292815380055B13B /* IntentTests.swift */; };
 		C73D0697292815380055B13B /* IntentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D0696292815380055B13B /* IntentUITests.swift */; };
 		C73D0699292815380055B13B /* IntentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D0698292815380055B13B /* IntentUITestsLaunchTests.swift */; };
+		C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */; };
+		C73D06AD292815DA0055B13B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AC292815DA0055B13B /* DataManager.swift */; };
+		C73D06AF292816160055B13B /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AE292816160055B13B /* Habit.swift */; };
+		C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B0292816670055B13B /* Calendar+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		C73D0692292815380055B13B /* IntentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C73D0696292815380055B13B /* IntentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentUITests.swift; sourceTree = "<group>"; };
 		C73D0698292815380055B13B /* IntentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C73D06AA292815B30055B13B /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		C73D06AC292815DA0055B13B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		C73D06AE292816160055B13B /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		C73D06B0292816670055B13B /* Calendar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +104,10 @@
 			children = (
 				C73D067B292815370055B13B /* IntentApp.swift */,
 				C73D067D292815370055B13B /* ContentView.swift */,
-				C73D067F292815380055B13B /* Assets.xcassets */,
+				C73D06A72928157D0055B13B /* Helpers */,
+				C73D06A6292815760055B13B /* Managers */,
+				C73D06A5292815710055B13B /* Models */,
+				C73D06A8292815890055B13B /* Resources */,
 				C73D0681292815380055B13B /* Preview Content */,
 			);
 			path = Intent;
@@ -125,6 +136,39 @@
 				C73D0698292815380055B13B /* IntentUITestsLaunchTests.swift */,
 			);
 			path = IntentUITests;
+			sourceTree = "<group>";
+		};
+		C73D06A5292815710055B13B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C73D06AE292816160055B13B /* Habit.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C73D06A6292815760055B13B /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				C73D06AC292815DA0055B13B /* DataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		C73D06A72928157D0055B13B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C73D06B0292816670055B13B /* Calendar+Extensions.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C73D06A8292815890055B13B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C73D067F292815380055B13B /* Assets.xcassets */,
+				C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +302,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73D067E292815370055B13B /* ContentView.swift in Sources */,
+				C73D06AF292816160055B13B /* Habit.swift in Sources */,
+				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
+				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,
+				C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +625,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C73D06AA292815B30055B13B /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = C73D06AA292815B30055B13B /* CoreDataModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C73D0670292815370055B13B /* Project object */;
 }
