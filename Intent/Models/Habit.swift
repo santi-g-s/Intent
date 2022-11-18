@@ -35,7 +35,7 @@ extension Habit {
     
     var dateStartedDescription: String? {
         
-        let numDays = Calendar.current.numberOf24DaysBetween(startDate, and: Date())
+        let numDays = Calendar.current.numberOfDaysBetween(startDate, and: Date())
         
         var str = "Started \(numDays) day" // Progressing for
         
@@ -80,7 +80,7 @@ extension Habit {
     var completed: [Bool] {
         var arr = [Bool]()
         
-        let days = Calendar.current.numberOf24DaysInclusive(startDate, and: Date())
+        let days = Calendar.current.numberOfDaysInclusive(startDate, and: Date())
         
         let upperLimit = days > 20 ? 19 : days - 1
         
