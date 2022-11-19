@@ -77,7 +77,13 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
+    
+    
     static var previews: some View {
-        ContentView(habit: Habit.preview)
+        
+        let dataManager = DataManager.preview
+        
+        ContentView(habit: Habit.makePreview(context: dataManager.container.viewContext))
     }
 }

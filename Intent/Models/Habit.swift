@@ -51,20 +51,23 @@ extension Habit {
     func complete() {
         if !isComplete {
             completedDates.append(Date())
-        }  else {
-            completedDates.removeLast()
+        } else {
+            while let last = completedDates.last, Calendar.current.isDate(last, inSameDayAs: Date()) {
+                completedDates.removeLast()
+            }
         }
     }
     
     var score: CGFloat {
-        
         var score = 0.0
         
-        for i in stride(from: completed.count-1, through: 0, by: -1) {
+        var completedArray = completed
+        
+        for i in stride(from: completedArray.count-1, through: 0, by: -1) {
             if i == 0 {
-                score = completed[i] ? min(score + 0.1, 1.0): score
+                score = completedArray[i] ? min(score + 0.1, 1.0): score
             } else {
-                score = completed[i] ? min(score + 0.1, 1.0): max(0, score - 0.2)
+                score = completedArray[i] ? min(score + 0.1, 1.0): max(0, score - 0.2)
             }
             
         }
@@ -100,18 +103,18 @@ extension Habit {
     
     //MARK: - Static Methods
     
-    /// A Moment for use with canvas previews.
-    static var preview: Habit {
-        let habits = Habit.makePreviews(count: 1, includeAll: true)
+    /// A Habit for use with canvas previews.
+    static func makePreview(context: NSManagedObjectContext) -> Habit {
+        let habits = Habit.makePreviews(count: 1, includeAll: true, context: context)
         let habit = habits[0]
         return habit
     }
     
     /// Creates mock data for previews.
     @discardableResult
-    static func makePreviews(count: Int, includeAll: Bool = false, context: NSManagedObjectContext? = nil) -> [Habit] {
+    static func makePreviews(count: Int, includeAll: Bool = false, context: NSManagedObjectContext) -> [Habit] {
         var habits = [Habit]()
-        let viewContext = context ?? DataManager.preview.container.viewContext
+        let viewContext = context
         for i in 0..<count {
             let habit = Habit(context: viewContext)
             habit.id = UUID()

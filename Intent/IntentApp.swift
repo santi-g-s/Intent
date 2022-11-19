@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct IntentApp: App {
+    
+    var dataManager = DataManager.preview
+    
     var body: some Scene {
         WindowGroup {
-            ContentView(habit: Habit.preview)
+            ContentView(habit: Habit.makePreview(context: dataManager.container.viewContext))
+                .environment(\.managedObjectContext, dataManager.container.viewContext)
         }
     }
 }
