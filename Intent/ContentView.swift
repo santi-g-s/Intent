@@ -20,16 +20,26 @@ struct ContentView: View {
                     .foregroundColor(.gray.opacity(0.15))
                
                 Circle()
-                    .foregroundColor(.accentColor.opacity(habit.isComplete ? 1 : 0.5))
+                    .foregroundColor(.accentColor.opacity(habit.status == .complete ? 1 : 0.5))
                     .scaleEffect(habit.score)
                     .overlay {
-                        if habit.isComplete {
-                            Image(systemName: "checkmark")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 30)
-                                .foregroundStyle(.thinMaterial)
+                        Group {
+                            switch habit.status {
+                            case .complete:
+                                Image(systemName: "checkmark")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 30)
+                                    .foregroundStyle(.thinMaterial)
+                            case .pending(let score):
+                                if score != 0 {
+                                    Text("\(score) / \(habit.requiredCount)")
+                                        .font(.title3)
+                                        .foregroundStyle(.regularMaterial)
+                                }
+                            }
                         }
+                        
                     }
                     .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habit.score)
             }

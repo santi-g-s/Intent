@@ -19,6 +19,7 @@
 		C73D06AF292816160055B13B /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AE292816160055B13B /* Habit.swift */; };
 		C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B0292816670055B13B /* Calendar+Extensions.swift */; };
 		C73D06B3292817140055B13B /* HabitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B2292817140055B13B /* HabitTests.swift */; };
+		C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		C73D06AE292816160055B13B /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		C73D06B0292816670055B13B /* Calendar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 		C73D06B2292817140055B13B /* HabitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTests.swift; sourceTree = "<group>"; };
+		C73D06D42929D9160055B13B /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				C73D06B0292816670055B13B /* Calendar+Extensions.swift */,
+				C73D06D42929D9160055B13B /* Double+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 			files = (
 				C73D067E292815370055B13B /* ContentView.swift in Sources */,
 				C73D06AF292816160055B13B /* Habit.swift in Sources */,
+				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,

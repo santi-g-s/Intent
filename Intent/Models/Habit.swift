@@ -10,34 +10,86 @@ import CoreData
 
 extension Habit {
     
+    /**
+     The title of the habit.
+     */
     var title: String {
         return title_ ?? "Unknown"
     }
     
+    /**
+     An array respresented the `Date` when a habit was succesfully completed. First index is the oldest date.
+     
+     Note that this can can contain multiple dates on the same day representing a task that must be completed multiple times in a day.
+     */
     var completedDates: [Date] {
         get {
             return completedDates_ ?? [Date]()
         }
         set {
-            return completedDates_ = newValue
+            completedDates_ = newValue
         }
     }
     
+    /**
+     The date when the habit was started.
+     */
     var startDate: Date {
         return startDate_ ?? Date()
     }
     
-    //MARK: - Convenience Variables
-    
-    var isComplete: Bool {
-        completed[0]
+    /**
+     The score of the habit from `0.0` to `1.0`
+     */
+    var score: Double {
+        get {
+            return score_
+        }
+        set {
+            score_ = newValue
+        }
     }
     
+    /**
+     The number of completions needed in a day to "complete'" the habit
+     */
+    var requiredCount: Int {
+        get {
+            return Int(requiredCount_)
+        }
+        set {
+            requiredCount_ = Int16(newValue)
+        }
+    }
+    
+    //MARK: - Convenience Variables
+    
+    /**
+     Represents the current status of the habit. Can be either `complete` or `pending` with an associated int for the current count.
+     */
+    var status: HabitStatus {
+        var count = 0
+        var dates = completedDates
+        
+        while let last = dates.last, count < requiredCount {
+            if !Calendar.current.isDate(last, inSameDayAs: Date()) {
+                return .pending(count)
+            }
+            dates.removeLast()
+            count += 1
+        }
+        
+        return .complete
+    }
+    
+    /**
+     A string that describes how long ago the habit was started.
+     */
     var dateStartedDescription: String? {
         
         let numDays = Calendar.current.numberOfDaysBetween(startDate, and: Date())
         
-        var str = "Started \(numDays) day" // Progressing for
+        var str = "Started \(numDays) day"
         
         if numDays != 1 {
             str += "s"
@@ -48,57 +100,29 @@ extension Habit {
         return str
     }
     
+    //MARK: - Object Methods
+    
+    /**
+     Call this method to cycle through the completion of the habit.
+     
+     Note, this is the only place where `score` gets changed.
+     */
     func complete() {
-        if !isComplete {
-            completedDates.append(Date())
-        } else {
+        switch status {
+        case .complete:
             while let last = completedDates.last, Calendar.current.isDate(last, inSameDayAs: Date()) {
                 completedDates.removeLast()
             }
-        }
-    }
-    
-    var score: CGFloat {
-        var score = 0.0
-        
-        var completedArray = completed
-        
-        for i in stride(from: completedArray.count-1, through: 0, by: -1) {
-            if i == 0 {
-                score = completedArray[i] ? min(score + 0.1, 1.0): score
+            score = max(0, score - 0.1)
+        case .pending(let count):
+            completedDates.append(Date())
+            if count + 1 == requiredCount {
+                score = min(1, score + 0.1/Double(requiredCount)).rounded(toPlaces: 1)
             } else {
-                score = completedArray[i] ? min(score + 0.1, 1.0): max(0, score - 0.2)
+                score = min(1, score + 0.1/Double(requiredCount))
             }
             
         }
-        
-        return score
-    }
-    
-    /**
-     Array that contains a boolean value whether habit was completed on that day starting from that day (0) and going to 19 days earlier at most.
-     
-     If habit has
-     */
-    var completed: [Bool] {
-        var arr = [Bool]()
-        
-        let days = Calendar.current.numberOfDaysInclusive(startDate, and: Date())
-        
-        let upperLimit = days > 20 ? 19 : days - 1
-        
-        for i in 0...upperLimit {
-            let double: Double = Double(i)
-            if completedDates.contains(where: { date in
-                Calendar.current.compare(date, to: Calendar.current.startOfDay(for: Date()).addingTimeInterval(-60*60*24*(double)), toGranularity: .day) == .orderedSame
-            }) {
-                arr.append(true)
-            } else {
-                arr.append(false)
-            }
-        }
-        
-        return arr
     }
     
     //MARK: - Static Methods
@@ -126,9 +150,25 @@ extension Habit {
                 Date().addingTimeInterval(-60*60*(24)*1*3)
             ]
             habit.startDate_ = Date().addingTimeInterval(-60*60*(24)*1*10)
+            habit.score_ = 0.3
+            habit.requiredCount_ = 3
             habits.append(habit)
         }
         return habits
     }
     
+}
+
+enum HabitStatus: Equatable {
+    case complete
+    case pending(Int)
+    
+    var description: String {
+        switch self {
+        case .complete:
+            return "Complete"
+        case .pending(let count):
+            return "Pending: \(count)"
+        }
+    }
 }
