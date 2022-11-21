@@ -14,7 +14,12 @@ extension Habit {
      The title of the habit.
      */
     var title: String {
-        return title_ ?? "Unknown"
+        get {
+            return title_ ?? "Unknown"
+        }
+        set {
+            title_ = newValue
+        }
     }
     
     /**
@@ -35,7 +40,12 @@ extension Habit {
      The date when the habit was started.
      */
     var startDate: Date {
-        return startDate_ ?? Date()
+        get {
+            return startDate_ ?? Date()
+        }
+        set {
+            startDate_ = newValue
+        }
     }
     
     /**
@@ -71,7 +81,12 @@ extension Habit {
         var count = 0
         var dates = completedDates
         
-        while let last = dates.last, count < requiredCount {
+        guard !dates.isEmpty else { return .pending(0) }
+        
+        while count < requiredCount {
+            
+            guard let last = dates.last else { return .pending(count) }
+            
             if !Calendar.current.isDate(last, inSameDayAs: Date()) {
                 return .pending(count)
             }
@@ -88,6 +103,8 @@ extension Habit {
     var dateStartedDescription: String? {
         
         let numDays = Calendar.current.numberOfDaysBetween(startDate, and: Date())
+        
+        guard numDays != 0 else { return "Started today" }
         
         var str = "Started \(numDays) day"
         

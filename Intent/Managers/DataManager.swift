@@ -41,6 +41,10 @@ class DataManager {
     }()
 
     public let container: PersistentContainer
+    
+    public var viewContext: NSManagedObjectContext {
+        return container.viewContext
+    }
 
     public init(_ storeType: StorageType = .persistent) {
       container = PersistentContainer(name: "CoreDataModel", managedObjectModel: Self.managedObjectModel)

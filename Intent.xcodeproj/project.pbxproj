@@ -11,9 +11,6 @@
 		C73D067E292815370055B13B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067D292815370055B13B /* ContentView.swift */; };
 		C73D0680292815380055B13B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D067F292815380055B13B /* Assets.xcassets */; };
 		C73D0683292815380055B13B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D0682292815380055B13B /* Preview Assets.xcassets */; };
-		C73D068D292815380055B13B /* IntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D068C292815380055B13B /* IntentTests.swift */; };
-		C73D0697292815380055B13B /* IntentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D0696292815380055B13B /* IntentUITests.swift */; };
-		C73D0699292815380055B13B /* IntentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D0698292815380055B13B /* IntentUITestsLaunchTests.swift */; };
 		C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */; };
 		C73D06AD292815DA0055B13B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AC292815DA0055B13B /* DataManager.swift */; };
 		C73D06AF292816160055B13B /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AE292816160055B13B /* Habit.swift */; };
@@ -30,13 +27,6 @@
 			remoteGlobalIDString = C73D0677292815370055B13B;
 			remoteInfo = Intent;
 		};
-		C73D0693292815380055B13B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C73D0670292815370055B13B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C73D0677292815370055B13B;
-			remoteInfo = Intent;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -46,10 +36,6 @@
 		C73D067F292815380055B13B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C73D0682292815380055B13B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C73D0688292815380055B13B /* IntentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C73D068C292815380055B13B /* IntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentTests.swift; sourceTree = "<group>"; };
-		C73D0692292815380055B13B /* IntentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C73D0696292815380055B13B /* IntentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentUITests.swift; sourceTree = "<group>"; };
-		C73D0698292815380055B13B /* IntentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C73D06AA292815B30055B13B /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		C73D06AC292815DA0055B13B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C73D06AE292816160055B13B /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
@@ -73,13 +59,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C73D068F292815380055B13B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -88,7 +67,6 @@
 			children = (
 				C73D067A292815370055B13B /* Intent */,
 				C73D068B292815380055B13B /* IntentTests */,
-				C73D0695292815380055B13B /* IntentUITests */,
 				C73D0679292815370055B13B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,7 +76,6 @@
 			children = (
 				C73D0678292815370055B13B /* Intent.app */,
 				C73D0688292815380055B13B /* IntentTests.xctest */,
-				C73D0692292815380055B13B /* IntentUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,19 +105,9 @@
 		C73D068B292815380055B13B /* IntentTests */ = {
 			isa = PBXGroup;
 			children = (
-				C73D068C292815380055B13B /* IntentTests.swift */,
 				C73D06B2292817140055B13B /* HabitTests.swift */,
 			);
 			path = IntentTests;
-			sourceTree = "<group>";
-		};
-		C73D0695292815380055B13B /* IntentUITests */ = {
-			isa = PBXGroup;
-			children = (
-				C73D0696292815380055B13B /* IntentUITests.swift */,
-				C73D0698292815380055B13B /* IntentUITestsLaunchTests.swift */,
-			);
-			path = IntentUITests;
 			sourceTree = "<group>";
 		};
 		C73D06A5292815710055B13B /* Models */ = {
@@ -215,24 +182,6 @@
 			productReference = C73D0688292815380055B13B /* IntentTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C73D0691292815380055B13B /* IntentUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C73D06A2292815380055B13B /* Build configuration list for PBXNativeTarget "IntentUITests" */;
-			buildPhases = (
-				C73D068E292815380055B13B /* Sources */,
-				C73D068F292815380055B13B /* Frameworks */,
-				C73D0690292815380055B13B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C73D0694292815380055B13B /* PBXTargetDependency */,
-			);
-			name = IntentUITests;
-			productName = IntentUITests;
-			productReference = C73D0692292815380055B13B /* IntentUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -247,10 +196,6 @@
 						CreatedOnToolsVersion = 14.0;
 					};
 					C73D0687292815380055B13B = {
-						CreatedOnToolsVersion = 14.0;
-						TestTargetID = C73D0677292815370055B13B;
-					};
-					C73D0691292815380055B13B = {
 						CreatedOnToolsVersion = 14.0;
 						TestTargetID = C73D0677292815370055B13B;
 					};
@@ -271,7 +216,6 @@
 			targets = (
 				C73D0677292815370055B13B /* Intent */,
 				C73D0687292815380055B13B /* IntentTests */,
-				C73D0691292815380055B13B /* IntentUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -287,13 +231,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C73D0686292815380055B13B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C73D0690292815380055B13B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -322,16 +259,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73D06B3292817140055B13B /* HabitTests.swift in Sources */,
-				C73D068D292815380055B13B /* IntentTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C73D068E292815380055B13B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C73D0699292815380055B13B /* IntentUITestsLaunchTests.swift in Sources */,
-				C73D0697292815380055B13B /* IntentUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,11 +269,6 @@
 			isa = PBXTargetDependency;
 			target = C73D0677292815370055B13B /* Intent */;
 			targetProxy = C73D0689292815380055B13B /* PBXContainerItemProxy */;
-		};
-		C73D0694292815380055B13B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C73D0677292815370055B13B /* Intent */;
-			targetProxy = C73D0693292815380055B13B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -559,40 +481,6 @@
 			};
 			name = Release;
 		};
-		C73D06A3292815380055B13B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.IntentUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Intent;
-			};
-			name = Debug;
-		};
-		C73D06A4292815380055B13B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.IntentUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Intent;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -619,15 +507,6 @@
 			buildConfigurations = (
 				C73D06A0292815380055B13B /* Debug */,
 				C73D06A1292815380055B13B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C73D06A2292815380055B13B /* Build configuration list for PBXNativeTarget "IntentUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C73D06A3292815380055B13B /* Debug */,
-				C73D06A4292815380055B13B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
