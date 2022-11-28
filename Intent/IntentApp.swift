@@ -14,7 +14,7 @@ struct IntentApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(habit: Habit.makePreview(context: dataManager.container.viewContext))
+            ContentView()
                 .environment(\.managedObjectContext, dataManager.container.viewContext)
         }
     }
