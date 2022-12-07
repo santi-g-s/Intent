@@ -11,13 +11,74 @@ struct HabitView: View {
     
     @ObservedObject var habit: Habit
     
+    @State var size = CGSize.zero
+    
+    @State var showDetail = false
+    
     var body: some View {
-        content
-            .bottomSheet(presentationDetents: [.height(60), .large],
-                         isPresented: .constant(true), dragIndicator: .hidden, sheetCornerRadius: nil) {
-                HabitDetailView()
-            } onDismiss: {}
+        VStack {
+            if showDetail {
+                Text(habit.title)
+                    .font(Font.system(.title, design: .serif))
+                    .transition(.opacity)
+                    .animation(.easeInOut, value: showDetail)
+            } else {
+                HStack(spacing: 16){
+                    Image(systemName: "figure.run")
+                        .foregroundColor(.gray.opacity(1/3))
+                    Image(systemName: "fork.knife")
+                        .foregroundColor(.primary)
+                    Image(systemName: "book")
+                        .foregroundColor(.gray.opacity(1/3))
+                    Image(systemName: "plus")
+                        .foregroundColor(.gray.opacity(1/3))
+                }
+                .padding()
+            }
+            
+            ScrollViewReader { proxy in
+                ScrollView(
+                    axes: [.vertical],
+                    showsIndicators: false,
+                    offsetChanged: { offset in
+                        if showDetail == false {
+                            if (offset.y < -150) {
+                                showDetail = true
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                                    withAnimation {
+                                        proxy.scrollTo(0, anchor: .top)
+                                    }
+                                    let generator = UINotificationFeedbackGenerator()
+                                        generator.notificationOccurred(.success)
+                                    
+                                }
+                            }
+                        } else {
+                            if (offset.y > -20) {
+                                showDetail = false
+                            }
+                        }
+                    }
+                ) {
+                    LazyVStack {
 
+                        content
+                            .frame(height: size.height)
+                        if showDetail {
+                            ForEach(0..<100) { i in
+                                Text("Example \(i)")
+                                    .padding()
+                                    .id(i)
+                            }
+                        }
+                    }
+                }
+            }
+            .readSize { size in
+                self.size = size
+            }
+        }
     }
     
     var content: some View {
@@ -56,17 +117,6 @@ struct HabitView: View {
         }
         .overlay(alignment: .top) {
             VStack {
-                HStack(spacing: 16){
-                    Image(systemName: "figure.run")
-                        .foregroundColor(.gray.opacity(1/3))
-                    Image(systemName: "fork.knife")
-                        .foregroundColor(.primary)
-                    Image(systemName: "book")
-                        .foregroundColor(.gray.opacity(1/3))
-                    Image(systemName: "plus")
-                        .foregroundColor(.gray.opacity(1/3))
-                }
-                .padding()
                 Text(habit.title)
                     .font(Font.system(.largeTitle, design: .serif))
                 if let dateStartedDescription = habit.dateStartedDescription {
@@ -76,6 +126,16 @@ struct HabitView: View {
                 }
                 
                 Spacer()
+                
+                Text(showDetail ? "See less" : "See more")
+                    .font(.caption)
+                    .bold()
+                    .foregroundColor(.gray.opacity(1/3))
+                Image(systemName: showDetail ? "chevron.compact.down" : "chevron.compact.up")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40)
+                    .foregroundColor(.gray.opacity(1/3))
             }
             
         }

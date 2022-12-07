@@ -21,6 +21,7 @@
 		C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B020FE2935340B00462E1F /* Color+Extensions.swift */; };
 		C7B021012935362600462E1F /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021002935362600462E1F /* HabitView.swift */; };
 		C7B021032935372600462E1F /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021022935372600462E1F /* HabitDetailView.swift */; };
+		C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		C7B020FE2935340B00462E1F /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		C7B021002935362600462E1F /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
 		C7B021022935372600462E1F /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
+		C7CFE828293F0A4300A89AAD /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				C73D06D42929D9160055B13B /* Double+Extensions.swift */,
 				C7889C5F292D5A630064D89C /* View+Extensions.swift */,
 				C7B020FE2935340B00462E1F /* Color+Extensions.swift */,
+				C7CFE828293F0A4300A89AAD /* ScrollView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				C73D06AF292816160055B13B /* Habit.swift in Sources */,
 				C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */,
 				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
+				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,
