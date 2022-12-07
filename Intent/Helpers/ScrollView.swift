@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScrollView<Content: View>: View {
+struct ScrollViewOffset<Content: View>: View {
     let axes: Axis.Set
     let showsIndicators: Bool
     let offsetChanged: (CGPoint) -> Void
@@ -48,7 +48,7 @@ private struct ScrollOffsetPreferenceKey: PreferenceKey {
 
 struct ScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollView(
+        ScrollViewOffset(
             axes: [.vertical],
             showsIndicators: false,
             offsetChanged: { print($0) }

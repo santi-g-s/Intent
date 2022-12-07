@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C723852129405E7E00901B43 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
 		C73D067C292815370055B13B /* IntentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067B292815370055B13B /* IntentApp.swift */; };
 		C73D067E292815370055B13B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067D292815370055B13B /* ContentView.swift */; };
 		C73D0680292815380055B13B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D067F292815380055B13B /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C723852029405E7E00901B43 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C73D0678292815370055B13B /* Intent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Intent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C73D067B292815370055B13B /* IntentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentApp.swift; sourceTree = "<group>"; };
 		C73D067D292815370055B13B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				C7889C5F292D5A630064D89C /* View+Extensions.swift */,
 				C7B020FE2935340B00462E1F /* Color+Extensions.swift */,
 				C7CFE828293F0A4300A89AAD /* ScrollView.swift */,
+				C723852029405E7E00901B43 /* CalendarView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */,
 				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
 				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
+				C723852129405E7E00901B43 /* CalendarView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,

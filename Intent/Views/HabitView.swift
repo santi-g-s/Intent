@@ -37,7 +37,7 @@ struct HabitView: View {
             }
             
             ScrollViewReader { proxy in
-                ScrollView(
+                ScrollViewOffset(
                     axes: [.vertical],
                     showsIndicators: false,
                     offsetChanged: { offset in
