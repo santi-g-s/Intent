@@ -4,7 +4,6 @@
         <attribute name="completedDates_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Date]"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="requiredCount_" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="score_" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="startDate_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title_" optional="YES" attributeType="String"/>
     </entity>

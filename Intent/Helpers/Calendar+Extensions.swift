@@ -36,6 +36,42 @@ extension Calendar {
         
         return numberOfDays.day! + 1
     }
+    
+    func dates(from: Date, to: Date) -> [Date] {
+        // in case of the "from" date is more than "to" date,
+        // it should returns an empty array:
+        if from > to { return [Date]() }
+
+        var tempDate = from
+        var array = [tempDate]
+
+        while Calendar.current.compare(tempDate, to: to, toGranularity: .day) == .orderedAscending {
+            tempDate = self.date(byAdding: .day, value: 1, to: tempDate)!
+            array.append(tempDate)
+        }
+
+        return array
+    }
+    
+    func dates(from: Date, through: Date) -> [Date] {
+        // in case of the "from" date is more than "to" date,
+        // it should returns an empty array:
+        if from > through { return [Date]() }
+
+        var tempDate = from
+        var array = [tempDate]
+
+        while Calendar.current.compare(tempDate, to: through, toGranularity: .day) == .orderedAscending {
+            tempDate = self.date(byAdding: .day, value: 1, to: tempDate)!
+            array.append(tempDate)
+        }
+        
+        if Calendar.current.compare(from, to: through, toGranularity: .day) != .orderedSame {
+            array.append(through)
+        }
+
+        return array
+    }
 }
 
 

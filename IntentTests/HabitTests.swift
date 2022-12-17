@@ -51,12 +51,6 @@ final class HabitTests: XCTestCase {
         XCTAssertEqual(date, habit.startDate)
     }
     
-    func test_ReadingProperties_Score() {
-        let habit = Habit(context: dataManager.viewContext)
-        habit.score = 0.6
-        XCTAssertEqual(0.6, habit.score, accuracy: 0.0001)
-    }
-    
     func test_ReadingProperties_RequiredCount() {
         let habit = Habit(context: dataManager.viewContext)
         habit.requiredCount = 3
@@ -167,6 +161,79 @@ final class HabitTests: XCTestCase {
         XCTAssertEqual(HabitStatus.complete, habit.status)
     }
     
+    func test_CalculateScore_0() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.requiredCount = 1
+        XCTAssertEqual(0, habit.calculateScore(), accuracy: 0.001)
+    }
     
+    func test_CalculateScore_Complete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.requiredCount = 1
+        habit.completedDates = [Date()]
+        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_5() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*4)
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*4),
+            Date().addingTimeInterval(-60*60*24*3),
+            Date().addingTimeInterval(-60*60*24*2),
+            Date().addingTimeInterval(-60*60*24*1),
+            Date().addingTimeInterval(-60*60*24*0),
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Reduce() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*3)
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*3), //1
+            Date().addingTimeInterval(-60*60*24*2), //2
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    
+    func test_CalculateScore_Jagged0() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*5)
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*5),//1
+            Date().addingTimeInterval(-60*60*24*4),//2
+            //0
+            Date().addingTimeInterval(-60*60*24*2), //1
+            //0
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func testCalculateScore_Jagged5() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*10)
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*10),//1
+            Date().addingTimeInterval(-60*60*24*9),//2
+            //0
+            Date().addingTimeInterval(-60*60*24*7),//1
+            Date().addingTimeInterval(-60*60*24*6),//2
+            Date().addingTimeInterval(-60*60*24*5),//3
+            //1
+            Date().addingTimeInterval(-60*60*24*3),//2
+            Date().addingTimeInterval(-60*60*24*2),//3
+            Date().addingTimeInterval(-60*60*24*1),//4
+            Date().addingTimeInterval(-60*60*24*0),//5
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
     
 }

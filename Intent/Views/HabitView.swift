@@ -10,6 +10,7 @@ import SwiftUI
 struct HabitView: View {
     
     @ObservedObject var habit: Habit
+    @State var habitScore = 0.0
     
     @State var size = CGSize.zero
     
@@ -79,6 +80,14 @@ struct HabitView: View {
                 self.size = size
             }
         }
+        .onAppear {
+            habitScore = habit.calculateScore()
+            print(habitScore)
+        }
+        .onChange(of: habit.completedDates) { _ in
+            habitScore = habit.calculateScore()
+            print(habitScore)
+        }
     }
     
     var content: some View {
@@ -89,7 +98,7 @@ struct HabitView: View {
                
                 Circle()
                     .foregroundColor(.accentColor.opacity(habit.status == .complete ? 1 : 0.5))
-                    .scaleEffect(habit.score)
+                    .scaleEffect(habitScore)
                     .overlay {
                         Group {
                             switch habit.status {
@@ -109,7 +118,7 @@ struct HabitView: View {
                         }
                         
                     }
-                    .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habit.score)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
             }
             .onTapGesture { habit.complete() }
             .frame(minHeight: 0, maxHeight: .infinity)

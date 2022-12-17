@@ -49,18 +49,6 @@ extension Habit {
     }
     
     /**
-     The score of the habit from `0.0` to `1.0`
-     */
-    var score: Double {
-        get {
-            return score_
-        }
-        set {
-            score_ = newValue
-        }
-    }
-    
-    /**
      The number of completions needed in a day to "complete'" the habit
      */
     var requiredCount: Int {
@@ -130,16 +118,36 @@ extension Habit {
             while let last = completedDates.last, Calendar.current.isDate(last, inSameDayAs: Date()) {
                 completedDates.removeLast()
             }
-            score = max(0, score - 0.1)
-        case .pending(let count):
+        case .pending(_):
             completedDates.append(Date())
-            if count + 1 == requiredCount {
-                score = min(1, score + 0.1/Double(requiredCount)).rounded(toPlaces: 1)
-            } else {
-                score = min(1, score + 0.1/Double(requiredCount))
-            }
-            
         }
+    }
+    
+    /**
+     Returns the score of the habit from `0.0` to `1.0`
+     */
+    func calculateScore() -> Double {
+        var score = 0.0
+        var trackerIndex: Int = 0
+        for date in Calendar.current.dates(from: startDate, through: Date()) {
+            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: .day) == .orderedAscending {
+                score = max(0, score - 0.2)
+                continue
+            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: .day) != .orderedSame {
+                score = max(0, score - 0.2)
+            }
+            var count = 0
+            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: .day) == .orderedSame {
+                trackerIndex += 1
+                count += 1
+            }
+            if count == requiredCount {
+                score = min(1, score + 0.1)
+            } else if Calendar.current.compare(date, to: Date(), toGranularity: .day) == .orderedSame {
+                score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
+            }
+        }
+        return score
     }
     
     //MARK: - Static Methods
@@ -162,12 +170,17 @@ extension Habit {
             habit.title_ = "Example Habit \(i)"
             habit.completedDates_ = [
                 Date().addingTimeInterval(-60*60*(24)*1*10),// 10 days ago
-                Date().addingTimeInterval(-60*60*(24)*1*1),
+                Date().addingTimeInterval(-60*60*(24)*1*3),
+                Date().addingTimeInterval(-60*60*(24)*1*3),
+                Date().addingTimeInterval(-60*60*(24)*1*3),
                 Date().addingTimeInterval(-60*60*(24)*1*2),
-                Date().addingTimeInterval(-60*60*(24)*1*3)
+                Date().addingTimeInterval(-60*60*(24)*1*2),
+                Date().addingTimeInterval(-60*60*(24)*1*2),
+                Date().addingTimeInterval(-60*60*(24)*1*1),
+                Date().addingTimeInterval(-60*60*(24)*1*1),
+                Date().addingTimeInterval(-60*60*(24)*1*1)
             ]
             habit.startDate_ = Date().addingTimeInterval(-60*60*(24)*1*10)
-            habit.score_ = 0.3
             habit.requiredCount_ = 3
             habits.append(habit)
         }
