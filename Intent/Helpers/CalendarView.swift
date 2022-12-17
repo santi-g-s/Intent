@@ -112,7 +112,6 @@ struct MonthView<DateView>: View where DateView: View {
 
     private var header: some View {
         let component = calendar.component(.month, from: month)
-        let formatter = component == 1 ? DateFormatter.monthAndYear : .month
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         return Text(month.formatted(.dateTime.month(.abbreviated).year(.twoDigits)).uppercased())
@@ -152,11 +151,9 @@ struct CalendarView<DateView>: View where DateView: View {
     }
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack {
-                ForEach(months.reversed(), id: \.self) { month in
-                    MonthView(month: month, content: self.content)
-                }
+        LazyVStack {
+            ForEach(months.reversed(), id: \.self) { month in
+                MonthView(month: month, content: self.content)
             }
         }
     }
@@ -164,17 +161,19 @@ struct CalendarView<DateView>: View where DateView: View {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView(interval: DateInterval(start: Date().addingTimeInterval(-60*60*24*365*5), end: Date())) { date in
-            Text("30")
-                .hidden()
-                .padding(8)
-                .background(Color.accentColor.opacity(2/3))
-                .clipShape(Circle())
-                .padding(.vertical, 4)
-                .overlay(
-                    Text(String(Calendar.current.component(.day, from: date)))
-                        .foregroundColor(.white)
-                )
+        ScrollView {
+            CalendarView(interval: DateInterval(start: Date().addingTimeInterval(-60*60*24*365*5), end: Date())) { date in
+                Text("30")
+                    .hidden()
+                    .padding(8)
+                    .background(Color.accentColor.opacity(2/3))
+                    .clipShape(Circle())
+                    .padding(.vertical, 4)
+                    .overlay(
+                        Text(String(Calendar.current.component(.day, from: date)))
+                            .foregroundColor(.white)
+                    )
+            }
         }
     }
 }
