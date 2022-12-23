@@ -11,31 +11,14 @@ struct HabitView: View {
     
     @ObservedObject var habit: Habit
     @State var habitScore = 0.0
+    @State var completionMap = [Date : Bool]()
     
     @State var size = CGSize.zero
-    
     @State var showDetail = false
     
     var body: some View {
         VStack {
-            if showDetail {
-                Text(habit.title)
-                    .font(Font.system(.title, design: .serif))
-                    .transition(.opacity)
-                    .animation(.easeInOut, value: showDetail)
-            } else {
-                HStack(spacing: 16){
-                    Image(systemName: "figure.run")
-                        .foregroundColor(.gray.opacity(1/3))
-                    Image(systemName: "fork.knife")
-                        .foregroundColor(.primary)
-                    Image(systemName: "book")
-                        .foregroundColor(.gray.opacity(1/3))
-                    Image(systemName: "plus")
-                        .foregroundColor(.gray.opacity(1/3))
-                }
-                .padding()
-            }
+            header
             
             ScrollViewReader { proxy in
                 ScrollViewOffset(
@@ -63,15 +46,10 @@ struct HabitView: View {
                     }
                 ) {
                     LazyVStack {
-
                         content
                             .frame(height: size.height)
                         if showDetail {
-                            ForEach(0..<100) { i in
-                                Text("Example \(i)")
-                                    .padding()
-                                    .id(i)
-                            }
+                            HabitDetailView(habit: habit, completionMap: completionMap)
                         }
                     }
                 }
@@ -81,12 +59,39 @@ struct HabitView: View {
             }
         }
         .onAppear {
-            habitScore = habit.calculateScore()
-            print(habitScore)
+            withAnimation(.none){
+                (habitScore, completionMap) = habit.calculateScore()
+                print(habitScore)
+            }
         }
         .onChange(of: habit.completedDates) { _ in
-            habitScore = habit.calculateScore()
-            print(habitScore)
+            (habitScore, completionMap) = habit.calculateScore()
+        }
+    }
+    
+    var header: some View {
+        Group {
+            if showDetail {
+                Text(habit.title)
+                    .font(Font.system(.title, design: .serif))
+                    .transition(.opacity)
+                    .animation(.easeInOut, value: showDetail)
+                    .onTapGesture {
+                        showDetail = false
+                    }
+            } else {
+                HStack(spacing: 16){
+                    Image(systemName: "figure.run")
+                        .foregroundColor(.gray.opacity(1/3))
+                    Image(systemName: "fork.knife")
+                        .foregroundColor(.primary)
+                    Image(systemName: "book")
+                        .foregroundColor(.gray.opacity(1/3))
+                    Image(systemName: "plus")
+                        .foregroundColor(.gray.opacity(1/3))
+                }
+                .padding()
+            }
         }
     }
     

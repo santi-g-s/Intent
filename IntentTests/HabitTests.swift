@@ -165,7 +165,7 @@ final class HabitTests: XCTestCase {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date()
         habit.requiredCount = 1
-        XCTAssertEqual(0, habit.calculateScore(), accuracy: 0.001)
+        XCTAssertEqual(0, habit.calculateScore().0, accuracy: 0.001)
     }
     
     func test_CalculateScore_Complete() {
@@ -173,7 +173,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.requiredCount = 1
         habit.completedDates = [Date()]
-        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
+        XCTAssertEqual(0.1, habit.calculateScore().0, accuracy: 0.001)
     }
     
     func test_CalculateScore_5() {
@@ -187,7 +187,7 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*1),
             Date().addingTimeInterval(-60*60*24*0),
         ]
-        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+        XCTAssertEqual(0.5, habit.calculateScore().0, accuracy: 0.001)
     }
     
     func test_CalculateScore_Reduce() {
@@ -198,7 +198,7 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*3), //1
             Date().addingTimeInterval(-60*60*24*2), //2
         ]
-        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+        XCTAssertEqual(0.0, habit.calculateScore().0, accuracy: 0.001)
     }
     
     
@@ -213,7 +213,7 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*2), //1
             //0
         ]
-        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+        XCTAssertEqual(0.0, habit.calculateScore().0, accuracy: 0.001)
     }
     
     func testCalculateScore_Jagged5() {
@@ -233,7 +233,7 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*1),//4
             Date().addingTimeInterval(-60*60*24*0),//5
         ]
-        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+        XCTAssertEqual(0.5, habit.calculateScore().0, accuracy: 0.001)
     }
     
 }

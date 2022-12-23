@@ -71,12 +71,15 @@ struct WeekView<DateView>: View where DateView: View {
     var body: some View {
         HStack {
             ForEach(days, id: \.self) { date in
-                HStack {
+                Group {
                     if self.calendar.isDate(self.week, equalTo: date, toGranularity: .month) {
                         self.content(date)
                     } else {
                         self.content(date).hidden()
                     }
+                }
+                if (date != days.last) {
+                    Spacer()
                 }
             }
         }
@@ -111,7 +114,6 @@ struct MonthView<DateView>: View where DateView: View {
     }
 
     private var header: some View {
-        let component = calendar.component(.month, from: month)
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         return Text(month.formatted(.dateTime.month(.abbreviated).year(.twoDigits)).uppercased())
@@ -120,12 +122,12 @@ struct MonthView<DateView>: View where DateView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0){
+        VStack(alignment: .leading, spacing: 4){
             if showHeader {
                 header
             }
 
-            ForEach(weeks, id: \.self) { week in
+            ForEach(weeks.reversed(), id: \.self) { week in
                 WeekView(week: week, content: self.content)
             }
         }
@@ -174,6 +176,7 @@ struct CalendarView_Previews: PreviewProvider {
                             .foregroundColor(.white)
                     )
             }
+            .padding()
         }
     }
 }

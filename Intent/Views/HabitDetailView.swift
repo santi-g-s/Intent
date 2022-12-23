@@ -8,30 +8,27 @@
 import SwiftUI
 
 struct HabitDetailView: View {
+    
+    var habit: Habit
+    var completionMap: [Date : Bool]
+    
     var body: some View {
-        VStack {
-            VStack {
-                Text("See more")
-                    .font(.caption)
-                    .bold()
-                    .foregroundColor(.gray.opacity(1/3))
-                Image(systemName: "chevron.compact.up")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 40)
-                    .foregroundColor(.gray.opacity(1/3))
-            }
-            .padding(.top)
+        CalendarView(interval: DateInterval(start: habit.startDate, end: Date())) { date in
             
-            Spacer()
+            let isComplete = completionMap[Calendar.current.standardizedDate(date)] == true
+            
+            Text("30")
+                .hidden()
+                .padding(8)
+                .background(isComplete ? Color.accentColor : .clear)
+                .clipShape(Circle())
+                .padding(.vertical, 4)
+                .overlay(
+                    Text(String(Calendar.current.component(.day, from: date)))
+                        .foregroundColor(isComplete ? .white : .secondary)
+                        .fontWeight(isComplete ? .bold : .regular)
+                )
         }
-        .frame(minWidth: 0, maxWidth: .infinity)
-        .background(Color.secondaryBgColor.edgesIgnoringSafeArea(.all))
-    }
-}
-
-struct HabitDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        HabitDetailView()
+        .padding()
     }
 }

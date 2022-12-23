@@ -72,6 +72,15 @@ extension Calendar {
 
         return array
     }
+    
+    /**
+     Return the date with only the `day`, `month`, and `year` components
+     */
+    func standardizedDate(_ date: Date) -> Date {
+        let dateComponents = self.dateComponents([.day, .month, .year], from: date)
+        let standardDate = self.date(from: dateComponents)!
+        return standardDate
+    }
 }
 
 

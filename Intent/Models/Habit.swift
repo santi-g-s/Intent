@@ -126,8 +126,9 @@ extension Habit {
     /**
      Returns the score of the habit from `0.0` to `1.0`
      */
-    func calculateScore() -> Double {
+    func calculateScore() -> (Double, [Date : Bool]) {
         var score = 0.0
+        var completionMap = [Date : Bool]()
         var trackerIndex: Int = 0
         for date in Calendar.current.dates(from: startDate, through: Date()) {
             if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: .day) == .orderedAscending {
@@ -143,11 +144,20 @@ extension Habit {
             }
             if count == requiredCount {
                 score = min(1, score + 0.1)
+                completionMap[Calendar.current.standardizedDate(date)] = true
             } else if Calendar.current.compare(date, to: Date(), toGranularity: .day) == .orderedSame {
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
             }
         }
-        return score
+        return (score, completionMap)
+    }
+    
+    func isComplete(date: Date) -> Bool {
+        let occurences = completedDates.filter { completedDate in
+            Calendar.current.compare(completedDate, to: date, toGranularity: .day) == .orderedSame
+        }.count
+        
+        return occurences >= requiredCount
     }
     
     //MARK: - Static Methods
