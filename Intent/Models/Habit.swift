@@ -23,6 +23,18 @@ extension Habit {
     }
     
     /**
+     The array of messages associated with this habit
+     */
+    var messages: [String] {
+        get {
+            return messages_ ?? [String]()
+        }
+        set {
+            messages_ = newValue
+        }
+    }
+    
+    /**
      An array respresented the `Date` when a habit was succesfully completed. First index is the oldest date.
      
      Note that this can can contain multiple dates on the same day representing a task that must be completed multiple times in a day.
@@ -57,6 +69,15 @@ extension Habit {
         }
         set {
             requiredCount_ = Int16(newValue)
+        }
+    }
+    
+    var iconName: String {
+        get {
+            return iconName_ ?? "circle"
+        }
+        set {
+            iconName_ = newValue
         }
     }
     
@@ -192,6 +213,8 @@ extension Habit {
             ]
             habit.startDate_ = Date().addingTimeInterval(-60*60*(24)*1*10)
             habit.requiredCount_ = 3
+            habit.messages_ = ["Remember why you are doing this", "It's the foundation for your happiness"]
+            habit.iconName_ = ["figure.run", "book", "star", "paintbrush.pointed", "tennis.racket", "powersleep", "drop", "lamp.table"].randomElement()
             habits.append(habit)
         }
         return habits
