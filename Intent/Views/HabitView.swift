@@ -13,12 +13,36 @@ struct HabitView: View {
     @State var habitScore = 0.0
     @State var completionMap = [Date : Bool]()
     
-    @State var size = CGSize.zero
     @State var showDetail = false
+    @State var scrollOffset: CGPoint = .zero
+    
+    @State var returnToTop = false
     
     var body: some View {
         VStack(spacing: 0){
-            header
+            Text(habit.title)
+                .font(Font.system(.largeTitle, design: .serif))
+                .onTapGesture {
+                    returnToTop.toggle()
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .scaleEffect(max(2/3, min((250+scrollOffset.y) / 250, 1.2)), anchor: .top)
+                .overlay(alignment: .top) {
+                    HStack {
+                        Spacer()
+                        Button {
+                            //
+                        } label: {
+                            Image(systemName: "slider.vertical.3")
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    .disabled(!showDetail)
+                    .opacity(max(0.0, min((-scrollOffset.y) / 250, 1.0)))
+                    .padding(.top, 4)
+                    .padding(.horizontal)
+                }
             
             GeometryReader { geoReader in
                 ScrollViewReader { proxy in
@@ -26,6 +50,7 @@ struct HabitView: View {
                         axes: [.vertical],
                         showsIndicators: false,
                         offsetChanged: { offset in
+                            self.scrollOffset = offset
                             if showDetail == false {
                                 if (offset.y < -150) {
                                     showDetail = true
@@ -49,9 +74,15 @@ struct HabitView: View {
                         LazyVStack {
                             content
                                 .frame(height: geoReader.size.height)
+                                .id("top")
                             if showDetail {
                                 HabitDetailView(habit: habit, completionMap: completionMap)
                             }
+                        }
+                    }
+                    .onChange(of: returnToTop) { _ in
+                        withAnimation {
+                            proxy.scrollTo("top", anchor: .top)
                         }
                     }
                 }
@@ -64,36 +95,6 @@ struct HabitView: View {
         }
         .onChange(of: habit.completedDates) { _ in
             (habitScore, completionMap) = habit.calculateScore()
-        }
-    }
-    
-    var header: some View {
-        Group {
-            if showDetail {
-                Text(habit.title)
-                    .font(Font.system(.title2, design: .serif))
-                    .transition(.opacity)
-                    .animation(.easeInOut, value: showDetail)
-                    .onTapGesture {
-                        showDetail = false
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .overlay {
-                        HStack {
-                            Spacer()
-                            Button {
-                                //
-                            } label: {
-                                Image(systemName: "slider.vertical.3")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        
-                    }
-                    .padding(8)
-                    
-            }
         }
     }
     
@@ -133,8 +134,6 @@ struct HabitView: View {
         }
         .overlay(alignment: .top) {
             VStack {
-                Text(habit.title)
-                    .font(Font.system(.largeTitle, design: .serif))
                 if let dateStartedDescription = habit.dateStartedDescription {
                     Text(dateStartedDescription)
                         .font(Font.system(.subheadline, design: .serif))
