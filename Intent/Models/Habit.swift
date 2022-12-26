@@ -5,7 +5,7 @@
 //  Created by Santiago Garcia Santos on 12/11/2022.
 //
 
-import Foundation
+import SwiftUI
 import CoreData
 
 extension Habit {
@@ -57,6 +57,21 @@ extension Habit {
         }
         set {
             startDate_ = newValue
+        }
+    }
+    
+    /**
+     The accent color associated with this habit
+     */
+    var accentColor: Color {
+        get {
+            if let data = accentColor_, let uiColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: data){
+                return Color(uiColor: uiColor)
+            }
+            return Color.accentColor
+        }
+        set {
+            accentColor_ = try? NSKeyedArchiver.archivedData(withRootObject: UIColor(newValue), requiringSecureCoding: false)
         }
     }
     
@@ -215,6 +230,7 @@ extension Habit {
             habit.requiredCount_ = 3
             habit.messages_ = ["Remember why you are doing this", "It's the foundation for your happiness"]
             habit.iconName_ = ["figure.run", "book", "star", "paintbrush.pointed", "tennis.racket", "powersleep", "drop", "lamp.table"].randomElement()
+            habit.accentColor = Color.random()
             habits.append(habit)
         }
         return habits

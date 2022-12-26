@@ -105,7 +105,7 @@ struct HabitView: View {
                     .foregroundColor(.gray.opacity(0.15))
                
                 Circle()
-                    .foregroundColor(.accentColor.opacity(habit.status == .complete ? 1 : 0.5))
+                    .foregroundColor(habit.accentColor.opacity(habit.status == .complete ? 1 : 0.5))
                     .scaleEffect(habitScore)
                     .overlay {
                         Group {

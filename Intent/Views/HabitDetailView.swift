@@ -47,7 +47,7 @@ struct HabitDetailView: View {
                 Text("30")
                     .hidden()
                     .padding(8)
-                    .background(isComplete ? Color.accentColor : .clear)
+                    .background(isComplete ? habit.accentColor : .clear)
                     .clipShape(Circle())
                     .padding(.vertical, 4)
                     .overlay(
