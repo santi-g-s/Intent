@@ -18,6 +18,9 @@
 		C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B0292816670055B13B /* Calendar+Extensions.swift */; };
 		C73D06B3292817140055B13B /* HabitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B2292817140055B13B /* HabitTests.swift */; };
 		C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
+		C73F2D7529596C590042EF63 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73F2D7429596C590042EF63 /* AddHabitView.swift */; };
+		C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
+		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
 		C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
 		C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B020FE2935340B00462E1F /* Color+Extensions.swift */; };
 		C7B021012935362600462E1F /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021002935362600462E1F /* HabitView.swift */; };
@@ -49,6 +52,9 @@
 		C73D06B0292816670055B13B /* Calendar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 		C73D06B2292817140055B13B /* HabitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTests.swift; sourceTree = "<group>"; };
 		C73D06D42929D9160055B13B /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
+		C73F2D7429596C590042EF63 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
+		C76611F9295AB64200798DF1 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
+		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
 		C7889C5F292D5A630064D89C /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		C7B020FE2935340B00462E1F /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		C7B021002935362600462E1F /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 				C7B020FE2935340B00462E1F /* Color+Extensions.swift */,
 				C7CFE828293F0A4300A89AAD /* ScrollView.swift */,
 				C723852029405E7E00901B43 /* CalendarView.swift */,
+				C76611F9295AB64200798DF1 /* SymbolPicker.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -156,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				C73D067F292815380055B13B /* Assets.xcassets */,
+				C76611FB295AB65F00798DF1 /* sfsymbols.txt */,
 				C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */,
 			);
 			path = Resources;
@@ -166,6 +174,7 @@
 			children = (
 				C7B021002935362600462E1F /* HabitView.swift */,
 				C7B021022935372600462E1F /* HabitDetailView.swift */,
+				C73F2D7429596C590042EF63 /* AddHabitView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -186,6 +195,8 @@
 			dependencies = (
 			);
 			name = Intent;
+			packageProductDependencies = (
+			);
 			productName = Intent;
 			productReference = C73D0678292815370055B13B /* Intent.app */;
 			productType = "com.apple.product-type.application";
@@ -236,6 +247,8 @@
 				Base,
 			);
 			mainGroup = C73D066F292815370055B13B;
+			packageReferences = (
+			);
 			productRefGroup = C73D0679292815370055B13B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -253,6 +266,7 @@
 			files = (
 				C73D0683292815380055B13B /* Preview Assets.xcassets in Resources */,
 				C73D0680292815380055B13B /* Assets.xcassets in Resources */,
+				C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,9 +290,11 @@
 				C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */,
 				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
 				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
+				C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */,
 				C723852129405E7E00901B43 /* CalendarView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
+				C73F2D7529596C590042EF63 /* AddHabitView.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,
 				C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */,
 				C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */,

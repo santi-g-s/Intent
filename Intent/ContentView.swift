@@ -15,6 +15,8 @@ struct ContentView: View {
     
     @State private var selectedId = UUID()
     var addNewId = UUID()
+    
+    @State var showAddHabit = false
 
     var body: some View {
         VStack {
@@ -40,17 +42,28 @@ struct ContentView: View {
                         .tag(habit.id!)
                 }
                 
-                Text("Add new")
+                Image(systemName: "plus")
+                    .padding()
+                    .background(Circle().foregroundColor(Color.gray.opacity(0.15)))
                     .tag(addNewId)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
-                selectedId = habits.first?.id ?? UUID()
+                selectedId = habits.first?.id ?? addNewId
+            }
+            .onChange(of: selectedId) { newValue in
+                if newValue == addNewId {
+                    withAnimation {
+                        selectedId = habits.last?.id ?? addNewId
+                    }
+                    showAddHabit = true
+                }
             }
         }
-        
-        
+        .sheet(isPresented: $showAddHabit) {
+            AddHabitView()
+        }
     }
 }
 

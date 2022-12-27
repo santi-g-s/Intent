@@ -60,6 +60,15 @@ extension Habit {
         }
     }
     
+    var timePeriod: TimePeriod {
+        get {
+            return TimePeriod(rawValue: Int(period_)) ?? .daily
+        }
+        set {
+            period_ = Int16(newValue.rawValue)
+        }
+    }
+    
     /**
      The accent color associated with this habit
      */
@@ -248,6 +257,23 @@ enum HabitStatus: Equatable {
             return "Complete"
         case .pending(let count):
             return "Pending: \(count)"
+        }
+    }
+}
+
+enum TimePeriod: Int {
+    case daily = 0
+    case weekly = 1
+    case monthly = 2
+    
+    var unitName: String {
+        switch self {
+        case .daily:
+            return "day"
+        case .weekly:
+            return "week"
+        case .monthly:
+            return "month"
         }
     }
 }

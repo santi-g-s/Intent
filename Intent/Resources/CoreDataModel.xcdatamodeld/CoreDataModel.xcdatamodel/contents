@@ -6,6 +6,7 @@
         <attribute name="iconName_" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="messages_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="period_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="requiredCount_" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="startDate_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title_" optional="YES" attributeType="String"/>
