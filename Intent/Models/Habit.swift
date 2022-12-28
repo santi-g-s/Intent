@@ -120,7 +120,7 @@ extension Habit {
             
             guard let last = dates.last else { return .pending(count) }
             
-            if !Calendar.current.isDate(last, inSameDayAs: Date()) {
+            if !Calendar.current.isDate(last, inSame: timePeriod.component, as: Date()) {
                 return .pending(count)
             }
             dates.removeLast()
@@ -160,7 +160,7 @@ extension Habit {
     func complete() {
         switch status {
         case .complete:
-            while let last = completedDates.last, Calendar.current.isDate(last, inSameDayAs: Date()) {
+            while let last = completedDates.last, Calendar.current.isDate(last, inSame: timePeriod.component, as: Date()) {
                 completedDates.removeLast()
             }
         case .pending(_):
@@ -171,38 +171,65 @@ extension Habit {
     /**
      Returns the score of the habit from `0.0` to `1.0`
      */
-    func calculateScore() -> (Double, [Date : Bool]) {
+    func calculateScore() -> Double {
         var score = 0.0
-        var completionMap = [Date : Bool]()
         var trackerIndex: Int = 0
-        for date in Calendar.current.dates(from: startDate, through: Date()) {
-            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: .day) == .orderedAscending {
+        for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: timePeriod.component) {
+            
+            // Reduce score for each date not in `completedDates`
+            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
                 score = max(0, score - 0.2)
                 continue
-            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: .day) != .orderedSame {
+            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
+                // If you reach the end of completedDates then reduce score until today.
                 score = max(0, score - 0.2)
             }
+            
             var count = 0
-            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: .day) == .orderedSame {
+            
+            // Once you reach a date that is in completed date, increase the count and move on to the next index for each date in the specified period
+            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
                 trackerIndex += 1
                 count += 1
             }
+            
+            // Check if reached requirement and if so, increase score
             if count == requiredCount {
                 score = min(1, score + 0.1)
-                completionMap[Calendar.current.standardizedDate(date)] = true
-            } else if Calendar.current.compare(date, to: Date(), toGranularity: .day) == .orderedSame {
+            } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
+                // Otherwise if today, then add incremental score
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
             }
+            
         }
-        return (score, completionMap)
+        
+        return score
     }
     
-    func isComplete(date: Date) -> Bool {
-        let occurences = completedDates.filter { completedDate in
-            Calendar.current.compare(completedDate, to: date, toGranularity: .day) == .orderedSame
-        }.count
-        
-        return occurences >= requiredCount
+    func calculateCompletionMap() -> [Date : Bool] {
+        var completionMap = [Date : Bool]()
+        var trackerIndex: Int = 0
+        for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: .day) {
+            
+            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
+                continue
+            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
+                continue
+            }
+            
+            var count = 0
+            
+            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
+                trackerIndex += 1
+                count += 1
+            }
+            
+            if count == requiredCount {
+                completionMap[Calendar.current.standardizedDate(date)] = true
+            }
+            
+        }
+        return completionMap
     }
     
     //MARK: - Static Methods
@@ -274,6 +301,17 @@ enum TimePeriod: Int {
             return "week"
         case .monthly:
             return "month"
+        }
+    }
+    
+    var component: Calendar.Component {
+        switch self {
+        case .daily:
+            return .day
+        case .weekly:
+            return .weekOfYear
+        case .monthly:
+            return .month
         }
     }
 }

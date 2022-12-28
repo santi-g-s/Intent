@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct HabitView: View {
     
@@ -17,6 +18,8 @@ struct HabitView: View {
     @State var scrollOffset: CGPoint = .zero
     
     @State var returnToTop = false
+    
+    @State private var engine: CHHapticEngine?
     
     var body: some View {
         VStack(spacing: 0){
@@ -52,15 +55,14 @@ struct HabitView: View {
                         offsetChanged: { offset in
                             self.scrollOffset = offset
                             if showDetail == false {
-                                if (offset.y < -150) {
+                                if (offset.y < -110) {
                                     showDetail = true
                                     
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
                                         withAnimation {
                                             proxy.scrollTo(0, anchor: .top)
                                         }
-                                        let generator = UINotificationFeedbackGenerator()
-                                            generator.notificationOccurred(.success)
+                                        scrollHaptic()
                                         
                                     }
                                 }
@@ -89,12 +91,15 @@ struct HabitView: View {
             }
         }
         .onAppear {
+            prepareHaptics()
             withAnimation(.none){
-                (habitScore, completionMap) = habit.calculateScore()
+                habitScore = habit.calculateScore()
+                completionMap = habit.calculateCompletionMap()
             }
         }
         .onChange(of: habit.completedDates) { _ in
-            (habitScore, completionMap) = habit.calculateScore()
+            habitScore = habit.calculateScore()
+            completionMap = habit.calculateCompletionMap()
         }
     }
     
@@ -102,7 +107,7 @@ struct HabitView: View {
         VStack {
             ZStack {
                 Circle()
-                    .foregroundColor(.gray.opacity(0.15))
+                    .foregroundColor(Color(uiColor: UIColor.secondarySystemFill))
                
                 Circle()
                     .foregroundColor(habit.accentColor.opacity(habit.status == .complete ? 1 : 0.5))
@@ -129,7 +134,14 @@ struct HabitView: View {
                     }
                     .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
             }
-            .onTapGesture { habit.complete() }
+            .onTapGesture {
+                habit.complete()
+                if habit.status == .complete {
+                    completionHaptic()
+                } else {
+                    tapHaptic()
+                }
+            }
             .frame(minHeight: 0, maxHeight: .infinity)
             
         }
@@ -157,6 +169,86 @@ struct HabitView: View {
         }
         .padding(.horizontal, 40)
     }
+    
+    func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
+    }
+    
+    func tapHaptic() {
+        // make sure that the device supports haptics
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        var events = [CHHapticEvent]()
+
+        // create one intense, sharp tap
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.5)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        events.append(event)
+
+        // convert those events into a pattern and play it immediately
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription).")
+        }
+    }
+    
+    func completionHaptic() {
+        // make sure that the device supports haptics
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        var events = [CHHapticEvent]()
+
+        // create one intense, sharp tap
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.5)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.4)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        events.append(event)
+        
+        let intensity2 = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+        let sharpness2 = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event2 = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity2, sharpness2], relativeTime: 0.15)
+        events.append(event2)
+
+        // convert those events into a pattern and play it immediately
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription).")
+        }
+    }
+    
+    func scrollHaptic() {
+        // make sure that the device supports haptics
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        var events = [CHHapticEvent]()
+
+        // create one intense, sharp tap
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.8)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.1)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        events.append(event)
+
+        // convert those events into a pattern and play it immediately
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription).")
+        }
+    }
+    
 }
 
 struct HabitView_Previews: PreviewProvider {

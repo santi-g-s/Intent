@@ -23,7 +23,7 @@ struct ContentView: View {
             HStack(spacing: 16) {
                 ForEach(habits, id: \.id) { habit in
                     Image(systemName: habit.iconName)
-                        .foregroundColor(selectedId == habit.id ? Color.primary : Color.gray.opacity(1/3))
+                        .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
                         .onTapGesture {
                             withAnimation {
                                 selectedId = habit.id!
@@ -31,7 +31,7 @@ struct ContentView: View {
                         }
                 }
                 Image(systemName: "plus")
-                    .foregroundColor(selectedId == addNewId ? Color.primary : Color.gray.opacity(1/3))
+                    .foregroundColor(selectedId == addNewId ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
                     .onTapGesture {
                         selectedId = addNewId
                     }

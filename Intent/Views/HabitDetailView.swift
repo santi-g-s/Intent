@@ -69,7 +69,7 @@ struct HabitDetailView_Previews: PreviewProvider {
         let habit = Habit.makePreview(context: dataManager.viewContext)
         
         ScrollView {
-            HabitDetailView(habit: habit, completionMap: habit.calculateScore().1)
+            HabitDetailView(habit: habit, completionMap: habit.calculateCompletionMap())
         }
     }
 }

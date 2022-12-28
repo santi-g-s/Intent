@@ -53,20 +53,20 @@ extension Calendar {
         return array
     }
     
-    func dates(from: Date, through: Date) -> [Date] {
+    func dates(from: Date, through: Date, steppingBy granularity: Calendar.Component) -> [Date] {
         // in case of the "from" date is more than "to" date,
         // it should returns an empty array:
-        if from > through { return [Date]() }
+        if Calendar.current.compare(from, to: through, toGranularity: granularity) == .orderedDescending { return [Date]() }
 
         var tempDate = from
         var array = [tempDate]
 
-        while Calendar.current.compare(tempDate, to: through, toGranularity: .day) == .orderedAscending {
-            tempDate = self.date(byAdding: .day, value: 1, to: tempDate)!
+        while Calendar.current.compare(tempDate, to: through, toGranularity: granularity) == .orderedAscending {
+            tempDate = self.date(byAdding: granularity, value: 1, to: tempDate)!
             array.append(tempDate)
         }
         
-        if Calendar.current.compare(from, to: through, toGranularity: .day) != .orderedSame {
+        if Calendar.current.compare(from, to: through, toGranularity: granularity) != .orderedSame {
             array.append(through)
         }
 
@@ -80,6 +80,10 @@ extension Calendar {
         let dateComponents = self.dateComponents([.day, .month, .year], from: date)
         let standardDate = self.date(from: dateComponents)!
         return standardDate
+    }
+    
+    func isDate(_ date1: Date, inSame granularity: Calendar.Component, as date2: Date) -> Bool {
+        return compare(date1, to: date2, toGranularity: granularity) == .orderedSame
     }
 }
 

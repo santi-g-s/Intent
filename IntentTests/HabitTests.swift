@@ -121,6 +121,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.title = "Test task"
         habit.requiredCount = 1
+        habit.timePeriod = .daily
         XCTAssertEqual(HabitStatus.pending(0), habit.status)
         habit.complete()
         XCTAssertEqual(HabitStatus.complete, habit.status)
@@ -131,6 +132,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.title = "Test task"
         habit.requiredCount = 3
+        habit.timePeriod = .daily
         XCTAssertEqual(HabitStatus.pending(0), habit.status)
         habit.complete()
         XCTAssertEqual(HabitStatus.pending(1), habit.status)
@@ -145,6 +147,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.title = "Test task"
         habit.requiredCount = 3
+        habit.timePeriod = .daily
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*1),
             Date().addingTimeInterval(-60*60*24*2),
@@ -165,7 +168,8 @@ final class HabitTests: XCTestCase {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date()
         habit.requiredCount = 1
-        XCTAssertEqual(0, habit.calculateScore().0, accuracy: 0.001)
+        habit.timePeriod = .daily
+        XCTAssertEqual(0, habit.calculateScore(), accuracy: 0.001)
     }
     
     func test_CalculateScore_Complete() {
@@ -173,13 +177,15 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.requiredCount = 1
         habit.completedDates = [Date()]
-        XCTAssertEqual(0.1, habit.calculateScore().0, accuracy: 0.001)
+        habit.timePeriod = .daily
+        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
     }
     
     func test_CalculateScore_5() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().addingTimeInterval(-60*60*24*4)
         habit.requiredCount = 1
+        habit.timePeriod = .daily
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*4),
             Date().addingTimeInterval(-60*60*24*3),
@@ -187,18 +193,19 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*1),
             Date().addingTimeInterval(-60*60*24*0),
         ]
-        XCTAssertEqual(0.5, habit.calculateScore().0, accuracy: 0.001)
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
     }
     
     func test_CalculateScore_Reduce() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().addingTimeInterval(-60*60*24*3)
         habit.requiredCount = 1
+        habit.timePeriod = .daily
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*3), //1
             Date().addingTimeInterval(-60*60*24*2), //2
         ]
-        XCTAssertEqual(0.0, habit.calculateScore().0, accuracy: 0.001)
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
     }
     
     
@@ -206,6 +213,7 @@ final class HabitTests: XCTestCase {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().addingTimeInterval(-60*60*24*5)
         habit.requiredCount = 1
+        habit.timePeriod = .daily
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*5),//1
             Date().addingTimeInterval(-60*60*24*4),//2
@@ -213,13 +221,14 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*2), //1
             //0
         ]
-        XCTAssertEqual(0.0, habit.calculateScore().0, accuracy: 0.001)
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
     }
     
     func testCalculateScore_Jagged5() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().addingTimeInterval(-60*60*24*10)
         habit.requiredCount = 1
+        habit.timePeriod = .daily
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*10),//1
             Date().addingTimeInterval(-60*60*24*9),//2
@@ -233,7 +242,163 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*1),//4
             Date().addingTimeInterval(-60*60*24*0),//5
         ]
-        XCTAssertEqual(0.5, habit.calculateScore().0, accuracy: 0.001)
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_Complete_Weekly_FromEmptyReq1() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.title = "Test task"
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        XCTAssertEqual(HabitStatus.pending(0), habit.status)
+        habit.complete()
+        XCTAssertEqual(HabitStatus.complete, habit.status)
+    }
+    
+    func test_Complete_Weekly_FromEmptyReq3() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.title = "Test task"
+        habit.requiredCount = 3
+        habit.timePeriod = .weekly
+        XCTAssertEqual(HabitStatus.pending(0), habit.status)
+        habit.complete()
+        XCTAssertEqual(HabitStatus.pending(1), habit.status)
+        habit.complete()
+        XCTAssertEqual(HabitStatus.pending(2), habit.status)
+        habit.complete()
+        XCTAssertEqual(HabitStatus.complete, habit.status)
+    }
+
+
+    func test_CalculateScore_Weekly_0() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        XCTAssertEqual(0, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Weekly_Complete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().startOfWeek()
+        habit.requiredCount = 1
+        habit.completedDates = [Date().startOfWeek()]
+        habit.timePeriod = .weekly
+        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Weekly_CompleteReq3() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().startOfWeek()
+        habit.requiredCount = 3
+        habit.completedDates = [Date().startOfWeek(), Calendar.current.date(byAdding: .day, value: 4, to: Date().startOfWeek())!, Calendar.current.date(byAdding: .day, value: 6, to: Date().startOfWeek())!]
+        habit.timePeriod = .weekly
+        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+
+    func test_CalculateScore_Weekly_5() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*7*4)
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*4),
+            Date().addingTimeInterval(-60*60*24*7*3),
+            Date().addingTimeInterval(-60*60*24*7*2),
+            Date().addingTimeInterval(-60*60*24*7*1),
+            Date().addingTimeInterval(-60*60*24*7*0),
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Weekly_5Re2() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*7*4)
+        habit.requiredCount = 2
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*4),
+            Date().addingTimeInterval(-60*60*24*7*4).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*3),
+            Date().addingTimeInterval(-60*60*24*7*3).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*2),
+            Date().addingTimeInterval(-60*60*24*7*2).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*1),
+            Date().addingTimeInterval(-60*60*24*7*1).addingTimeInterval(60*60*24),
+            Date().startOfWeek(),
+            Date().addingTimeInterval(-60*60*24*7*0),
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Weekly_2Re2() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*7*4)
+        habit.requiredCount = 2
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*4),
+            Date().addingTimeInterval(-60*60*24*7*4).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*3),
+            Date().addingTimeInterval(-60*60*24*7*3).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*2),
+            Date().addingTimeInterval(-60*60*24*7*2).addingTimeInterval(60*60*24),
+            Date().startOfWeek(),
+            Date().addingTimeInterval(-60*60*24*7*0),
+        ]
+        XCTAssertEqual(0.2, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Weekly_Reduce() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*7*3)
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*3), //1
+            Date().addingTimeInterval(-60*60*24*7*2), //2
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+
+
+    func test_CalculateScore_Weekly_Jagged0() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*7*5)
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*5),//1
+            Date().addingTimeInterval(-60*60*24*7*4),//2
+            //0
+            Date().addingTimeInterval(-60*60*24*7*2), //1
+            //0
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func testCalculateScore_Weekly_Jagged5() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*7*10)
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*10),//1
+            Date().addingTimeInterval(-60*60*24*7*9),//2
+            //0
+            Date().addingTimeInterval(-60*60*24*7*7),//1
+            Date().addingTimeInterval(-60*60*24*7*6),//2
+            Date().addingTimeInterval(-60*60*24*7*5),//3
+            //1
+            Date().addingTimeInterval(-60*60*24*7*3),//2
+            Date().addingTimeInterval(-60*60*24*7*2),//3
+            Date().addingTimeInterval(-60*60*24*7*1),//4
+            Date().addingTimeInterval(-60*60*24*7*0),//5
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
     }
     
 }
