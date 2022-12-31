@@ -25,6 +25,14 @@ extension Calendar {
         return numberOfDays.day! + 1 // <1>
     }
     
+    func numberOfInclusive(component: Calendar.Component, from: Date, and to: Date) -> Int {
+        let fromDate = startOfDay(for: from)
+        let toDate = startOfDay(for: to)
+        let numberOfDays = dateComponents([component], from: fromDate, to: toDate)
+        
+        return numberOfDays.day! + 1 // <1>
+    }
+    
     func numberOf24DaysBetween(_ from: Date, and to: Date) -> Int {
         let numberOfDays = dateComponents([.day], from: from, to: to)
         

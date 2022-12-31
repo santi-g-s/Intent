@@ -34,7 +34,7 @@ struct AddHabitView: View {
                         .foregroundColor(.primary)
                     }
 
-                    ColorPicker("Pick a color", selection: $color)
+                    ColorPicker("Pick a color", selection: $color, supportsOpacity: false)
                 }
                 
                 Section("Scheduling") {
@@ -55,7 +55,7 @@ struct AddHabitView: View {
                     VStack(alignment: .leading){
                         TextField("Add a motivational message", text: $messageText, axis: .vertical)
                         Button {
-                            messages.append(messageText)
+                            messages.append(messageText.trimmingCharacters(in: .whitespacesAndNewlines))
                             messageText = ""
                         } label: {
                             HStack{
@@ -65,7 +65,7 @@ struct AddHabitView: View {
                             }
                             
                         }
-                        .disabled(messageText == "")
+                        .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }

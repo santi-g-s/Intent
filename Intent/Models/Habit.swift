@@ -135,19 +135,58 @@ extension Habit {
      */
     var dateStartedDescription: String? {
         
-        let numDays = Calendar.current.numberOfDaysBetween(startDate, and: Date())
+        let end = status == .complete ? Date() : Calendar.current.date(byAdding: .day, value: -1, to: Date())!
         
-        guard numDays != 0 else { return "Started today" }
+        let numDays = Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end)
         
-        var str = "Started \(numDays) day"
+        var str = "\(numDays) day"
         
-        if numDays != 1 {
-            str += "s"
-        }
-        
-        str += " ago"
+        str += " streak"
         
         return str
+    }
+    
+    var dateLastAtZero: Date {
+        var lastDate = startDate
+        var score = 0.0
+        var trackerIndex: Int = 0
+        for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: timePeriod.component) {
+            
+            // Reduce score for each date not in `completedDates`
+            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
+                score = max(0, score - 0.2)
+                if score < 0.1 {
+                    lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                }
+                continue
+            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
+                // If you reach the end of completedDates then reduce score until today.
+                score = max(0, score - 0.2)
+            }
+            
+            var count = 0
+            
+            // Once you reach a date that is in completed date, increase the count and move on to the next index for each date in the specified period
+            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
+                trackerIndex += 1
+                count += 1
+            }
+            
+            // Check if reached requirement and if so, increase score
+            if count == requiredCount {
+                score = min(1, score + 0.1)
+            } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
+                // Otherwise if today, then add incremental score
+                score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
+            }
+            
+            if score < 0.1 {
+                lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            }
+            
+        }
+        
+        return lastDate
     }
     
     //MARK: - Object Methods

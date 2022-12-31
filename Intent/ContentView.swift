@@ -20,26 +20,42 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            HStack(spacing: 16) {
-                ForEach(habits, id: \.id) { habit in
-                    Image(systemName: habit.iconName)
-                        .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
-                        .onTapGesture {
+            HStack {
+                Button {
+                    //
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(selectedId == addNewId ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                }
+                
+                Spacer()
+                HStack(spacing: 16){
+                    ForEach(habits, id: \.id) { habit in
+                        Button {
                             withAnimation {
                                 selectedId = habit.id!
                             }
+                        } label: {
+                            Image(systemName: habit.iconName)
+                                .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
                         }
-                }
-                Image(systemName: "plus")
-                    .foregroundColor(selectedId == addNewId ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
-                    .onTapGesture {
-                        selectedId = addNewId
                     }
+                }
+                Spacer()
+                
+                Button {
+                    selectedId = addNewId
+                } label: {
+                    Image(systemName: "plus")
+                        .foregroundColor(selectedId == addNewId ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                }
             }
+            .padding(.horizontal)
+            
             TabView(selection: $selectedId) {
                 ForEach(habits, id: \.id) { habit in
                     HabitView(habit: habit)
-                        .tag(habit.id!)
+                    .tag(habit.id!)
                 }
                 
                 Image(systemName: "plus")
