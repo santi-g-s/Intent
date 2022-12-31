@@ -96,23 +96,23 @@ final class HabitTests: XCTestCase {
         XCTAssertEqual(HabitStatus.complete, habit.status)
     }
     
-    func test_ReadingProperties_DateStartedDescription_Today() {
-        let habit = Habit(context: dataManager.viewContext)
-        habit.startDate = Date()
-        XCTAssertEqual("Started today", habit.dateStartedDescription)
-    }
-    
-    func test_ReadingProperties_DateStartedDescription_OneDay() {
-        let habit = Habit(context: dataManager.viewContext)
-        habit.startDate = Date().addingTimeInterval(-60*60*24)
-        XCTAssertEqual("Started 1 day ago", habit.dateStartedDescription)
-    }
-    
-    func test_ReadingProperties_DateStartedDescription_MultipleDays() {
-        let habit = Habit(context: dataManager.viewContext)
-        habit.startDate = Date().addingTimeInterval(-60*60*24*10)
-        XCTAssertEqual("Started 10 days ago", habit.dateStartedDescription)
-    }
+//    func test_ReadingProperties_DateStartedDescription_Today() {
+//        let habit = Habit(context: dataManager.viewContext)
+//        habit.startDate = Date()
+//        XCTAssertEqual("Started today", habit.dateStartedDescription)
+//    }
+//
+//    func test_ReadingProperties_DateStartedDescription_OneDay() {
+//        let habit = Habit(context: dataManager.viewContext)
+//        habit.startDate = Date().addingTimeInterval(-60*60*24)
+//        XCTAssertEqual("Started 1 day ago", habit.dateStartedDescription)
+//    }
+//
+//    func test_ReadingProperties_DateStartedDescription_MultipleDays() {
+//        let habit = Habit(context: dataManager.viewContext)
+//        habit.startDate = Date().addingTimeInterval(-60*60*24*10)
+//        XCTAssertEqual("Started 10 days ago", habit.dateStartedDescription)
+//    }
     
     //MARK: - Object methods
     
@@ -170,6 +170,26 @@ final class HabitTests: XCTestCase {
         habit.requiredCount = 1
         habit.timePeriod = .daily
         XCTAssertEqual(0, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Prev() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*(24)*1*10)
+        habit.requiredCount = 3
+        habit.timePeriod = .daily
+        habit.completedDates = [
+                Date().addingTimeInterval(-60*60*(24)*1*10),// 10 days ago
+                Date().addingTimeInterval(-60*60*(24)*1*3),
+                Date().addingTimeInterval(-60*60*(24)*1*3),
+                Date().addingTimeInterval(-60*60*(24)*1*3),
+                Date().addingTimeInterval(-60*60*(24)*1*2),
+                Date().addingTimeInterval(-60*60*(24)*1*2),
+                Date().addingTimeInterval(-60*60*(24)*1*2),
+                Date().addingTimeInterval(-60*60*(24)*1*1),
+                Date().addingTimeInterval(-60*60*(24)*1*1),
+                Date().addingTimeInterval(-60*60*(24)*1*1)
+            ]
+        XCTAssertEqual(0.3, habit.calculateScore(), accuracy: 0.001)
     }
     
     func test_CalculateScore_Complete() {
@@ -321,15 +341,15 @@ final class HabitTests: XCTestCase {
         habit.timePeriod = .weekly
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*7*4),
-            Date().addingTimeInterval(-60*60*24*7*4).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*4).startOfWeek(),
             Date().addingTimeInterval(-60*60*24*7*3),
-            Date().addingTimeInterval(-60*60*24*7*3).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*3).startOfWeek(),
             Date().addingTimeInterval(-60*60*24*7*2),
-            Date().addingTimeInterval(-60*60*24*7*2).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*2).startOfWeek(),
             Date().addingTimeInterval(-60*60*24*7*1),
-            Date().addingTimeInterval(-60*60*24*7*1).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*1).startOfWeek(),
             Date().startOfWeek(),
-            Date().addingTimeInterval(-60*60*24*7*0),
+            Date().startOfWeek(),
         ]
         XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
     }
@@ -341,13 +361,13 @@ final class HabitTests: XCTestCase {
         habit.timePeriod = .weekly
         habit.completedDates = [
             Date().addingTimeInterval(-60*60*24*7*4),
-            Date().addingTimeInterval(-60*60*24*7*4).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*4).startOfWeek(),
             Date().addingTimeInterval(-60*60*24*7*3),
-            Date().addingTimeInterval(-60*60*24*7*3).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*3).startOfWeek(),
             Date().addingTimeInterval(-60*60*24*7*2),
-            Date().addingTimeInterval(-60*60*24*7*2).addingTimeInterval(60*60*24),
+            Date().addingTimeInterval(-60*60*24*7*2).startOfWeek(),
             Date().startOfWeek(),
-            Date().addingTimeInterval(-60*60*24*7*0),
+            Date().startOfWeek(),
         ]
         XCTAssertEqual(0.2, habit.calculateScore(), accuracy: 0.001)
     }

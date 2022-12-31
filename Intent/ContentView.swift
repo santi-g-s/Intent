@@ -14,15 +14,18 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.startDate_)]) var habits: FetchedResults<Habit>
     
     @State private var selectedId = UUID()
-    var addNewId = UUID()
     
-    @State var showAddHabit = false
+    var addNewId = UUID()
+    var settingsId = UUID()
+    var emptyId = UUID()
+    
+    @State var sheetType: SheetType? = nil
 
     var body: some View {
         VStack(spacing: 0){
             HStack {
                 Button {
-                    //
+                    selectedId = settingsId
                 } label: {
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)
@@ -58,33 +61,66 @@ struct ContentView: View {
             .padding(.horizontal)
             
             TabView(selection: $selectedId) {
-                ForEach(habits, id: \.id) { habit in
-                    HabitView(habit: habit)
-                        .tag(habit.id!)
+                Image(systemName: "gearshape")
+                    .padding()
+                    .background(Circle().foregroundStyle(.regularMaterial))
+                    .tag(settingsId)
+                
+                if !habits.isEmpty {
+                    ForEach(habits, id: \.id) { habit in
+                        HabitView(habit: habit)
+                            .tag(habit.id!)
+                    }
+                } else {
+                    PlaceholderHabitView()
+                        .tag(emptyId)
                 }
                 
                 Image(systemName: "plus")
                     .padding()
-                    .background(Circle().foregroundColor(Color.gray.opacity(0.15)))
+                    .background(Circle().foregroundStyle(.regularMaterial))
                     .tag(addNewId)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
-                selectedId = habits.first?.id ?? addNewId
+                selectedId = habits.first?.id ?? emptyId
             }
             .onChange(of: selectedId) { newValue in
-                if newValue == addNewId {
+                switch newValue {
+                case addNewId:
                     withAnimation {
-                        selectedId = habits.last?.id ?? addNewId
+                        selectedId = habits.last?.id ?? emptyId
                     }
-                    showAddHabit = true
+                    sheetType = .addHabit
+                case settingsId:
+                    withAnimation {
+                        selectedId = habits.first?.id ?? emptyId
+                    }
+                    sheetType = .settings
+                default:
+                    return
+                }
+            }
+            .sheet(item: $sheetType) { value in
+                Group {
+                    if value == .addHabit {
+                        AddHabitView()
+                    } else if value == .settings {
+                        Text("Settings")
+                    }
                 }
             }
         }
-        .sheet(isPresented: $showAddHabit) {
-            AddHabitView()
-        }
+    }
+    
+    enum SheetType: Identifiable {
+        case addHabit
+        case settings
+        
+        var id: Self {
+           return self
+       }
     }
 }
 

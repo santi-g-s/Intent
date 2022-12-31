@@ -139,7 +139,7 @@ extension Habit {
         
         let numDays = Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end)
         
-        var str: LocalizedStringKey = "**\(numDays)** day streak"
+        var str: LocalizedStringKey = "**\(numDays)** \(timePeriod.unitName) streak"
         
         return str
     }
@@ -231,7 +231,7 @@ extension Habit {
             }
             
             // Check if reached requirement and if so, increase score
-            if count == requiredCount {
+            if count >= requiredCount {
                 score = min(1, score + 0.1)
             } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
                 // Otherwise if today, then add incremental score
@@ -244,27 +244,17 @@ extension Habit {
     }
     
     func calculateCompletionMap() -> [Date : Bool] {
-        var completionMap = [Date : Bool]()
-        var trackerIndex: Int = 0
+        var completionMap = [Date: Bool]()
+        var countMap = [Date: Int]()
         for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: .day) {
-            
-            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
-                continue
-            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
-                continue
-            }
-            
-            var count = 0
-            
-            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
-                trackerIndex += 1
-                count += 1
-            }
-            
-            if count == requiredCount {
-                completionMap[Calendar.current.standardizedDate(date)] = true
-            }
-            
+            countMap[Calendar.current.standardizedDate(date)] = 0
+        }
+        for date in completedDates {
+            countMap[Calendar.current.standardizedDate(date)]! += 1
+        }
+        
+        for entry in countMap {
+            completionMap[entry.key] = entry.value >= requiredCount ? true : false
         }
         return completionMap
     }
@@ -300,7 +290,8 @@ extension Habit {
                 Date().addingTimeInterval(-60*60*(24)*1*1)
             ]
             habit.startDate_ = Date().addingTimeInterval(-60*60*(24)*1*10)
-            habit.requiredCount_ = 3
+            habit.requiredCount = 3
+            habit.timePeriod = .daily
             habit.messages_ = ["Remember why you are doing this", "It's the foundation for your happiness"]
             habit.iconName_ = ["figure.run", "book", "star", "paintbrush.pointed", "tennis.racket", "powersleep", "drop", "lamp.table"].randomElement()
             habit.accentColor = Color.random()

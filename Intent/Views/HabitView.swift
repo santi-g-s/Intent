@@ -84,6 +84,7 @@ struct HabitView: View {
         .onChange(of: habit.completedDates) { _ in
             habitScore = habit.calculateScore()
             completionMap = habit.calculateCompletionMap()
+            print(habitScore)
         }
         .overlay(alignment: .bottom){
             HStack {
@@ -108,6 +109,14 @@ struct HabitView: View {
             ZStack {
                 Circle()
                     .foregroundColor(Color(uiColor: UIColor.secondarySystemFill))
+                    .onTapGesture {
+                        habit.complete()
+                        if habit.status == .complete {
+                            completionHaptic()
+                        } else {
+                            tapHaptic()
+                        }
+                    }
                 
                 Button {
                     habit.complete()

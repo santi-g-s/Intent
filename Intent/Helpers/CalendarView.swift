@@ -91,15 +91,18 @@ struct MonthView<DateView>: View where DateView: View {
 
     let month: Date
     let showHeader: Bool
+    let formatter: DateFormatter
     let content: (Date) -> DateView
 
     init(
         month: Date,
         showHeader: Bool = true,
+        formatter: DateFormatter,
         @ViewBuilder content: @escaping (Date) -> DateView
     ) {
         self.month = month
         self.content = content
+        self.formatter = formatter
         self.showHeader = showHeader
     }
 
@@ -125,6 +128,17 @@ struct MonthView<DateView>: View where DateView: View {
         VStack(alignment: .leading, spacing: 4){
             if showHeader {
                 header
+                HStack {
+                    ForEach(formatter.veryShortWeekdaySymbols.indices, id: \.self) { index in
+                        Text(formatter.veryShortWeekdaySymbols[index].description)
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.tertiary)
+                        if index != formatter.veryShortWeekdaySymbols.count-1 {
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.horizontal, 12)
             }
 
             ForEach(weeks.reversed(), id: \.self) { week in
@@ -139,6 +153,8 @@ struct CalendarView<DateView>: View where DateView: View {
 
     let interval: DateInterval
     let content: (Date) -> DateView
+    
+    let formatter = DateFormatter()
 
     init(interval: DateInterval, @ViewBuilder content: @escaping (Date) -> DateView) {
         self.interval = interval
@@ -155,7 +171,7 @@ struct CalendarView<DateView>: View where DateView: View {
     var body: some View {
         LazyVStack {
             ForEach(months.reversed(), id: \.self) { month in
-                MonthView(month: month, content: self.content)
+                MonthView(month: month, formatter: formatter, content: self.content)
             }
         }
     }

@@ -15,9 +15,9 @@ struct SymbolPicker: View {
         else {
             return []
         }
-        return content
+        return content.replacingOccurrences(of: ".fill\n", with: "\n")
             .split(separator: "\n")
-            .map { String($0) }
+            .map { String($0)}
     }()
     
     // MARK: - Properties
