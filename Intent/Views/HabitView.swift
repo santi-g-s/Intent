@@ -100,7 +100,7 @@ struct HabitView: View {
             }
             .padding(.horizontal)
             .disabled(!showDetail)
-            .opacity(min(1, -scrollOffset.y/(UIScreen.main.focusedItem?.frame.height ?? 600)))
+            .opacity(min(1, -scrollOffset.y/(UIScreen.main.bounds.height-200)))
         }
     }
     

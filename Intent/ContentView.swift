@@ -20,6 +20,13 @@ struct ContentView: View {
     var emptyId = UUID()
     
     @State var sheetType: SheetType? = nil
+    
+    @State var indicatorViewSize = CGSize.zero
+    @State var buttonSize = CGSize.zero
+    
+    var availableWidth: CGFloat {
+        return UIScreen.main.bounds.width - 2*buttonSize.width - 2*16
+    }
 
     var body: some View {
         VStack(spacing: 0){
@@ -32,21 +39,43 @@ struct ContentView: View {
                         .padding(6)
                         .background(Circle().foregroundStyle(.regularMaterial))
                 }
+                .readSize { size in
+                    buttonSize = size
+                }
                 
                 Spacer()
-                HStack(spacing: 16){
-                    ForEach(habits, id: \.id) { habit in
-                        Button {
-                            withAnimation {
-                                selectedId = habit.id!
+                
+                HStack {
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack(spacing: 4){
+                                ForEach(habits, id: \.id) { habit in
+                                    Button {
+                                        withAnimation {
+                                            selectedId = habit.id!
+                                        }
+                                    } label: {
+                                        Image(systemName: habit.iconName)
+                                            .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                                            .padding(6)
+                                            .contentShape(Rectangle())
+                                    }
+                                    .id(habit.id!)
+                                }
                             }
-                        } label: {
-                            Image(systemName: habit.iconName)
-                                .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                            .readSize { size in
+                                indicatorViewSize = size
+                            }
+                        }
+                        .frame(width: min(indicatorViewSize.width, availableWidth))
+                        .onChange(of: selectedId) { newValue in
+                            withAnimation {
+                                proxy.scrollTo(newValue)
+                            }
                         }
                     }
                 }
-
+                
                 Spacer()
                 
                 Button {

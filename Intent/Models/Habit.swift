@@ -139,7 +139,7 @@ extension Habit {
         
         let numDays = Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end)
         
-        var str: LocalizedStringKey = "**\(numDays)** \(timePeriod.unitName) streak"
+        let str: LocalizedStringKey = "**\(numDays)** \(timePeriod.unitName) streak"
         
         return str
     }
