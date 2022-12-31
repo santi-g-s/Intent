@@ -30,22 +30,6 @@ struct HabitView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .scaleEffect(max(2/3, min((250+scrollOffset.y) / 250, 1.2)), anchor: .top)
-                .overlay(alignment: .top) {
-                    HStack {
-                        Spacer()
-                        Button {
-                            //
-                        } label: {
-                            Image(systemName: "slider.vertical.3")
-                                .fontWeight(.semibold)
-                                .foregroundColor(.primary)
-                        }
-                    }
-                    .disabled(!showDetail)
-                    .opacity(max(0.0, min((-scrollOffset.y) / 250, 1.0)))
-                    .padding(.top, 4)
-                    .padding(.horizontal)
-                }
             
             GeometryReader { geoReader in
                 ScrollViewReader { proxy in
@@ -87,6 +71,22 @@ struct HabitView: View {
                             proxy.scrollTo("top", anchor: .top)
                         }
                     }
+                }
+                .safeAreaInset(edge: .bottom) {
+                    HStack {
+                        Spacer()
+                        Button {
+                            //
+                        } label: {
+                            Label("Edit", systemImage: "slider.vertical.3")
+                                .foregroundColor(.primary)
+                                .padding(8)
+                                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial))
+                        }
+                    }
+                    .padding(.horizontal)
+                    .disabled(!showDetail)
+                    .opacity(min(1, -scrollOffset.y/(UIScreen.main.focusedView?.frame.height ?? 600)))
                 }
             }
         }

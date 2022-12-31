@@ -19,13 +19,15 @@ struct ContentView: View {
     @State var showAddHabit = false
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0){
             HStack {
                 Button {
                     //
                 } label: {
                     Image(systemName: "gearshape")
-                        .foregroundColor(selectedId == addNewId ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                        .foregroundColor(.primary)
+                        .padding(6)
+                        .background(Circle().foregroundStyle(.regularMaterial))
                 }
                 
                 Spacer()
@@ -41,13 +43,16 @@ struct ContentView: View {
                         }
                     }
                 }
+
                 Spacer()
                 
                 Button {
                     selectedId = addNewId
                 } label: {
                     Image(systemName: "plus")
-                        .foregroundColor(selectedId == addNewId ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                        .foregroundColor(.primary)
+                        .padding(6)
+                        .background(Circle().foregroundStyle(.regularMaterial))
                 }
             }
             .padding(.horizontal)
