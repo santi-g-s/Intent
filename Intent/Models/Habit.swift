@@ -133,15 +133,13 @@ extension Habit {
     /**
      A string that describes how long ago the habit was started.
      */
-    var dateStartedDescription: String? {
+    var dateStartedDescription: LocalizedStringKey? {
         
         let end = status == .complete ? Date() : Calendar.current.date(byAdding: .day, value: -1, to: Date())!
         
         let numDays = Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end)
         
-        var str = "\(numDays) day"
-        
-        str += " streak"
+        var str: LocalizedStringKey = "**\(numDays)** day streak"
         
         return str
     }

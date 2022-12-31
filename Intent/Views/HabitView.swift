@@ -108,39 +108,45 @@ struct HabitView: View {
             ZStack {
                 Circle()
                     .foregroundColor(Color(uiColor: UIColor.secondarySystemFill))
-               
-                Circle()
-                    .foregroundColor(habit.accentColor.opacity(habit.status == .complete ? 1 : 0.5))
-                    .shadow(color: habit.accentColor.adjust(brightness: -0.3).opacity(0.2), radius: habit.status == .complete ? 16 : 0, x: 0, y: 0)
-                    .scaleEffect(habitScore)
-                    .overlay {
-                        Group {
-                            switch habit.status {
-                            case .complete:
-                                Image(systemName: "checkmark")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 30)
-                                    .foregroundStyle(.tertiary)
-                            case .pending(let score):
-                                if score != 0 {
-                                    Text("\(score) / \(habit.requiredCount)")
-                                        .font(.title3)
+                
+                Button {
+                    habit.complete()
+                    if habit.status == .complete {
+                        completionHaptic()
+                    } else {
+                        tapHaptic()
+                    }
+                } label: {
+                    Circle()
+                        .foregroundColor(habit.accentColor.opacity(habit.status == .complete ? 1 : 0.75))
+                        .shadow(color: habit.accentColor.adjust(brightness: -0.3).opacity(0.2), radius: habit.status == .complete ? 16 : 0, x: 0, y: 0)
+                        .scaleEffect(habitScore)
+                        .overlay {
+                            Group {
+                                switch habit.status {
+                                case .complete:
+                                    Image(systemName: "checkmark")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 30)
                                         .foregroundStyle(.tertiary)
+                                        .colorScheme(habit.accentColor.isDarkBackground() ? .dark : .light)
+                                case .pending(let score):
+                                    if score != 0 {
+                                        Text("\(score) / \(habit.requiredCount)")
+                                            .font(.title3)
+                                            .foregroundStyle(.tertiary)
+                                            .colorScheme(habit.accentColor.isDarkBackground() ? .dark : .light)
+                                    }
                                 }
                             }
+                            
                         }
-                        
-                    }
-                    .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
-            }
-            .onTapGesture {
-                habit.complete()
-                if habit.status == .complete {
-                    completionHaptic()
-                } else {
-                    tapHaptic()
+                        .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
                 }
+                .buttonStyle(ScaleButtonStyle())
+               
+                
             }
             .frame(minHeight: 0, maxHeight: .infinity)
             
@@ -150,7 +156,7 @@ struct HabitView: View {
                 if let dateStartedDescription = habit.dateStartedDescription {
                     Text(dateStartedDescription)
                         .font(Font.system(.subheadline, design: .serif))
-                        .foregroundColor(.gray)
+                        .foregroundColor(habit.accentColor)
                 }
                 
                 Spacer()

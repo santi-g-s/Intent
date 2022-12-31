@@ -23,6 +23,7 @@
 		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
 		C7770467295B997500C24952 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
 		C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
+		C7AD52532960B8D000EA4221 /* Button+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AD52522960B8D000EA4221 /* Button+Extensions.swift */; };
 		C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B020FE2935340B00462E1F /* Color+Extensions.swift */; };
 		C7B021012935362600462E1F /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021002935362600462E1F /* HabitView.swift */; };
 		C7B021032935372600462E1F /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021022935372600462E1F /* HabitDetailView.swift */; };
@@ -58,6 +59,7 @@
 		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
 		C7770466295B997500C24952 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		C7889C5F292D5A630064D89C /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		C7AD52522960B8D000EA4221 /* Button+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extensions.swift"; sourceTree = "<group>"; };
 		C7B020FE2935340B00462E1F /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		C7B021002935362600462E1F /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
 		C7B021022935372600462E1F /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				C723852029405E7E00901B43 /* CalendarView.swift */,
 				C76611F9295AB64200798DF1 /* SymbolPicker.swift */,
 				C7770466295B997500C24952 /* Date+Extensions.swift */,
+				C7AD52522960B8D000EA4221 /* Button+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
 				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
 				C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */,
+				C7AD52532960B8D000EA4221 /* Button+Extensions.swift in Sources */,
 				C723852129405E7E00901B43 /* CalendarView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C7770467295B997500C24952 /* Date+Extensions.swift in Sources */,
