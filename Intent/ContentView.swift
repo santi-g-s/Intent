@@ -60,7 +60,7 @@ struct ContentView: View {
             TabView(selection: $selectedId) {
                 ForEach(habits, id: \.id) { habit in
                     HabitView(habit: habit)
-                    .tag(habit.id!)
+                        .tag(habit.id!)
                 }
                 
                 Image(systemName: "plus")

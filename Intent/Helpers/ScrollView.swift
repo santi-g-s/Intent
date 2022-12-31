@@ -32,6 +32,9 @@ struct ScrollViewOffset<Content: View>: View {
                     key: ScrollOffsetPreferenceKey.self,
                     value: geometry.frame(in: .named("scrollView")).origin
                 )
+                .onAppear {
+                    offsetChanged(geometry.frame(in: .named("scrollView")).origin)
+                }
             }.frame(width: 0, height: 0)
             content
         }

@@ -72,22 +72,6 @@ struct HabitView: View {
                         }
                     }
                 }
-                .safeAreaInset(edge: .bottom) {
-                    HStack {
-                        Spacer()
-                        Button {
-                            //
-                        } label: {
-                            Label("Edit", systemImage: "slider.vertical.3")
-                                .foregroundColor(.primary)
-                                .padding(8)
-                                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial))
-                        }
-                    }
-                    .padding(.horizontal)
-                    .disabled(!showDetail)
-                    .opacity(min(1, -scrollOffset.y/(UIScreen.main.focusedView?.frame.height ?? 600)))
-                }
             }
         }
         .onAppear {
@@ -100,6 +84,22 @@ struct HabitView: View {
         .onChange(of: habit.completedDates) { _ in
             habitScore = habit.calculateScore()
             completionMap = habit.calculateCompletionMap()
+        }
+        .overlay(alignment: .bottom){
+            HStack {
+                Spacer()
+                Button {
+                    //
+                } label: {
+                    Label("Edit", systemImage: "slider.vertical.3")
+                        .foregroundColor(.primary)
+                        .padding(8)
+                        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial))
+                }
+            }
+            .padding(.horizontal)
+            .disabled(!showDetail)
+            .opacity(min(1, -scrollOffset.y/(UIScreen.main.focusedItem?.frame.height ?? 600)))
         }
     }
     
