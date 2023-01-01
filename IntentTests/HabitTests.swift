@@ -244,6 +244,24 @@ final class HabitTests: XCTestCase {
         XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
     }
     
+    func test_CalculateScore_PartiallyComplete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*5)
+        habit.requiredCount = 2
+        habit.timePeriod = .daily
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*5),//1
+            Date().addingTimeInterval(-60*60*24*5),//1
+            Date().addingTimeInterval(-60*60*24*4),//2
+            Date().addingTimeInterval(-60*60*24*4),//2
+            Date().addingTimeInterval(-60*60*24*3),
+            Date().addingTimeInterval(-60*60*24*2),//1
+            Date().addingTimeInterval(-60*60*24*2),//1
+            //0
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+    
     func testCalculateScore_Jagged5() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().addingTimeInterval(-60*60*24*10)
@@ -419,6 +437,174 @@ final class HabitTests: XCTestCase {
             Date().addingTimeInterval(-60*60*24*7*0),//5
         ]
         XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Weekly_PartiallyComplete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().addingTimeInterval(-60*60*24*5)
+        habit.requiredCount = 2
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Date().addingTimeInterval(-60*60*24*7*5),//1
+            Date().addingTimeInterval(-60*60*24*7*5),//1
+            Date().addingTimeInterval(-60*60*24*7*4),//2
+            Date().addingTimeInterval(-60*60*24*7*4),//2
+            Date().addingTimeInterval(-60*60*24*7*3),//0
+            Date().addingTimeInterval(-60*60*24*7*2), //1
+            Date().addingTimeInterval(-60*60*24*7*2), //1
+            //0
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Monthly_0() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.requiredCount = 1
+        habit.timePeriod = .monthly
+        XCTAssertEqual(0, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Monthly_Complete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().beginning(of: .month)!
+        habit.requiredCount = 1
+        habit.completedDates = [Date().beginning(of: .month)!]
+        habit.timePeriod = .monthly
+        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Monthly_CompleteReq3() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().startOfWeek()
+        habit.requiredCount = 3
+        habit.completedDates = [
+            Date().beginning(of: .month)!,
+            Calendar.current.date(byAdding: .day, value: 4, to: Date().beginning(of: .month)!)!,
+            Calendar.current.date(byAdding: .day, value: 4, to: Date().beginning(of: .month)!)!
+        ]
+        habit.timePeriod = .monthly
+        XCTAssertEqual(0.1, habit.calculateScore(), accuracy: 0.001)
+    }
+
+
+    func test_CalculateScore_Monthly_5() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -4, to: Date())!
+        habit.requiredCount = 1
+        habit.timePeriod = .monthly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -1, to: Date())!,
+            Date().beginning(of: .month)!,
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Monthly_5Re2() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -4, to: Date())!
+        habit.requiredCount = 2
+        habit.timePeriod = .monthly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -1, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -1, to: Date())!,
+            Date().beginning(of: .month)!,
+            Date()
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Monthly_2Re2() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -4, to: Date())!
+        habit.requiredCount = 2
+        habit.timePeriod = .monthly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,
+            Date().beginning(of: .month)!,
+            Date()
+        ]
+        XCTAssertEqual(0.2, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Monthly_Reduce() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -3, to: Date())!
+        habit.requiredCount = 1
+        habit.timePeriod = .weekly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!, //1
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!, //2
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func test_CalculateScore_Monthly_Jagged0() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -5, to: Date())!
+        habit.requiredCount = 1
+        habit.timePeriod = .monthly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -5, to: Date())!,//1
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,//2
+            //0
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!, //1
+            //0
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
+    }
+
+    func testCalculateScore_Monthly_Jagged5() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -10, to: Date())!
+        habit.requiredCount = 1
+        habit.timePeriod = .monthly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -10, to: Date())!,//1
+            Calendar.current.date(byAdding: .month, value: -9, to: Date())!,//2
+            //0
+            Calendar.current.date(byAdding: .month, value: -7, to: Date())!,//1
+            Calendar.current.date(byAdding: .month, value: -6, to: Date())!,//2
+            Calendar.current.date(byAdding: .month, value: -5, to: Date())!,//3
+            //1
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,//2
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,//3
+            Calendar.current.date(byAdding: .month, value: -1, to: Date())!,//4
+            Date().beginning(of: .month)!,//5
+        ]
+        XCTAssertEqual(0.5, habit.calculateScore(), accuracy: 0.001)
+    }
+    
+    func test_CalculateScore_Monthly_PartiallyComplete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Calendar.current.date(byAdding: .month, value: -5, to: Date())!
+        habit.requiredCount = 2
+        habit.timePeriod = .monthly
+        habit.completedDates = [
+            Calendar.current.date(byAdding: .month, value: -5, to: Date())!,//1
+            Calendar.current.date(byAdding: .month, value: -5, to: Date())!,//1
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,//2
+            Calendar.current.date(byAdding: .month, value: -4, to: Date())!,//2
+            Calendar.current.date(byAdding: .month, value: -3, to: Date())!,//0
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,//1
+            Calendar.current.date(byAdding: .month, value: -2, to: Date())!,//1
+            //0
+        ]
+        XCTAssertEqual(0.0, habit.calculateScore(), accuracy: 0.001)
     }
     
 }

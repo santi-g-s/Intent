@@ -84,7 +84,6 @@ struct HabitView: View {
         .onChange(of: habit.completedDates) { _ in
             habitScore = habit.calculateScore()
             completionMap = habit.calculateCompletionMap()
-            print(habitScore)
         }
         .overlay(alignment: .bottom){
             HStack {
@@ -154,11 +153,8 @@ struct HabitView: View {
                         .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
                 }
                 .buttonStyle(ScaleButtonStyle())
-               
-                
             }
             .frame(minHeight: 0, maxHeight: .infinity)
-            
         }
         .overlay(alignment: .top) {
             VStack {

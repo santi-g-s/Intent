@@ -236,6 +236,8 @@ extension Habit {
             } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
                 // Otherwise if today, then add incremental score
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
+            } else {
+                score = max(0, score - 0.2)
             }
             
         }
