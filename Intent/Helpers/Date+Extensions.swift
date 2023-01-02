@@ -45,4 +45,8 @@ extension Date {
         guard !components.isEmpty else { return nil }
         return calendar.date(from: calendar.dateComponents(components, from: self))
     }
+    
+    func adding(_ component: Calendar.Component, value: Int, calendar: Calendar = Calendar.current) -> Date {
+        return calendar.date(byAdding: component, value: value, to: self)!
+    }
 }

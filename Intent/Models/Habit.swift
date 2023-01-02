@@ -133,13 +133,13 @@ extension Habit {
     /**
      A string that describes how long ago the habit was started.
      */
-    var dateStartedDescription: LocalizedStringKey? {
+    var streakDescription: AttributedString {
         
-        let end = status == .complete ? Date() : Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        let end = status == .complete ? Date() : Calendar.current.date(byAdding: timePeriod.component, value: -1, to: Date())!
         
         let numDays = Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end)
         
-        let str: LocalizedStringKey = "**\(numDays)** \(timePeriod.unitName) streak"
+        let str: AttributedString = try! AttributedString(markdown: "**\(max(0,numDays))** \(timePeriod.unitName) streak")
         
         return str
     }
@@ -220,6 +220,7 @@ extension Habit {
             } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
                 // If you reach the end of completedDates then reduce score until today.
                 score = max(0, score - 0.2)
+                continue
             }
             
             var count = 0

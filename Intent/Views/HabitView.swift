@@ -158,7 +158,7 @@ struct HabitView: View {
         }
         .overlay(alignment: .top) {
             VStack {
-                if let dateStartedDescription = habit.dateStartedDescription {
+                if let dateStartedDescription = habit.streakDescription {
                     Text(dateStartedDescription)
                         .font(Font.system(.subheadline, design: .serif))
                         .foregroundColor(habit.accentColor)
