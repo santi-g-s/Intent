@@ -17,30 +17,45 @@ struct HabitDetailView: View {
     var body: some View {
         LazyVStack(spacing: 0){
             
-            TabView {
-                ForEach(habit.messages, id: \.self) { message in
-                    Text(message)
-                        .minimumScaleFactor(0.5)
-                        .multilineTextAlignment(.center)
-                        .font(Font.system(.title3, design: .serif, weight: .regular))
-                        .foregroundStyle(.primary)
-                        .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(Color(uiColor: UIColor.secondarySystemGroupedBackground)).shadow(color: Color.black.opacity(0.1), radius: 5))
-                        .padding()
+            Group {
+                if !habit.messages.isEmpty {
+                    TabView {
+                        ForEach(habit.messages.indices, id: \.self) { index in
+                            Text(habit.messages[index])
+                                .minimumScaleFactor(0.5)
+                                .multilineTextAlignment(.center)
+                                .font(Font.system(.title3, design: .serif, weight: .regular))
+                                .foregroundStyle(.primary)
+                                .padding()
+                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                                .background(RoundedRectangle(cornerRadius: 8).foregroundColor(Color(uiColor: UIColor.secondarySystemGroupedBackground)).shadow(color: Color.black.opacity(0.1), radius: 5))
+                                .padding()
+                        }
+                        .padding(.bottom)
+                    }
+                    .tabViewStyle(.page)
+                    .indexViewStyle(.page(backgroundDisplayMode: .never))
+                    .frame(height: 200)
+                    .onAppear() {
+                        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.label
+                        UIPageControl.appearance().pageIndicatorTintColor = .tertiaryLabel
+                    }
+                } else {
+                    HStack(alignment: .firstTextBaseline){
+                        Text("Tap ") + Text(Image(systemName: "slider.vertical.3")) + Text(" to add a motivational message")
+                    }
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                    .background(RoundedRectangle(cornerRadius: 8).foregroundStyle(.regularMaterial))
+                    .padding()
                 }
-                .padding(.bottom)
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .never))
-            .frame(height: 200)
             .id(0)
-            .onAppear() {
-                UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.label
-                UIPageControl.appearance().pageIndicatorTintColor = .tertiaryLabel
-            }
             
-            CalendarView(interval: DateInterval(start: habit.startDate.addingTimeInterval(-3*31*24*60*60), end: Date())) { date in
+            
+            CalendarView(interval: DateInterval(start: habit.startDate.adding(.month, value: -2), end: Date())) { date in
                 
                 let isComplete = completionMap[Calendar.current.standardizedDate(date)] == true
                 

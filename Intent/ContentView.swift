@@ -135,6 +135,11 @@ struct ContentView: View {
                 Group {
                     if value == .addHabit {
                         AddHabitView()
+                            .onDisappear {
+                                withAnimation {
+                                    selectedId = habits.last?.id ?? emptyId
+                                }
+                            }
                     } else if value == .settings {
                         Text("Settings")
                     }

@@ -264,6 +264,27 @@ extension Habit {
     
     //MARK: - Static Methods
     
+    @discardableResult
+    static func makeHabit(title: String, timePeriod: TimePeriod, requiredCount: Int, accentColor: Color, symbolName: String, messages: [String], context: NSManagedObjectContext) -> Habit {
+        let habit = Habit(context: context)
+        habit.title = title
+        habit.id = UUID()
+        habit.startDate = Date()
+        habit.timePeriod = timePeriod
+        habit.requiredCount = requiredCount
+        habit.accentColor = accentColor
+        habit.iconName = symbolName
+        habit.messages = messages
+        
+        do {
+            try context.save()
+        } catch {
+            print("Couldn't save habit: \n \(habit.debugDescription)")
+        }
+        
+        return habit
+    }
+    
     /// A Habit for use with canvas previews.
     static func makePreview(context: NSManagedObjectContext) -> Habit {
         let habits = Habit.makePreviews(count: 1, includeAll: true, context: context)

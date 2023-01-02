@@ -1015,6 +1015,16 @@ final class HabitTests: XCTestCase {
     
     //MARK: - Calculate Completion Map
     
+    func test_CalculateCompletionMap_Daily_NoComplete() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date()
+        habit.requiredCount = 1
+        habit.timePeriod = .daily
+        habit.completedDates = []
+        let expected = [Calendar.current.standardizedDate(Date()) : false]
+        XCTAssertEqual(expected, habit.calculateCompletionMap())
+    }
+    
     func test_CalculateCompletionMap_Daily_AllTrue() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)

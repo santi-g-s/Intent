@@ -107,7 +107,7 @@ struct HabitView: View {
         VStack {
             ZStack {
                 Circle()
-                    .foregroundColor(Color(uiColor: UIColor.secondarySystemFill))
+                    .foregroundStyle(.regularMaterial)
                     .onTapGesture {
                         habit.complete()
                         if habit.status == .complete {
