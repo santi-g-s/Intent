@@ -153,7 +153,7 @@ extension Habit {
             // Reduce score for each date not in `completedDates`
             if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
                 score = max(0, score - 0.2)
-                if score < 0.1 {
+                if score.isEqual(to: 0.0) {
                     lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
                 }
                 continue
@@ -178,7 +178,7 @@ extension Habit {
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
             }
             
-            if score < 0.1 {
+            if score.isEqual(to: 0.0) {
                 lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
             }
             

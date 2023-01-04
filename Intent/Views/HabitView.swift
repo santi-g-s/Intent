@@ -21,6 +21,10 @@ struct HabitView: View {
     
     @State private var engine: CHHapticEngine?
     
+    var availableWidth: CGFloat {
+        max(0,(UIScreen.main.bounds.width - 2*40) * habitScore - 12)
+    }
+    
     var body: some View {
         VStack(spacing: 0){
             Text(habit.title)
@@ -116,6 +120,13 @@ struct HabitView: View {
                             tapHaptic()
                         }
                     }
+                    .overlay {
+                        if habitScore.isEqual(to: 0.0) {
+                            Text("Tap to complete your habit")
+                                .foregroundStyle(.secondary)
+                        }
+                        
+                    }
                 
                 Button {
                     habit.complete()
@@ -136,13 +147,13 @@ struct HabitView: View {
                                     Image(systemName: "checkmark")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(height: 30)
+                                        .frame(width: min(availableWidth, 30))
                                         .foregroundStyle(.tertiary)
                                         .colorScheme(habit.accentColor.isDarkBackground() ? .dark : .light)
                                 case .pending(let score):
                                     if score != 0 {
                                         Text("\(score) / \(habit.requiredCount)")
-                                            .font(.title3)
+                                            .font(Font.system(size: min(availableWidth, 20)))
                                             .foregroundStyle(.tertiary)
                                             .colorScheme(habit.accentColor.isDarkBackground() ? .dark : .light)
                                     }
