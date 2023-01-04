@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HabitDetailView: View {
     
-    var habit: Habit
+    @ObservedObject var habit: Habit
     var completionMap: [Date : Bool]
     
     @State var index = 0
@@ -59,17 +59,32 @@ struct HabitDetailView: View {
                 
                 let isComplete = completionMap[Calendar.current.standardizedDate(date)] == true
                 
-                Text("30")
-                    .hidden()
-                    .padding(8)
-                    .background(isComplete ? habit.accentColor : .clear)
-                    .clipShape(Circle())
-                    .padding(.vertical, 4)
-                    .overlay(
-                        Text(String(Calendar.current.component(.day, from: date)))
-                            .foregroundColor(isComplete ? .white : .secondary)
-                            .fontWeight(isComplete ? .bold : .regular)
-                    )
+                if !isComplete {
+                    Text("30")
+                        .hidden()
+                        .padding(8)
+                        .background(.clear)
+                        .clipShape(Circle())
+                        .padding(.vertical, 4)
+                        .overlay(
+                            Text(String(Calendar.current.component(.day, from: date)))
+                                .foregroundColor(.secondary)
+                                .fontWeight(.regular)
+                        )
+                } else {
+                    Text("30")
+                        .hidden()
+                        .padding(8)
+                        .background(habit.accentColor)
+                        .clipShape(Circle())
+                        .padding(.vertical, 4)
+                        .overlay(
+                            Text(String(Calendar.current.component(.day, from: date)))
+                                .foregroundColor(habit.accentColor.isDarkBackground() ? .white : .black)
+                                .fontWeight(.bold)
+                        )
+                }
+                
             }
             .padding()
         }

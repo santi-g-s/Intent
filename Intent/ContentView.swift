@@ -24,6 +24,8 @@ struct ContentView: View {
     @State var indicatorViewSize = CGSize.zero
     @State var buttonSize = CGSize.zero
     
+    @State var habitEditorConfig = HabitEditorConfig()
+    
     var availableWidth: CGFloat {
         return UIScreen.main.bounds.width - 2*buttonSize.width - 2*16
     }
@@ -97,7 +99,7 @@ struct ContentView: View {
                 
                 if !habits.isEmpty {
                     ForEach(habits, id: \.id) { habit in
-                        HabitView(habit: habit)
+                        HabitView(habit: habit, habitEditorConfig: $habitEditorConfig)
                             .tag(habit.id!)
                     }
                 } else {
@@ -121,6 +123,7 @@ struct ContentView: View {
                     withAnimation {
                         selectedId = habits.last?.id ?? emptyId
                     }
+                    habitEditorConfig.presentCreateHabit()
                     sheetType = .addHabit
                 case settingsId:
                     withAnimation {
@@ -134,7 +137,7 @@ struct ContentView: View {
             .sheet(item: $sheetType) { value in
                 Group {
                     if value == .addHabit {
-                        AddHabitView()
+                        HabitEditorView(config: $habitEditorConfig)
                             .onDisappear {
                                 withAnimation {
                                     selectedId = habits.last?.id ?? emptyId

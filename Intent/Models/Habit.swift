@@ -160,6 +160,10 @@ extension Habit {
             } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
                 // If you reach the end of completedDates then reduce score until today.
                 score = max(0, score - 0.2)
+                if score.isEqual(to: 0.0) {
+                    lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                }
+                continue
             }
             
             var count = 0
@@ -171,15 +175,13 @@ extension Habit {
             }
             
             // Check if reached requirement and if so, increase score
-            if count == requiredCount {
+            if count >= requiredCount {
                 score = min(1, score + 0.1)
             } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
                 // Otherwise if today, then add incremental score
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
-            }
-            
-            if score.isEqual(to: 0.0) {
-                lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            } else {
+                score = max(0, score - 0.2)
             }
             
         }
@@ -262,27 +264,51 @@ extension Habit {
         return completionMap
     }
     
+    private func update(with data: HabitData) {
+        self.title = data.title
+        self.startDate = data.startDate
+        self.timePeriod = data.timePeriod
+        self.requiredCount = data.requiredCount
+        self.accentColor = data.accentColor
+        self.iconName = data.iconName
+        self.messages = data.messages
+    }
+    
     //MARK: - Static Methods
     
     @discardableResult
-    static func makeHabit(title: String, timePeriod: TimePeriod, requiredCount: Int, accentColor: Color, symbolName: String, messages: [String], context: NSManagedObjectContext) -> Habit {
+    static func createHabit(with data: HabitData, context: NSManagedObjectContext) -> Habit {
         let habit = Habit(context: context)
-        habit.title = title
-        habit.id = UUID()
-        habit.startDate = Date()
-        habit.timePeriod = timePeriod
-        habit.requiredCount = requiredCount
-        habit.accentColor = accentColor
-        habit.iconName = symbolName
-        habit.messages = messages
+        habit.id = data.id
+        habit.update(with: data)
         
         do {
             try context.save()
         } catch {
-            print("Couldn't save habit: \n \(habit.debugDescription)")
+            print("Couldn't save context", error.localizedDescription)
         }
         
         return habit
+    }
+    
+    static func updateHabit(with data: HabitData, context: NSManagedObjectContext) {
+        let predicate = NSPredicate(format: "id = %@", data.id as CVarArg)
+        let result = DataManager.fetchFirst(Habit.self, predicate: predicate, context: context)
+        switch result {
+        case .success(let habit):
+            if let habit = habit {
+                habit.update(with: data)
+            } else {
+                createHabit(with: data, context: context)
+            }
+        case .failure(_):
+            print("Couldn't fetch Habit to save")
+        }
+        do {
+            try context.save()
+        } catch {
+            print("Couldn't save context", error.localizedDescription)
+        }
     }
     
     /// A Habit for use with canvas previews.
@@ -365,5 +391,32 @@ enum TimePeriod: Int {
         case .monthly:
             return .month
         }
+    }
+}
+
+struct HabitData: Identifiable {
+    
+    var id: UUID
+    var startDate: Date = Date()
+    var title: String = ""
+    var timePeriod: TimePeriod = .daily
+    var requiredCount: Int = 1
+    var accentColor: Color = Color.accentColor
+    var iconName: String = "star"
+    var messages = [String]()
+    
+    init() {
+        self.id = UUID()
+    }
+    
+    init(from habit: Habit) {
+        self.id = habit.id ?? UUID()
+        self.startDate = habit.startDate
+        self.title = habit.title
+        self.timePeriod = habit.timePeriod
+        self.requiredCount = habit.requiredCount
+        self.accentColor = habit.accentColor
+        self.iconName = habit.iconName
+        self.messages = habit.messages
     }
 }

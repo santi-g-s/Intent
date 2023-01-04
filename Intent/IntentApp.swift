@@ -10,12 +10,28 @@ import SwiftUI
 @main
 struct IntentApp: App {
     
-    var dataManager = DataManager.preview
+    @Environment(\.scenePhase) private var scenePhase
+    
+    var dataManager = DataManager.shared
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, dataManager.container.viewContext)
+                .onChange(of: scenePhase) { phase in
+                    switch phase {
+                    case .active:
+                        print("Active")
+                    case .inactive:
+                        print("Inactive")
+                        dataManager.saveData()
+                    case .background:
+                        print("background")
+                        dataManager.saveData()
+                    default:
+                        print("unknown")
+                    }
+                }
         }
     }
 }

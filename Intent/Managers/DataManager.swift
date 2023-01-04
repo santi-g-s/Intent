@@ -60,4 +60,26 @@ class DataManager {
         }
       })
     }
+    
+    static func fetchFirst<T: NSManagedObject>(_ objectType: T.Type, predicate: NSPredicate?, context: NSManagedObjectContext) -> Result<T?, Error> {
+        let request = objectType.fetchRequest()
+        request.predicate = predicate
+        request.fetchLimit = 1
+        do {
+            let result = try context.fetch(request) as? [T]
+            return .success(result?.first)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func saveData() {
+        if viewContext.hasChanges {
+            do {
+                try viewContext.save()
+            } catch let error as NSError {
+                NSLog("Unresolved error saving context: \(error), \(error.userInfo)")
+            }
+        }
+    }
 }

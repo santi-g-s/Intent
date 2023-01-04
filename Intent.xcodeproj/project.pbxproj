@@ -18,7 +18,7 @@
 		C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B0292816670055B13B /* Calendar+Extensions.swift */; };
 		C73D06B3292817140055B13B /* HabitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B2292817140055B13B /* HabitTests.swift */; };
 		C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
-		C73F2D7529596C590042EF63 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73F2D7429596C590042EF63 /* AddHabitView.swift */; };
+		C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73F2D7429596C590042EF63 /* HabitEditorView.swift */; };
 		C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
 		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
 		C7770467295B997500C24952 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
@@ -29,6 +29,7 @@
 		C7B021012935362600462E1F /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021002935362600462E1F /* HabitView.swift */; };
 		C7B021032935372600462E1F /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021022935372600462E1F /* HabitDetailView.swift */; };
 		C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
+		C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +56,7 @@
 		C73D06B0292816670055B13B /* Calendar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 		C73D06B2292817140055B13B /* HabitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTests.swift; sourceTree = "<group>"; };
 		C73D06D42929D9160055B13B /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
-		C73F2D7429596C590042EF63 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
+		C73F2D7429596C590042EF63 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
 		C76611F9295AB64200798DF1 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
 		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
 		C7770466295B997500C24952 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -66,6 +67,7 @@
 		C7B021002935362600462E1F /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
 		C7B021022935372600462E1F /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
 		C7CFE828293F0A4300A89AAD /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
+		C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,12 +182,29 @@
 		C7889C61292D5A9D0064D89C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C7B021002935362600462E1F /* HabitView.swift */,
-				C7B021022935372600462E1F /* HabitDetailView.swift */,
-				C73F2D7429596C590042EF63 /* AddHabitView.swift */,
-				C7AD52542960E54A00EA4221 /* PlaceholderHabitView.swift */,
+				C7DC9FE3296503580055ACEC /* HabitEditorView */,
+				C7DC9FE2296503490055ACEC /* HabitView */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C7DC9FE2296503490055ACEC /* HabitView */ = {
+			isa = PBXGroup;
+			children = (
+				C7B021002935362600462E1F /* HabitView.swift */,
+				C7B021022935372600462E1F /* HabitDetailView.swift */,
+				C7AD52542960E54A00EA4221 /* PlaceholderHabitView.swift */,
+			);
+			path = HabitView;
+			sourceTree = "<group>";
+		};
+		C7DC9FE3296503580055ACEC /* HabitEditorView */ = {
+			isa = PBXGroup;
+			children = (
+				C73F2D7429596C590042EF63 /* HabitEditorView.swift */,
+				C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */,
+			);
+			path = HabitEditorView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,7 +325,8 @@
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C7770467295B997500C24952 /* Date+Extensions.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
-				C73F2D7529596C590042EF63 /* AddHabitView.swift in Sources */,
+				C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */,
+				C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,
 				C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */,
 				C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */,
@@ -462,7 +482,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -491,7 +511,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

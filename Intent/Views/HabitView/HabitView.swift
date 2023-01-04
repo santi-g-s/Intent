@@ -11,6 +11,9 @@ import CoreHaptics
 struct HabitView: View {
     
     @ObservedObject var habit: Habit
+    
+    @Binding var habitEditorConfig: HabitEditorConfig
+    
     @State var habitScore = 0.0
     @State var completionMap = [Date : Bool]()
     
@@ -21,6 +24,9 @@ struct HabitView: View {
     
     @State private var engine: CHHapticEngine?
     
+    @State private var presentEditHabit = false
+    
+    
     var availableWidth: CGFloat {
         max(0,(UIScreen.main.bounds.width - 2*40) * habitScore - 12)
     }
@@ -28,6 +34,8 @@ struct HabitView: View {
     var body: some View {
         VStack(spacing: 0){
             Text(habit.title)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .font(Font.system(.largeTitle, design: .serif))
                 .onTapGesture {
                     returnToTop.toggle()
@@ -93,7 +101,8 @@ struct HabitView: View {
             HStack {
                 Spacer()
                 Button {
-                    //
+                    habitEditorConfig.presentEditHabit(habit: habit)
+                    presentEditHabit = true
                 } label: {
                     Label("Edit", systemImage: "slider.vertical.3")
                         .foregroundColor(.primary)
@@ -104,6 +113,12 @@ struct HabitView: View {
             .padding(.horizontal)
             .disabled(!showDetail)
             .opacity(min(1, -scrollOffset.y/(UIScreen.main.bounds.height-200)))
+        }
+        .sheet(isPresented: $presentEditHabit, onDismiss: {
+            habitScore = habit.calculateScore()
+            completionMap = habit.calculateCompletionMap()
+        }) {
+            HabitEditorView(config: $habitEditorConfig)
         }
     }
     
@@ -277,6 +292,6 @@ struct HabitView_Previews: PreviewProvider {
     static var previews: some View {
         let dataManager = DataManager.preview
         
-        HabitView(habit: Habit.makePreview(context: dataManager.container.viewContext))
+        HabitView(habit: Habit.makePreview(context: dataManager.container.viewContext), habitEditorConfig: .constant(HabitEditorConfig()))
     }
 }

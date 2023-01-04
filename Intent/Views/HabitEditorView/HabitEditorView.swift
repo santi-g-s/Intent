@@ -1,5 +1,5 @@
 //
-//  AddHabitView.swift
+//  HabitEditorView.swift
 //  Intent
 //
 //  Created by Santiago Garcia Santos on 25/12/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct AddHabitView: View {
+struct HabitEditorView: View {
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     @Environment(\.presentationMode) var presentationMode
@@ -18,58 +18,50 @@ struct AddHabitView: View {
         case message
     }
     
-    @State var title = ""
-    @State var timePeriod = TimePeriod.daily
-    @State var requiredCount = 1
-    @State var color = Color.accentColor
-    @State var symbolName = "star"
-    @State var messageText = ""
-    @State var messages = [String]()
+    @Binding var config: HabitEditorConfig
     
-    @State var showSymbolPicker = false
     @FocusState var focusedField: Field?
-    
-    var addButtonDisabled: Bool {
-        title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
     
     var body: some View {
         NavigationView {
             Form {
                 Section("Details") {
-                    TextField("Title", text: $title)
+                    
+                    TextField("Title", text: $config.data.title)
                         .focused($focusedField, equals: .title)
+                    
                     Button {
-                        showSymbolPicker = true
+                        config.presentSymbolPicker()
                     } label: {
                         HStack{
                             Text("Pick an icon")
                             Spacer()
-                            Image(systemName: symbolName)
+                            Image(systemName: config.data.iconName)
                         }
                         .foregroundColor(.primary)
                     }
-
-                    ColorPicker("Pick a color", selection: $color, supportsOpacity: false)
+                    
+                    ColorPicker("Pick a color", selection: $config.data.accentColor, supportsOpacity: false)
                 }
 
                 Section("Scheduling") {
-                    Picker("How often", selection: $timePeriod) {
+                    Picker("How often", selection: $config.data.timePeriod) {
                         Text("Daily").tag(TimePeriod.daily)
                         Text("Weekly").tag(TimePeriod.weekly)
                         Text("Monthly").tag(TimePeriod.monthly)
                     }
                     .pickerStyle(.segmented)
-                    Picker("How many times a \(timePeriod.unitName)", selection: $requiredCount) {
-                        ForEach(0...10, id: \.self) { index in
+                    
+                    Picker("How many times a \(config.data.timePeriod.unitName)", selection: $config.data.requiredCount) {
+                        ForEach(1...10, id: \.self) { index in
                             Text("\(index)")
                         }
                     }
                 }
-
+                
                 Section("Messages") {
                     VStack(alignment: .leading){
-                        TextField("Add a motivational message", text: $messageText, axis: .vertical)
+                        TextField("Add a motivational message", text: $config.messageText, axis: .vertical)
                             .focused($focusedField, equals: .message)
                             .toolbar {
                                 ToolbarItemGroup(placement: .keyboard) {
@@ -81,8 +73,7 @@ struct AddHabitView: View {
                                 }
                             }
                         Button {
-                            messages.append(messageText.trimmingCharacters(in: .whitespacesAndNewlines))
-                            messageText = ""
+                            config.addMessage()
                         } label: {
                             HStack{
                                 Spacer()
@@ -90,43 +81,50 @@ struct AddHabitView: View {
                                 Image(systemName: "plus.circle.fill")
                             }
                         }
-                        .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .disabled(config.isAddMessageDisabled)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
                     }
-                    ForEach(messages, id: \.self) { message in
+                    ForEach(config.data.messages, id: \.self) { message in
                         Text(message)
                     }
-                    .onDelete { indexSet in
-                        messages.remove(atOffsets: indexSet)
+                    .onDelete { offsets in
+                        config.deleteMessage(at: offsets)
+                    }
+                    .onMove { source, destination in
+                        config.rearrangeMessages(from: source, to: destination)
                     }
                 }
             }
-            .navigationTitle("Add a habit")
+            .navigationTitle(config.isEditing ? "Edit habit" : "Add habit")
         }
         .safeAreaInset(edge: .bottom) {
             VStack {
                 Spacer()
                 Button {
-                    Habit.makeHabit(title: title.trimmingCharacters(in: .whitespacesAndNewlines), timePeriod: timePeriod, requiredCount: requiredCount, accentColor: color, symbolName: symbolName, messages: messages, context: context)
+                    if config.isEditing {
+                        Habit.updateHabit(with: config.data, context: context)
+                    } else {
+                        Habit.createHabit(with: config.data, context: context)
+                    }
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Label("Create Habit", systemImage: "plus")
+                    Label(config.isEditing ? "Update habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
                         .bold()
-                        .foregroundColor(.white)
+                        .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
                         .padding(8)
                         .background {
-                            RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(color)
+                            RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
                         }
                 }
                 .padding(.top)
-                .disabled(addButtonDisabled)
+                .disabled(config.isButtonDisabled)
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
-        .sheet(isPresented: $showSymbolPicker) {
-            SymbolPicker(symbol: $symbolName)
+        .sheet(isPresented: $config.isSymbolPickerShown) {
+            SymbolPicker(symbol: $config.data.iconName)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.hidden)
         }
@@ -134,7 +132,16 @@ struct AddHabitView: View {
 }
 
 struct AddHabitView_Previews: PreviewProvider {
+    struct ContentView: View {
+        
+        @State var config = HabitEditorConfig()
+        
+        var body: some View {
+            HabitEditorView(config: $config)
+                .environment(\.managedObjectContext, DataManager.preview.container.viewContext)
+        }
+    }
     static var previews: some View {
-        AddHabitView()
+        ContentView()
     }
 }
