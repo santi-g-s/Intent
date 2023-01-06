@@ -182,8 +182,8 @@
 		C7889C61292D5A9D0064D89C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C7DC9FE3296503580055ACEC /* HabitEditorView */,
 				C7DC9FE2296503490055ACEC /* HabitView */,
+				C7DC9FE3296503580055ACEC /* HabitEditorView */,
 			);
 			path = Views;
 			sourceTree = "<group>";

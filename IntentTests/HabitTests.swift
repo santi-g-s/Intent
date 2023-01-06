@@ -51,7 +51,7 @@ final class HabitTests: XCTestCase {
     func test_ReadingProperties_StartDate() {
         let habit = Habit(context: dataManager.viewContext)
         let date = Date()
-        habit.startDate = Date()
+        habit.startDate = date
         XCTAssertEqual(date, habit.startDate)
     }
     

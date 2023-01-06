@@ -54,8 +54,8 @@ struct HabitView: View {
                                 if (offset.y < -110) {
                                     showDetail = true
                                     
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                                        withAnimation {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01){
+                                        withAnimation(.easeInOut(duration: 0.1)){
                                             proxy.scrollTo(0, anchor: .top)
                                         }
                                         scrollHaptic()
@@ -137,7 +137,7 @@ struct HabitView: View {
                     }
                     .overlay {
                         if habitScore.isEqual(to: 0.0) {
-                            Text("Tap to complete your habit")
+                            Text("Tap to log your habit")
                                 .foregroundStyle(.secondary)
                         }
                         
@@ -168,7 +168,7 @@ struct HabitView: View {
                                 case .pending(let score):
                                     if score != 0 {
                                         Text("\(score) / \(habit.requiredCount)")
-                                            .font(Font.system(size: min(availableWidth, 20)))
+                                            .font(Font.system(size: 20))
                                             .foregroundStyle(.tertiary)
                                             .colorScheme(habit.accentColor.isDarkBackground() ? .dark : .light)
                                     }

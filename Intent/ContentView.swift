@@ -26,6 +26,8 @@ struct ContentView: View {
     
     @State var habitEditorConfig = HabitEditorConfig()
     
+    @ScaledMetric var scale: CGFloat = 1
+    
     var availableWidth: CGFloat {
         return UIScreen.main.bounds.width - 2*buttonSize.width - 2*16
     }
@@ -37,6 +39,7 @@ struct ContentView: View {
                     selectedId = settingsId
                 } label: {
                     Image(systemName: "gearshape")
+                        .imageScale(.large)
                         .foregroundColor(.primary)
                         .padding(6)
                         .background(Circle().foregroundStyle(.regularMaterial))
@@ -50,7 +53,7 @@ struct ContentView: View {
                 HStack {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false){
-                            HStack(spacing: 4){
+                            HStack(spacing: 0){
                                 ForEach(habits, id: \.id) { habit in
                                     Button {
                                         withAnimation {
@@ -60,6 +63,7 @@ struct ContentView: View {
                                         Image(systemName: habit.iconName)
                                             .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
                                             .padding(6)
+                                            .padding(.horizontal, 2)
                                             .contentShape(Rectangle())
                                     }
                                     .id(habit.id!)
@@ -84,6 +88,7 @@ struct ContentView: View {
                     selectedId = addNewId
                 } label: {
                     Image(systemName: "plus")
+                        .imageScale(.large)
                         .foregroundColor(.primary)
                         .padding(6)
                         .background(Circle().foregroundStyle(.regularMaterial))
@@ -146,6 +151,11 @@ struct ContentView: View {
                     } else if value == .settings {
                         Text("Settings")
                     }
+                }
+            }
+            .onChange(of: habits.count) { _ in
+                withAnimation {
+                    selectedId = habits.first?.id ?? emptyId
                 }
             }
         }

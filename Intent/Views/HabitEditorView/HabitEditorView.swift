@@ -31,6 +31,7 @@ struct HabitEditorView: View {
                         .focused($focusedField, equals: .title)
                     
                     Button {
+                        focusedField = nil
                         config.presentSymbolPicker()
                     } label: {
                         HStack{
@@ -102,24 +103,44 @@ struct HabitEditorView: View {
         .safeAreaInset(edge: .bottom) {
             VStack {
                 Spacer()
-                Button {
+                HStack {
                     if config.isEditing {
-                        Habit.updateHabit(with: config.data, context: context)
-                    } else {
-                        Habit.createHabit(with: config.data, context: context)
-                    }
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Label(config.isEditing ? "Update habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
-                        .bold()
-                        .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
-                        .padding(8)
-                        .background {
-                            RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
+                        Spacer()
+                        Button {
+                            Habit.deleteHabit(with: config.data, context: context)
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Label("Delete Habit", systemImage: "trash")
+                                .bold()
+                                .foregroundColor(.red)
+                                .padding(8)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial)
+                                }
                         }
+                    }
+                    Spacer()
+                    Button {
+                        if config.isEditing {
+                            Habit.updateHabit(with: config.data, context: context)
+                        } else {
+                            Habit.createHabit(with: config.data, context: context)
+                        }
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Label(config.isEditing ? "Update habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
+                            .bold()
+                            .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
+                            .padding(8)
+                            .background {
+                                RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
+                            }
+                    }
+                    .disabled(config.isButtonDisabled)
+                    
+                    Spacer()
+                    
                 }
-                .padding(.top)
-                .disabled(config.isButtonDisabled)
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
@@ -139,6 +160,10 @@ struct AddHabitView_Previews: PreviewProvider {
         var body: some View {
             HabitEditorView(config: $config)
                 .environment(\.managedObjectContext, DataManager.preview.container.viewContext)
+                .onAppear{
+                    config.isEditing = true
+                    config.data.title = "Test"
+                }
         }
     }
     static var previews: some View {

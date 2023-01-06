@@ -137,9 +137,9 @@ extension Habit {
         
         let end = status == .complete ? Date() : Calendar.current.date(byAdding: timePeriod.component, value: -1, to: Date())!
         
-        let numDays = Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end)
+        let numDays = max(0,Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end))
         
-        let str: AttributedString = try! AttributedString(markdown: "**\(max(0,numDays))** \(timePeriod.unitName) streak")
+        let str: AttributedString = try! AttributedString(markdown: "**\(numDays)** \(timePeriod.unitName) streak")
         
         return str
     }
@@ -182,6 +182,10 @@ extension Habit {
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
             } else {
                 score = max(0, score - 0.2)
+            }
+            
+            if score.isEqual(to: 0.0) {
+                lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
             }
             
         }
@@ -300,6 +304,26 @@ extension Habit {
                 habit.update(with: data)
             } else {
                 createHabit(with: data, context: context)
+            }
+        case .failure(_):
+            print("Couldn't fetch Habit to save")
+        }
+        do {
+            try context.save()
+        } catch {
+            print("Couldn't save context", error.localizedDescription)
+        }
+    }
+    
+    static func deleteHabit(with data: HabitData, context: NSManagedObjectContext) {
+        let predicate = NSPredicate(format: "id = %@", data.id as CVarArg)
+        let result = DataManager.fetchFirst(Habit.self, predicate: predicate, context: context)
+        switch result {
+        case .success(let habit):
+            if let habit = habit {
+                context.delete(habit)
+            } else {
+                print("Couldn't find Habit to delete")
             }
         case .failure(_):
             print("Couldn't fetch Habit to save")

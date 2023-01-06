@@ -13,7 +13,6 @@ struct HabitEditorConfig {
     
     var isEditing = false
     var isSymbolPickerShown = false
-    
     var messageText = ""
     
     mutating func presentCreateHabit() {
