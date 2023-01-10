@@ -61,8 +61,7 @@ struct ContentView: View {
                                         }
                                     } label: {
                                         Image(systemName: habit.iconName)
-                                            .bold(selectedId == habit.id)
-                                            .foregroundColor(selectedId == habit.id ? habit.accentColor : Color(uiColor: UIColor.tertiaryLabel))
+                                            .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
                                             .padding(6)
                                             .padding(.horizontal, 2)
                                             .contentShape(Rectangle())
@@ -156,7 +155,7 @@ struct ContentView: View {
             }
             .onChange(of: habits.count) { _ in
                 withAnimation {
-                    selectedId = habits.first?.id ?? emptyId
+                    selectedId = habits.last?.id ?? emptyId
                 }
             }
         }
