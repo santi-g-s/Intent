@@ -14,7 +14,7 @@ struct HabitView: View {
     
     @Binding var habitEditorConfig: HabitEditorConfig
     
-    @State var habitScore = 0.0
+    @State var habitScore = 0.5
     @State var completionMap = [Date : Bool]()
     
     @State var showDetail = false

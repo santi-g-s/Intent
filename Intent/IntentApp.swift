@@ -13,7 +13,7 @@ struct IntentApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
     #if targetEnvironment(simulator)
-    var dataManager = DataManager.preview
+    var dataManager = DataManager.shared
     #else
     var dataManager = DataManager.shared
     #endif
@@ -25,15 +25,13 @@ struct IntentApp: App {
                 .onChange(of: scenePhase) { phase in
                     switch phase {
                     case .active:
-                        print("Active")
+                        return
                     case .inactive:
-                        print("Inactive")
                         dataManager.saveData()
                     case .background:
-                        print("background")
                         dataManager.saveData()
                     default:
-                        print("unknown")
+                        return 
                     }
                 }
         }

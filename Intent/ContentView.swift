@@ -61,7 +61,8 @@ struct ContentView: View {
                                         }
                                     } label: {
                                         Image(systemName: habit.iconName)
-                                            .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                                            .bold(selectedId == habit.id)
+                                            .foregroundColor(selectedId == habit.id ? habit.accentColor : Color(uiColor: UIColor.tertiaryLabel))
                                             .padding(6)
                                             .padding(.horizontal, 2)
                                             .contentShape(Rectangle())

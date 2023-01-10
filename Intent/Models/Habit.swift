@@ -144,6 +144,15 @@ extension Habit {
         return str
     }
     
+    var scheduleDescription: AttributedString {
+        
+        let times = self.requiredCount == 1 ? "time" : "times"
+        
+        var str: AttributedString = try! AttributedString(markdown: "Schedule: **\(self.requiredCount) \(times) a \(self.timePeriod.unitName)**")
+        
+        return str
+    }
+    
     var dateLastAtZero: Date {
         var lastDate = startDate
         var score = 0.0

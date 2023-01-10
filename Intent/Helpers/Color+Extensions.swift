@@ -33,7 +33,7 @@ extension Color {
         var r, g, b, a: CGFloat
         (r, g, b, a) = (0, 0, 0, 0)
         UIColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
-        let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        let luminance = 0.299 * r + 0.587 * g + 0.144 * b
         return  luminance < 0.50
 
     }
