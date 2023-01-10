@@ -128,14 +128,14 @@ struct ContentView: View {
                 case addNewId:
                     withAnimation {
                         selectedId = habits.last?.id ?? emptyId
+                        habitEditorConfig.presentCreateHabit()
+                        sheetType = .addHabit
                     }
-                    habitEditorConfig.presentCreateHabit()
-                    sheetType = .addHabit
                 case settingsId:
                     withAnimation {
                         selectedId = habits.first?.id ?? emptyId
+                        sheetType = .settings
                     }
-                    sheetType = .settings
                 default:
                     return
                 }

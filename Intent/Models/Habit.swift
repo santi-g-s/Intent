@@ -146,9 +146,18 @@ extension Habit {
     
     var scheduleDescription: AttributedString {
         
-        let times = self.requiredCount == 1 ? "time" : "times"
+        var count = ""
         
-        var str: AttributedString = try! AttributedString(markdown: "Schedule: **\(self.requiredCount) \(times) a \(self.timePeriod.unitName)**")
+        switch self.requiredCount {
+        case 1:
+            count = "Once"
+        case 2:
+            count = "Twice"
+        default:
+            count = "\(self.requiredCount) times"
+        }
+        
+        let str: AttributedString = try! AttributedString(markdown: "Schedule: **\(count) a \(self.timePeriod.unitName)**")
         
         return str
     }
