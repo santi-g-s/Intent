@@ -149,7 +149,7 @@ struct ContentView: View {
                                 }
                             }
                     } else if value == .settings {
-                        Text("Settings")
+                        SettingsView()
                     }
                 }
             }

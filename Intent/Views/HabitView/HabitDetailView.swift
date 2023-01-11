@@ -36,7 +36,7 @@ struct HabitDetailView: View {
         .frame(minWidth: 0, maxWidth: .infinity)
         .padding(8)
         .background {
-            RoundedRectangle(cornerRadius: 4, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .foregroundStyle(.regularMaterial)
         }
         .padding(.horizontal)
@@ -90,7 +90,7 @@ struct HabitDetailView: View {
                             .padding()
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             .background{
-                                RoundedRectangle(cornerRadius: 4)
+                                RoundedRectangle(cornerRadius: 8)
                                     .foregroundColor(Color(uiColor: UIColor.secondarySystemGroupedBackground))
                                     .shadow(color: Color.black.opacity(0.1), radius: 8)
                             }
@@ -113,7 +113,7 @@ struct HabitDetailView: View {
                 .multilineTextAlignment(.center)
                 .padding()
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .background(RoundedRectangle(cornerRadius: 4).foregroundStyle(.regularMaterial))
+                .background(RoundedRectangle(cornerRadius: 8).foregroundStyle(.regularMaterial))
                 .padding()
             }
         }
