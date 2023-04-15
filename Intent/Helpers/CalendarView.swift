@@ -120,7 +120,7 @@ struct MonthView<DateView>: View where DateView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         return Text(month.formatted(.dateTime.month(.abbreviated).year(.twoDigits)).uppercased())
-            .font(.title.bold())
+            .font(Font.system(.title, design: .rounded, weight: .bold))
             .foregroundStyle(.tertiary)
     }
 

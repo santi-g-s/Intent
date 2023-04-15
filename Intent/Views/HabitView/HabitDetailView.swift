@@ -24,11 +24,11 @@ struct HabitDetailView: View {
                 
             calendarView
         }
-        
     }
     
     var detailView: some View {
-        HStack {
+        HStack(spacing: 5){
+            Image(systemName: "calendar")
             Text(habit.scheduleDescription)
         }
         .font(.subheadline)
@@ -85,7 +85,7 @@ struct HabitDetailView: View {
                         Text(habit.messages[index])
                             .minimumScaleFactor(0.5)
                             .multilineTextAlignment(.center)
-                            .font(Font.system(.title3, design: .serif, weight: .regular))
+                            .font(.title3)
                             .foregroundStyle(.primary)
                             .padding()
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)

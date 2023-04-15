@@ -36,7 +36,7 @@ struct HabitView: View {
             Text(habit.title)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-                .font(Font.system(.largeTitle, design: .serif))
+                .font(Font.system(.largeTitle, design: .rounded))
                 .onTapGesture {
                     returnToTop.toggle()
                 }
@@ -186,7 +186,7 @@ struct HabitView: View {
             VStack {
                 if let dateStartedDescription = habit.streakDescription {
                     Text(dateStartedDescription)
-                        .font(Font.system(.subheadline, design: .serif))
+                        .font(.subheadline)
                         .foregroundColor(habit.accentColor)
                 }
                 

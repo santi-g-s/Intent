@@ -48,41 +48,48 @@ struct ContentView: View {
                     buttonSize = size
                 }
                 
-                Spacer()
-                
-                HStack {
-                    ScrollViewReader { proxy in
-                        ScrollView(.horizontal, showsIndicators: false){
-                            HStack(spacing: 0){
-                                ForEach(habits, id: \.id) { habit in
-                                    Button {
-                                        withAnimation {
-                                            selectedId = habit.id!
+                GeometryReader { geometry in
+                    HStack {
+                        Spacer()
+                        ScrollViewReader { proxy in
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 0) {
+                                    ForEach(habits, id: \.id) { habit in
+                                        Button {
+                                            withAnimation {
+                                                selectedId = habit.id!
+                                            }
+                                        } label: {
+                                            Image(systemName: habit.iconName)
+                                                .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                                                .padding(6)
+                                                .padding(.horizontal, 2)
+                                                .contentShape(Rectangle())
                                         }
-                                    } label: {
-                                        Image(systemName: habit.iconName)
-                                            .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
-                                            .padding(6)
-                                            .padding(.horizontal, 2)
-                                            .contentShape(Rectangle())
+                                        .id(habit.id!)
                                     }
-                                    .id(habit.id!)
+                                }
+                                .readSize { size in
+                                    indicatorViewSize = size
                                 }
                             }
-                            .readSize { size in
-                                indicatorViewSize = size
+                            .frame(width: min(indicatorViewSize.width, availableWidth))
+                            .onChange(of: selectedId) { newValue in
+                                withAnimation {
+                                    proxy.scrollTo(newValue)
+                                }
                             }
                         }
-                        .frame(width: min(indicatorViewSize.width, availableWidth))
-                        .onChange(of: selectedId) { newValue in
-                            withAnimation {
-                                proxy.scrollTo(newValue)
-                            }
-                        }
+                        .padding(.horizontal, 4)
+                        .background(Capsule().foregroundStyle(.regularMaterial))
+                        
+                        Spacer()
                     }
+                    
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .frame(height: indicatorViewSize.height, alignment: .center)
                 
                 Button {
                     selectedId = addNewId
