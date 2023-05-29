@@ -42,6 +42,7 @@ struct HabitView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .scaleEffect(max(2/3, min((250+scrollOffset.y) / 250, 1.2)), anchor: .top)
+                .padding(.top, 6)
             
             GeometryReader { geoReader in
                 ScrollViewReader { proxy in

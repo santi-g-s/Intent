@@ -29,14 +29,18 @@ struct ContentView: View {
     @ScaledMetric var scale: CGFloat = 1
     
     var availableWidth: CGFloat {
-        return UIScreen.main.bounds.width - 2*buttonSize.width - 2*16
+        return UIScreen.main.bounds.width - 2*buttonSize.width - 2*16 - 20
+    }
+    
+    var isScrollEnabled: Bool {
+        return indicatorViewSize.width > availableWidth
     }
 
     var body: some View {
         VStack(spacing: 0){
             HStack {
                 Button {
-                    selectedId = settingsId
+                    sheetType = .settings
                 } label: {
                     Image(systemName: "gearshape")
                         .imageScale(.large)
@@ -50,27 +54,53 @@ struct ContentView: View {
                 
                 GeometryReader { geometry in
                     HStack {
-                        Spacer()
+                        Spacer(minLength: 0)
+                        
                         ScrollViewReader { proxy in
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 0) {
-                                    ForEach(habits, id: \.id) { habit in
-                                        Button {
-                                            withAnimation {
-                                                selectedId = habit.id!
+                            
+                            HStack {
+                                if isScrollEnabled {
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: 0) {
+                                            ForEach(habits, id: \.id) { habit in
+                                                Button {
+                                                    withAnimation {
+                                                        selectedId = habit.id!
+                                                    }
+                                                } label: {
+                                                    Image(systemName: habit.iconName)
+                                                        .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                                                        .padding(6)
+                                                        .padding(.horizontal, 2)
+                                                        .contentShape(Rectangle())
+                                                }
+                                                .id(habit.id!)
                                             }
-                                        } label: {
-                                            Image(systemName: habit.iconName)
-                                                .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
-                                                .padding(6)
-                                                .padding(.horizontal, 2)
-                                                .contentShape(Rectangle())
                                         }
-                                        .id(habit.id!)
+                                        .readSize { size in
+                                            indicatorViewSize = size
+                                        }
                                     }
-                                }
-                                .readSize { size in
-                                    indicatorViewSize = size
+                                } else {
+                                    HStack(spacing: 0) {
+                                        ForEach(habits, id: \.id) { habit in
+                                            Button {
+                                                withAnimation {
+                                                    selectedId = habit.id!
+                                                }
+                                            } label: {
+                                                Image(systemName: habit.iconName)
+                                                    .foregroundColor(selectedId == habit.id ? Color.primary : Color(uiColor: UIColor.tertiaryLabel))
+                                                    .padding(6)
+                                                    .padding(.horizontal, 2)
+                                                    .contentShape(Rectangle())
+                                            }
+                                            .id(habit.id!)
+                                        }
+                                    }
+                                    .readSize { size in
+                                        indicatorViewSize = size
+                                    }
                                 }
                             }
                             .frame(width: min(indicatorViewSize.width, availableWidth))
@@ -83,16 +113,13 @@ struct ContentView: View {
                         .padding(.horizontal, 4)
                         .background(Capsule().foregroundStyle(.regularMaterial))
                         
-                        Spacer()
+                        Spacer(minLength: 0)
                     }
-                    
-                    
-                    Spacer()
                 }
                 .frame(height: indicatorViewSize.height, alignment: .center)
                 
                 Button {
-                    selectedId = addNewId
+                    sheetType = .addHabit
                 } label: {
                     Image(systemName: "plus")
                         .imageScale(.large)
