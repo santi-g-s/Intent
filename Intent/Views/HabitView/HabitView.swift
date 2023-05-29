@@ -193,6 +193,23 @@ struct HabitView: View {
         }
         .overlay(alignment: .top) {
             VStack {
+                
+                VStack(spacing: 4){
+                    
+                    Text("Swipe down to manage habits")
+                        .font(.caption)
+                        .bold()
+                        .foregroundColor(.gray.opacity(1/3))
+                    
+                    Image(systemName: "chevron.compact.down")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40)
+                        .foregroundColor(.gray.opacity(1/3))
+                    
+                }.padding(.top, -60)
+                
+                
                 if let dateStartedDescription = habit.streakDescription {
                     Text(dateStartedDescription)
                         .font(.subheadline)

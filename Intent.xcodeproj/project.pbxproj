@@ -196,8 +196,8 @@
 		C7889C61292D5A9D0064D89C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C79F66832A24334700DB0A04 /* HabitGroupView */,
 				C7DC9FE2296503490055ACEC /* HabitView */,
+				C79F66832A24334700DB0A04 /* HabitGroupView */,
 				C7DC9FE3296503580055ACEC /* HabitEditorView */,
 				C7ACD416296E332500AFF9AF /* SettingsView.swift */,
 			);
