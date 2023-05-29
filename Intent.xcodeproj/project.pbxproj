@@ -23,6 +23,9 @@
 		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
 		C7770467295B997500C24952 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
 		C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
+		C79F66872A24336800DB0A04 /* HabitGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79F66862A24336800DB0A04 /* HabitGroupView.swift */; };
+		C79F66892A24346700DB0A04 /* HabitGroupGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79F66882A24346700DB0A04 /* HabitGroupGridItem.swift */; };
+		C79F668F2A246AF100DB0A04 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = C79F668E2A246AF100DB0A04 /* SwiftUIKit */; };
 		C7ACD417296E332500AFF9AF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD416296E332500AFF9AF /* SettingsView.swift */; };
 		C7ACD419296E3C6600AFF9AF /* ComposeMailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD418296E3C6600AFF9AF /* ComposeMailView.swift */; };
 		C7ACD41B296E3F1700AFF9AF /* PrivacyPolicy.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C7ACD41A296E3F1700AFF9AF /* PrivacyPolicy.rtf */; };
@@ -64,6 +67,8 @@
 		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
 		C7770466295B997500C24952 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		C7889C5F292D5A630064D89C /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		C79F66862A24336800DB0A04 /* HabitGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGroupView.swift; sourceTree = "<group>"; };
+		C79F66882A24346700DB0A04 /* HabitGroupGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGroupGridItem.swift; sourceTree = "<group>"; };
 		C7ACD416296E332500AFF9AF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C7ACD418296E3C6600AFF9AF /* ComposeMailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeMailView.swift; sourceTree = "<group>"; };
 		C7ACD41A296E3F1700AFF9AF /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
@@ -81,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C79F668F2A246AF100DB0A04 /* SwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,11 +196,21 @@
 		C7889C61292D5A9D0064D89C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C79F66832A24334700DB0A04 /* HabitGroupView */,
 				C7DC9FE2296503490055ACEC /* HabitView */,
 				C7DC9FE3296503580055ACEC /* HabitEditorView */,
 				C7ACD416296E332500AFF9AF /* SettingsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C79F66832A24334700DB0A04 /* HabitGroupView */ = {
+			isa = PBXGroup;
+			children = (
+				C79F66862A24336800DB0A04 /* HabitGroupView.swift */,
+				C79F66882A24346700DB0A04 /* HabitGroupGridItem.swift */,
+			);
+			path = HabitGroupView;
 			sourceTree = "<group>";
 		};
 		C7DC9FE2296503490055ACEC /* HabitView */ = {
@@ -233,6 +249,7 @@
 			);
 			name = Intent;
 			packageProductDependencies = (
+				C79F668E2A246AF100DB0A04 /* SwiftUIKit */,
 			);
 			productName = Intent;
 			productReference = C73D0678292815370055B13B /* Intent.app */;
@@ -285,6 +302,7 @@
 			);
 			mainGroup = C73D066F292815370055B13B;
 			packageReferences = (
+				C79F668D2A246AF100DB0A04 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
 			);
 			productRefGroup = C73D0679292815370055B13B /* Products */;
 			projectDirPath = "";
@@ -333,6 +351,8 @@
 				C7AD52552960E54A00EA4221 /* PlaceholderHabitView.swift in Sources */,
 				C7ACD419296E3C6600AFF9AF /* ComposeMailView.swift in Sources */,
 				C7AD52532960B8D000EA4221 /* Button+Extensions.swift in Sources */,
+				C79F66892A24346700DB0A04 /* HabitGroupGridItem.swift in Sources */,
+				C79F66872A24336800DB0A04 /* HabitGroupView.swift in Sources */,
 				C723852129405E7E00901B43 /* CalendarView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C7770467295B997500C24952 /* Date+Extensions.swift in Sources */,
@@ -612,6 +632,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C79F668D2A246AF100DB0A04 /* XCRemoteSwiftPackageReference "SwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/SwiftUIKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C79F668E2A246AF100DB0A04 /* SwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C79F668D2A246AF100DB0A04 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
+			productName = SwiftUIKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */ = {

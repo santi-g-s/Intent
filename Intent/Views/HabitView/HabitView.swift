@@ -42,7 +42,6 @@ struct HabitView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .scaleEffect(max(2/3, min((250+scrollOffset.y) / 250, 1.2)), anchor: .top)
-                .padding(.top, 6)
             
             GeometryReader { geoReader in
                 ScrollViewReader { proxy in
@@ -58,6 +57,15 @@ struct HabitView: View {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.01){
                                         withAnimation(.easeInOut(duration: 0.1)){
                                             proxy.scrollTo(0, anchor: .top)
+                                        }
+                                        scrollHaptic()
+                                        
+                                    }
+                                } else if (offset.y > 120) {
+                                    habitEditorConfig.isGroupViewShown = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01){
+                                        withAnimation(.easeInOut(duration: 0.1)){
+                                            proxy.scrollTo("top", anchor: .top)
                                         }
                                         scrollHaptic()
                                         

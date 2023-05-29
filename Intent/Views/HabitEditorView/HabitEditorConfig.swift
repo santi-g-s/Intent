@@ -15,6 +15,8 @@ struct HabitEditorConfig {
     var isSymbolPickerShown = false
     var messageText = ""
     
+    var isGroupViewShown = false
+    
     mutating func presentCreateHabit() {
         data = HabitData()
         isEditing = false
