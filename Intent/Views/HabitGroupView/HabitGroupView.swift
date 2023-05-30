@@ -11,10 +11,14 @@ import UniformTypeIdentifiers
 
 struct HabitGroupView: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.startDate_)]) private var fetchedHabits: FetchedResults<Habit>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.order_)]) private var fetchedHabits: FetchedResults<Habit>
     @State private var draggedHabit: Habit?
     @State private var habits: [Habit] = []
+    
+    @Binding var selectedID: UUID
 
     var body: some View {
         
@@ -42,6 +46,12 @@ struct HabitGroupView: View {
                                     }
                             } else {
                                 HabitGroupGridItem(habit: habit)
+                                    .onTapGesture {
+                                        if let id = habit.id {
+                                            selectedID = id
+                                        }
+                                        dismiss()
+                                    }
                             }
                         }
                         .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -79,11 +89,27 @@ struct DropViewDelegate: DropDelegate {
     func dropEntered(info: DropInfo) {
         if let draggedItem = draggedItem {
             let fromIndex = habits.firstIndex(of: draggedItem)
-            if let fromIndex = fromIndex {
-                let toIndex = habits.firstIndex(of: destinationItem)
-                if let toIndex = toIndex, fromIndex != toIndex {
-                    withAnimation {
-                        self.habits.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
+            let toIndex = habits.firstIndex(of: destinationItem)
+
+            if let fromIndex = fromIndex, let toIndex = toIndex, fromIndex != toIndex {
+                withAnimation {
+                    self.habits.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
+
+                    // update order_ property in CoreData
+                    DispatchQueue.main.async {
+                        let rangeStart = min(fromIndex, toIndex)
+                        let rangeEnd = max(fromIndex, toIndex)
+                        for index in rangeStart...rangeEnd {
+                            self.habits[index].order_ = Int16(index)
+                        }
+                        
+                        #if targetEnvironment(simulator)
+                        let dataManager = DataManager.preview
+                        #else
+                        let dataManager = DataManager.shared
+                        #endif
+                        
+                        dataManager.saveData()
                     }
                 }
             }
@@ -92,58 +118,9 @@ struct DropViewDelegate: DropDelegate {
 }
 
 
-struct TestView: View {
-    @State private var isLongPress = false
-
-    var body: some View {
-        ScrollView {
-            VStack {
-                Button(action: {
-                    print("Button 1 Tapped")
-                }) {
-                    Text("Button 1")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                }
-
-                Button(action: {
-                    print("Button 2 Tapped")
-                }) {
-                    Text("Button 2")
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                }
-            }
-            .padding()
-            .background(isLongPress ? Color.green : Color.gray)
-            .onLongPressGesture(minimumDuration: 1.0, maximumDistance: 1.0, perform: {
-                print("Long Press Detected")
-            }, onPressingChanged: { newValue in
-                isLongPress = newValue
-            })
-//            .simultaneousGesture(
-//                LongPressGesture(minimumDuration: 1.0)
-//                    .updating($isLongPress) { currentState, gestureState, transaction in
-//                        gestureState = currentState
-//                    }
-//                    .onEnded { _ in
-//                        print("Long Press Detected")
-//                    }
-//            )
-
-            ForEach(0..<100, id: \.self ) { idx in
-                Text("\(idx)")
-            }
-        }
-    }
-}
-
-
 struct HabitGroupView_Previews: PreviewProvider {
     static var previews: some View {
-        TestView()
+        HabitGroupView(selectedID: .constant(UUID()))
             .environment(\.managedObjectContext, DataManager.preview.container.viewContext)
     }
 }

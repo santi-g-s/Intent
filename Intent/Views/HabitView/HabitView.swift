@@ -194,7 +194,7 @@ struct HabitView: View {
         .overlay(alignment: .top) {
             VStack {
                 
-                VStack(spacing: 4){
+                VStack {
                     
                     Text("Swipe down to manage habits")
                         .font(.caption)

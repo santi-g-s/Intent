@@ -12,7 +12,7 @@ import SwiftUIKit
 struct ContentView: View {
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.startDate_)]) var habits: FetchedResults<Habit>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.order_)]) var habits: FetchedResults<Habit>
     
     @State private var selectedId = UUID()
     
@@ -102,7 +102,7 @@ struct ContentView: View {
                     } else if value == .settings {
                         SettingsView()
                     } else if value == .habitGroup {
-                        HabitGroupView()
+                        HabitGroupView(selectedID: $selectedId)
                     }
                 }
             }

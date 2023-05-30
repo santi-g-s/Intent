@@ -105,6 +105,15 @@ extension Habit {
         }
     }
     
+    var order: Int {
+        get {
+            return Int(order_)
+        }
+        set {
+            order_ = Int16(newValue)
+        }
+    }
+    
     //MARK: - Convenience Variables
     
     /**
@@ -384,6 +393,7 @@ extension Habit {
             habit.startDate_ = Date().addingTimeInterval(-60*60*(24)*1*10)
             habit.requiredCount = 3
             habit.timePeriod = .daily
+            habit.order = i
             habit.messages_ = ["Remember why you are doing this", "It's the foundation for your happiness"]
             habit.iconName_ = ["figure.run", "book", "star", "paintbrush.pointed", "tennis.racket", "powersleep", "drop", "lamp.table"].randomElement()
             habit.accentColor = Color.random()
