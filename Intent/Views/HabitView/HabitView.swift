@@ -15,7 +15,7 @@ struct HabitView: View {
     @Binding var habitEditorConfig: HabitEditorConfig
     
     @State var habitScore = 0.5
-    @State var completionMap = [Date : Bool]()
+    @State var completionMap = [Date : Int]()
     
     @State var showDetail = false
     @State var scrollOffset: CGPoint = .zero
@@ -70,7 +70,6 @@ struct HabitView: View {
                                             proxy.scrollTo("top", anchor: .top)
                                         }
                                         scrollHaptic()
-                                        
                                     }
                                 }
                             } else {
@@ -224,7 +223,7 @@ struct HabitView: View {
                     
                     if habit.completionsInPeriod >= habit.requiredCount {
                         Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
-                            .bold()
+                            .font(.system(.body, design: .rounded, weight: .bold))
                             .foregroundColor(habit.accentColor)
                             .padding(16)
                             .background(Circle().foregroundStyle(.regularMaterial))

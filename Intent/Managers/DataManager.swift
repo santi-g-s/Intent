@@ -20,7 +20,7 @@ class DataManager {
     
     static let preview: DataManager = {
         let manager = DataManager(.inMemory)
-        let habits = Habit.makePreviews(count: 16, context: manager.container.viewContext)
+        let habits = Habit.makePreviews(count: 5, context: manager.container.viewContext)
         return manager
     }()
     

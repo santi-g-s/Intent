@@ -94,6 +94,7 @@ struct ContentView: View {
                 Group {
                     if value == .addHabit {
                         HabitEditorView(config: $habitEditorConfig)
+                            .presentationDragIndicator(.visible)
                             .onDisappear {
                                 withAnimation {
                                     selectedId = habits.last?.id ?? emptyId
@@ -101,8 +102,14 @@ struct ContentView: View {
                             }
                     } else if value == .settings {
                         SettingsView()
+                            .presentationDragIndicator(.visible)
+
                     } else if value == .habitGroup {
                         HabitGroupView(selectedID: $selectedId)
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.visible)
+
+                            
                     }
                 }
             }

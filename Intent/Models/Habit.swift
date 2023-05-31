@@ -300,8 +300,7 @@ extension Habit {
         return score
     }
     
-    func calculateCompletionMap() -> [Date : Bool] {
-        var completionMap = [Date: Bool]()
+    func calculateCompletionMap() -> [Date : Int] {
         var countMap = [Date: Int]()
         for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: .day) {
             countMap[Calendar.current.standardizedDate(date)] = 0
@@ -310,11 +309,7 @@ extension Habit {
             countMap[Calendar.current.standardizedDate(date)]! += 1
         }
         
-        for entry in countMap {
-            // Changed here instead of >= requiredCount
-            completionMap[entry.key] = entry.value >= 1 ? true : false
-        }
-        return completionMap
+        return countMap
     }
     
     private func update(with data: HabitData) {

@@ -10,7 +10,7 @@ import SwiftUI
 struct HabitDetailView: View {
     
     @ObservedObject var habit: Habit
-    var completionMap: [Date : Bool]
+    var completionMap: [Date : Int]
     
     @State var index = 0
     
@@ -45,32 +45,46 @@ struct HabitDetailView: View {
     var calendarView: some View {
         CalendarView(interval: DateInterval(start: habit.startDate.adding(.month, value: -2), end: Date())) { date in
             
-            let isComplete = completionMap[Calendar.current.standardizedDate(date)] == true
-            
-            if !isComplete {
-                Text("30")
-                    .hidden()
-                    .padding(8)
-                    .background(.clear)
-                    .clipShape(Circle())
-                    .padding(.vertical, 4)
-                    .overlay(
-                        Text(String(Calendar.current.component(.day, from: date)))
-                            .foregroundColor(.secondary)
-                            .fontWeight(.regular)
-                    )
-            } else {
-                Text("30")
-                    .hidden()
-                    .padding(8)
-                    .background(habit.accentColor)
-                    .clipShape(Circle())
-                    .padding(.vertical, 4)
-                    .overlay(
-                        Text(String(Calendar.current.component(.day, from: date)))
-                            .foregroundColor(habit.accentColor.isDarkBackground() ? .white : .black)
-                            .fontWeight(.bold)
-                    )
+            let isComplete = completionMap[Calendar.current.standardizedDate(date)] ?? 0 >= 1
+            Group {
+                if !isComplete {
+                    Text("30")
+                        .hidden()
+                        .padding(8)
+                        .background(.clear)
+                        .clipShape(Circle())
+                        .padding(.vertical, 4)
+                        .overlay(
+                            Text(String(Calendar.current.component(.day, from: date)))
+                                .foregroundColor(.secondary)
+                                .fontWeight(.regular)
+                        )
+                } else {
+                    Text("30")
+                        .hidden()
+                        .padding(8)
+                        .background(habit.accentColor)
+                        .clipShape(Circle())
+                        .padding(.vertical, 4)
+                        .overlay(
+                            Text(String(Calendar.current.component(.day, from: date)))
+                                .foregroundColor(habit.accentColor.isDarkBackground() ? .white : .black)
+                                .fontWeight(.bold)
+                                
+                        )
+                        .overlay(alignment: .topTrailing, content: {
+                            if completionMap[Calendar.current.standardizedDate(date)] ?? 0 > 1, let multiplier = completionMap[Calendar.current.standardizedDate(date)] ?? 0 {
+                                
+                                Text("x\(multiplier)")
+                                    .foregroundColor(.secondary)
+                                    .font(.system(.caption, design: .rounded, weight: .bold))
+                                    .padding(2)
+                                    .background(Circle().foregroundStyle(.regularMaterial))
+                                    .offset(x: 4, y: -4)
+                            }
+                            
+                        })
+                }
             }
             
         }
