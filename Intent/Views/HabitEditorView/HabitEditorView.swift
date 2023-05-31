@@ -53,11 +53,18 @@ struct HabitEditorView: View {
                     }
                     .pickerStyle(.segmented)
                     
+//                    Picker("Completion Type", selection: $config.data.completionType) {
+//                        Text("=").tag(CompletionType.equalTo)
+//                        Text(">").tag(CompletionType.greaterThan)
+//                    }
+//                    .pickerStyle(.segmented)
+                    
                     Picker("How many times a \(config.data.timePeriod.unitName)", selection: $config.data.requiredCount) {
                         ForEach(1...10, id: \.self) { index in
                             Text("\(index)")
                         }
                     }
+                    .pickerStyle(.automatic)
                 }
                 
                 Section("Messages") {

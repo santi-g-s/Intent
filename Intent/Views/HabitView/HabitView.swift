@@ -26,6 +26,7 @@ struct HabitView: View {
     
     @State private var presentEditHabit = false
     
+    @State private var bounce = false
     
     var availableWidth: CGFloat {
         max(0,(UIScreen.main.bounds.width - 2*40) * habitScore - 12)
@@ -36,12 +37,13 @@ struct HabitView: View {
             Text(habit.title)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-                .font(Font.system(.largeTitle, design: .rounded))
+                .font(Font.system(.largeTitle, design: .rounded, weight: .bold))
                 .onTapGesture {
                     returnToTop.toggle()
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .scaleEffect(max(2/3, min((250+scrollOffset.y) / 250, 1.2)), anchor: .top)
+                .padding(.top, 4)
             
             GeometryReader { geoReader in
                 ScrollViewReader { proxy in
@@ -183,7 +185,6 @@ struct HabitView: View {
                                     }
                                 }
                             }
-                            
                         }
                         .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
                 }
@@ -191,6 +192,7 @@ struct HabitView: View {
             }
             .frame(minHeight: 0, maxHeight: .infinity)
         }
+        .padding(.horizontal, 40)
         .overlay(alignment: .top) {
             VStack {
                 
@@ -218,6 +220,44 @@ struct HabitView: View {
                 
                 Spacer()
                 
+                HStack(alignment: .bottom){
+                    
+                    if habit.completionsInPeriod >= habit.requiredCount {
+                        Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
+                            .bold()
+                            .foregroundColor(habit.accentColor)
+                            .padding(16)
+                            .background(Circle().foregroundStyle(.regularMaterial))
+                            .scaleEffect(bounce ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.1), value: bounce)
+                            .onChange(of: habit.completionsInPeriod) { newValue in
+                                bounce.toggle()  // this will trigger the bounce animation
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    bounce = false
+                                }
+                            }
+                    }
+                    
+                    Spacer()
+                    
+                    if habit.status != .pending(0) {
+                        Button {
+                            habit.revertCompletion()
+                        } label: {
+                            Image(systemName: "arrow.counterclockwise")
+                                .foregroundColor(.primary)
+                                .padding(8)
+                                .background(Circle().foregroundStyle(.regularMaterial))
+                                
+                        }
+                    }
+                    
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+                .padding(.horizontal)
+                
+                
+                
                 Text(showDetail ? "See less" : "See more")
                     .font(.caption)
                     .bold()
@@ -230,7 +270,7 @@ struct HabitView: View {
             }
             
         }
-        .padding(.horizontal, 40)
+        
     }
     
     func prepareHaptics() {

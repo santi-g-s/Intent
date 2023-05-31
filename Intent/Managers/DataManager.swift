@@ -73,6 +73,16 @@ class DataManager {
         }
     }
     
+    static func count<T: NSManagedObject>(_ objectType: T.Type, context: NSManagedObjectContext) -> Result<Int?, Error> {
+        let request = objectType.fetchRequest()
+        do {
+            let result = try context.fetch(request) as? [T]
+            return .success(result?.count)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
     func saveData() {
         if viewContext.hasChanges {
             do {

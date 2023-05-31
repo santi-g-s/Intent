@@ -114,6 +114,15 @@ extension Habit {
         }
     }
     
+    var completionType: CompletionType {
+        get {
+            return CompletionType(rawValue: Int(completionType_)) ?? .equalTo
+        }
+        set {
+            completionType_ = Int16(newValue.rawValue)
+        }
+    }
+    
     //MARK: - Convenience Variables
     
     /**
@@ -137,6 +146,19 @@ extension Habit {
         }
         
         return .complete
+    }
+    
+    var completionsInPeriod: Int {
+        var count = 0
+        
+        var dates = completedDates
+        
+        while let lastDate = dates.last, Calendar.current.isDate(lastDate, inSame: timePeriod.component, as: Date()) {
+            count += 1
+            dates.removeLast()
+        }
+        
+        return count
     }
     
     /**
@@ -228,13 +250,12 @@ extension Habit {
      Note, this is the only place where `score` gets changed.
      */
     func complete() {
-        switch status {
-        case .complete:
-            while let last = completedDates.last, Calendar.current.isDate(last, inSame: timePeriod.component, as: Date()) {
-                completedDates.removeLast()
-            }
-        case .pending(_):
-            completedDates.append(Date())
+        completedDates.append(Date())
+    }
+    
+    func revertCompletion() {
+        if let last = completedDates.last, Calendar.current.isDate(last, inSame: timePeriod.component, as: Date()) {
+            completedDates.removeLast()
         }
     }
     
@@ -303,6 +324,7 @@ extension Habit {
         self.accentColor = data.accentColor
         self.iconName = data.iconName
         self.messages = data.messages
+        self.completionType = data.completionType
     }
     
     //MARK: - Static Methods
@@ -311,6 +333,16 @@ extension Habit {
     static func createHabit(with data: HabitData, context: NSManagedObjectContext) -> Habit {
         let habit = Habit(context: context)
         habit.id = data.id
+        
+        let result = DataManager.count(Habit.self, context: context)
+        
+        switch result {
+        case .success(let count):
+            habit.order = count ?? 0
+        case .failure(_):
+            habit.order = 0
+        }
+        
         habit.update(with: data)
         
         do {
@@ -394,6 +426,7 @@ extension Habit {
             habit.requiredCount = 3
             habit.timePeriod = .daily
             habit.order = i
+            habit.completionType = .equalTo
             habit.messages_ = ["Remember why you are doing this", "It's the foundation for your happiness"]
             habit.iconName_ = ["figure.run", "book", "star", "paintbrush.pointed", "tennis.racket", "powersleep", "drop", "lamp.table"].randomElement()
             habit.accentColor = Color.random()
@@ -446,6 +479,20 @@ enum TimePeriod: Int {
     }
 }
 
+enum CompletionType: Int {
+    case equalTo = 1
+    case greaterThan = 2
+    
+    var description: String {
+        switch self {
+        case .equalTo:
+            return "Exactly"
+        case .greaterThan:
+            return "More than"
+        }
+    }
+}
+
 struct HabitData: Identifiable {
     
     var id: UUID
@@ -456,6 +503,7 @@ struct HabitData: Identifiable {
     var accentColor: Color = Color.accentColor
     var iconName: String = "star"
     var messages = [String]()
+    var completionType: CompletionType = .equalTo
     
     init() {
         self.id = UUID()
@@ -470,5 +518,6 @@ struct HabitData: Identifiable {
         self.accentColor = habit.accentColor
         self.iconName = habit.iconName
         self.messages = habit.messages
+        self.completionType = habit.completionType
     }
 }
