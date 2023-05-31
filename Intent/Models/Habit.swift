@@ -311,7 +311,8 @@ extension Habit {
         }
         
         for entry in countMap {
-            completionMap[entry.key] = entry.value >= requiredCount ? true : false
+            // Changed here instead of >= requiredCount
+            completionMap[entry.key] = entry.value >= 1 ? true : false
         }
         return completionMap
     }
