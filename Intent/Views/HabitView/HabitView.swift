@@ -165,6 +165,7 @@ struct HabitView: View {
                         .foregroundColor(habit.accentColor.opacity(habit.status == .complete ? 1 : 0.75))
                         .shadow(color: habit.accentColor.adjust(brightness: -0.3).opacity(0.2), radius: habit.status == .complete ? 16 : 0, x: 0, y: 0)
                         .scaleEffect(habitScore)
+                        .scaleEffect(bounce ? 1.1 : 1)
                         .overlay {
                             Group {
                                 switch habit.status {
@@ -185,7 +186,13 @@ struct HabitView: View {
                                 }
                             }
                         }
-                        .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: habitScore)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: bounce)
+                        .onChange(of: habit.completionsInPeriod) { newValue in
+                            bounce.toggle()  // this will trigger the bounce animation
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                bounce = false
+                            }
+                        }
                 }
                 .buttonStyle(ScaleButtonStyle())
             }
@@ -219,53 +226,57 @@ struct HabitView: View {
                 
                 Spacer()
                 
-                HStack(alignment: .bottom){
-                    
-                    if habit.completionsInPeriod >= habit.requiredCount {
-                        Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
-                            .font(.system(.body, design: .rounded, weight: .bold))
-                            .foregroundColor(habit.accentColor)
-                            .padding(16)
-                            .background(Circle().foregroundStyle(.regularMaterial))
-                            .scaleEffect(bounce ? 1.1 : 1.0)
-                            .animation(.easeInOut(duration: 0.1), value: bounce)
-                            .onChange(of: habit.completionsInPeriod) { newValue in
-                                bounce.toggle()  // this will trigger the bounce animation
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    bounce = false
-                                }
-                            }
-                    }
-                    
-                    Spacer()
-                    
-                    if habit.status != .pending(0) {
-                        Button {
-                            habit.revertCompletion()
-                        } label: {
-                            Image(systemName: "arrow.counterclockwise")
-                                .foregroundColor(.primary)
-                                .padding(8)
-                                .background(Circle().foregroundStyle(.regularMaterial))
-                                
-                        }
-                    }
-                    
+                
+                
+                
+                VStack {
+                    Text(showDetail ? "See less" : "See more")
+                        .font(.caption)
+                        .bold()
+                        .foregroundColor(.gray.opacity(1/3))
+                    Image(systemName: showDetail ? "chevron.compact.down" : "chevron.compact.up")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40)
+                        .foregroundColor(.gray.opacity(1/3))
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                .overlay(alignment: .bottom) {
+                    HStack(alignment: .bottom){
+                        
+                        if habit.completionsInPeriod >= habit.requiredCount {
+                            Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
+                                .font(.system(.body, design: .rounded, weight: .bold))
+                                .foregroundColor(habit.accentColor)
+                                .padding(16)
+                                .background(Circle().foregroundStyle(.regularMaterial))
+                                .scaleEffect(bounce ? 1.1 : 1.0)
+                                .animation(.easeInOut(duration: 0.1), value: bounce)
+                        }
+                        
+                        Spacer()
+                        
+                        
+                        
+                        Spacer()
+                        
+                        if habit.status != .pending(0) {
+                            Button {
+                                habit.revertCompletion()
+                            } label: {
+                                Image(systemName: "arrow.counterclockwise")
+                                    .foregroundColor(.primary)
+                                    .padding(8)
+                                    .background(Circle().foregroundStyle(.regularMaterial))
+                                    
+                            }
+                        }
+                        
+                    }
+                }
                 .padding(.horizontal)
                 
                 
-                
-                Text(showDetail ? "See less" : "See more")
-                    .font(.caption)
-                    .bold()
-                    .foregroundColor(.gray.opacity(1/3))
-                Image(systemName: showDetail ? "chevron.compact.down" : "chevron.compact.up")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 40)
-                    .foregroundColor(.gray.opacity(1/3))
             }
             
         }

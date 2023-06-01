@@ -129,11 +129,15 @@ struct MonthView<DateView>: View where DateView: View {
             if showHeader {
                 header
                 HStack {
-                    ForEach(formatter.veryShortWeekdaySymbols.indices, id: \.self) { index in
-                        Text(formatter.veryShortWeekdaySymbols[index].description)
+                    let firstWeekday = calendar.firstWeekday
+                    let weekdays = formatter.veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
+                    let orderedWeekdays = Array(weekdays[(firstWeekday - 1)...]) + Array(weekdays[0..<(firstWeekday - 1)])
+
+                    ForEach(orderedWeekdays.indices, id: \.self) { index in
+                        Text(orderedWeekdays[index].description)
                             .font(.subheadline.bold())
                             .foregroundStyle(.tertiary)
-                        if index != formatter.veryShortWeekdaySymbols.count-1 {
+                        if index != orderedWeekdays.count-1 {
                             Spacer()
                         }
                     }

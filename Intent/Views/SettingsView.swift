@@ -17,7 +17,10 @@ struct SettingsView: View {
             ScrollView {
                 VStack(spacing: 40){
                     VStack(spacing: 20){
-                        AppIcon()
+                        Image("IntentIcon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
                             .padding(.top, 80)
                     
                         VStack {
