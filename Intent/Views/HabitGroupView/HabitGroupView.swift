@@ -38,21 +38,22 @@ struct HabitGroupView: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
                     ForEach(habits, id: \.self) { habit in
                         VStack {
-                            if draggedHabit == habit {
-                                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .foregroundStyle(.regularMaterial)
-                                    .overlay {
-                                        Image(systemName: "plus")
+                            HabitGroupGridItem(habit: habit)
+                                .onTapGesture {
+                                    if let id = habit.id {
+                                        selectedID = id
                                     }
-                            } else {
-                                HabitGroupGridItem(habit: habit)
-                                    .onTapGesture {
-                                        if let id = habit.id {
-                                            selectedID = id
-                                        }
-                                        dismiss()
+                                    dismiss()
+                                }
+                                .overlay {
+                                    if draggedHabit == habit {
+                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                            .foregroundStyle(.regularMaterial)
+                                            .overlay {
+                                                Image(systemName: "plus")
+                                            }
                                     }
-                            }
+                                }
                         }
                         .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
 
