@@ -17,6 +17,9 @@ struct HabitEditorConfig {
     
     var isGroupViewShown = false
     
+    var createdHabitId: UUID? = nil
+    var didDeleteHabit = false
+    
     mutating func presentCreateHabit() {
         data = HabitData()
         isEditing = false

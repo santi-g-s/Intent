@@ -244,15 +244,14 @@ struct HabitView: View {
                 .overlay(alignment: .bottom) {
                     HStack(alignment: .bottom){
                         
-                        if habit.completionsInPeriod >= habit.requiredCount {
-                            Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
-                                .font(.system(.body, design: .rounded, weight: .bold))
-                                .foregroundColor(habit.accentColor)
-                                .padding(16)
-                                .background(Circle().foregroundStyle(.regularMaterial))
-                                .scaleEffect(bounce ? 1.1 : 1.0)
-                                .animation(.easeInOut(duration: 0.1), value: bounce)
-                        }
+                        Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                            .foregroundColor(habit.accentColor)
+                            .padding(16)
+                            .background(Circle().foregroundStyle(.regularMaterial))
+                            .scaleEffect(bounce ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.1), value: bounce)
+                        
                         
                         Spacer()
                         
@@ -268,7 +267,8 @@ struct HabitView: View {
                                     .foregroundColor(.primary)
                                     .padding(8)
                                     .background(Circle().foregroundStyle(.regularMaterial))
-                                    
+                                    .padding(.trailing, 6)
+            
                             }
                         }
                         

@@ -115,6 +115,7 @@ struct HabitEditorView: View {
                         Spacer()
                         Button {
                             Habit.deleteHabit(with: config.data, context: context)
+                            config.didDeleteHabit = true
                             presentationMode.wrappedValue.dismiss()
                         } label: {
                             Label("Delete Habit", systemImage: "trash")
@@ -131,7 +132,8 @@ struct HabitEditorView: View {
                         if config.isEditing {
                             Habit.updateHabit(with: config.data, context: context)
                         } else {
-                            Habit.createHabit(with: config.data, context: context)
+                            let newHabit = Habit.createHabit(with: config.data, context: context)
+                            config.createdHabitId = newHabit.id
                         }
                         presentationMode.wrappedValue.dismiss()
                     } label: {

@@ -91,31 +91,32 @@ struct ContentView: View {
                 }
             }
             .sheet(item: $sheetType) { value in
-                Group {
-                    if value == .addHabit {
-                        HabitEditorView(config: $habitEditorConfig)
-                            .presentationDragIndicator(.visible)
-                            .onDisappear {
-                                withAnimation {
-                                    selectedId = habits.last?.id ?? emptyId
+                switch value {
+                case .addHabit:
+                    HabitEditorView(config: $habitEditorConfig)
+                        .onDisappear {
+                            withAnimation {
+                                if let id = habitEditorConfig.createdHabitId {
+                                    selectedId = id
+                                    habitEditorConfig.createdHabitId = nil
                                 }
                             }
-                    } else if value == .settings {
-                        SettingsView()
-                            .presentationDragIndicator(.visible)
-
-                    } else if value == .habitGroup {
-                        HabitGroupView(selectedID: $selectedId)
-                            .presentationDetents([.medium, .large])
-                            .presentationDragIndicator(.visible)
-
-                            
-                    }
+                        }
+                case .settings:
+                    SettingsView()
+                case.habitGroup:
+                    HabitGroupView(selectedID: $selectedId)
+                        .presentationDetents([.medium, .large])
+                        .presentationDragIndicator(.visible)
+                    
                 }
             }
             .onChange(of: habits.count) { _ in
                 withAnimation {
-                    selectedId = habits.last?.id ?? emptyId
+                    if habitEditorConfig.didDeleteHabit {
+                        selectedId = habits.last?.id ?? emptyId
+                        habitEditorConfig.didDeleteHabit = false
+                    }
                 }
             }
         }
