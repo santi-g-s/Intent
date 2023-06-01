@@ -162,13 +162,13 @@ extension Habit {
     }
     
     /**
-     A string that describes how long ago the habit was started.
+     A string that describes how long ago the habit streak was kept alive.
      */
     var streakDescription: AttributedString {
         
         let end = status == .complete ? Date() : Calendar.current.date(byAdding: timePeriod.component, value: -1, to: Date())!
         
-        let numDays = max(0,Calendar.current.numberOfInclusive(component: timePeriod.component, from: dateLastAtZero, and: end))
+        let numDays = max(0,Calendar.current.numberOfInclusive(component: timePeriod.component, from: startOfMostRecentStreak, and: end))
         
         let str: AttributedString = try! AttributedString(markdown: "**\(numDays)** \(timePeriod.unitName) streak")
         
@@ -193,54 +193,56 @@ extension Habit {
         return str
     }
     
-    var dateLastAtZero: Date {
+    /**
+     Calculates the last date when the habit's score most recently went from 0 to a value greater than 0, incdicating the start of the most recent streak
+     
+     - Returns: The first date (corresponding to a completion of a task) of the most recent streak
+     */
+    var startOfMostRecentStreak: Date {
         var lastDate = startDate
         var score = 0.0
+        var prevScore = 0.0
         var trackerIndex: Int = 0
+        
+        // Iterate through each date from the startDate to today
         for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: timePeriod.component) {
             
-            // Reduce score for each date not in `completedDates`
-            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
-                score = max(0, score - 0.2)
-                if score.isEqual(to: 0.0) {
-                    lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-                }
-                continue
-            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
-                // If you reach the end of completedDates then reduce score until today.
-                score = max(0, score - 0.2)
-                if score.isEqual(to: 0.0) {
-                    lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-                }
-                continue
-            }
-            
+            // Count how many times the habit was completed on the current date
             var count = 0
-            
-            // Once you reach a date that is in completed date, increase the count and move on to the next index for each date in the specified period
             while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
                 trackerIndex += 1
                 count += 1
             }
             
-            // Check if reached requirement and if so, increase score
+            // Check if the habit was completed enough times on the current date
             if count >= requiredCount {
+                // The habit was completed, so increment the score (up to a maximum of 1)
                 score = min(1, score + 0.1)
             } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
-                // Otherwise if today, then add incremental score
+                // For today, add incremental score proportional to the fraction of requiredCount that was met
                 score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
             } else {
+                // The habit was not completed, so decrement the score (down to a minimum of 0)
                 score = max(0, score - 0.2)
             }
             
-            if score.isEqual(to: 0.0) {
-                lastDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            // Check if the score was 0 before and is now greater than 0
+            if prevScore == 0.0 && score > 0.0 {
+                lastDate = date
             }
             
+            // Store the previous score
+            prevScore = score
+        }
+        
+        // If the score is 0 at the end of the loop (or less than 0.1 for Date()), return the current date
+        if score < 0.1 {
+            return Date()
         }
         
         return lastDate
     }
+
     
     //MARK: - Object Methods
     
@@ -264,33 +266,49 @@ extension Habit {
      */
     func calculateScore() -> Double {
         var score = 0.0
-        var trackerIndex: Int = 0
-        for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: timePeriod.component) {
+        var trackerIndex = 0
+        
+        let allDates = Calendar.current.dates(from: startDate,
+                                              through: Date(),
+                                              steppingBy: timePeriod.component)
+        
+        for date in allDates {
             
-            // Reduce score for each date not in `completedDates`
-            if trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedAscending {
-                score = max(0, score - 0.2)
-                continue
-            } else if trackerIndex >= completedDates.count && Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) != .orderedSame {
-                // If you reach the end of completedDates then reduce score until today.
+            // Extracted the comparison into a variable for clarity
+            let isDateEarlierThanCompleted = trackerIndex < completedDates.count &&
+                Calendar.current.compare(date,
+                                         to: completedDates[trackerIndex],
+                                         toGranularity: timePeriod.component) == .orderedAscending
+            
+            let isBeyondCompletedDates = trackerIndex >= completedDates.count &&
+                Calendar.current.compare(date,
+                                         to: Date(),
+                                         toGranularity: timePeriod.component) != .orderedSame
+
+            // Handle scenarios where score should be reduced
+            if isDateEarlierThanCompleted || isBeyondCompletedDates {
                 score = max(0, score - 0.2)
                 continue
             }
             
+            // Count completed dates
             var count = 0
-            
-            // Once you reach a date that is in completed date, increase the count and move on to the next index for each date in the specified period
-            while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
+            while trackerIndex < completedDates.count,
+                Calendar.current.compare(date,
+                                         to: completedDates[trackerIndex],
+                                         toGranularity: timePeriod.component) == .orderedSame {
                 trackerIndex += 1
                 count += 1
             }
             
-            // Check if reached requirement and if so, increase score
-            if count >= requiredCount {
+            // Handle scenarios where score should be increased
+            let isToday = Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame
+            let requirementReached = count >= requiredCount
+            
+            if requirementReached {
                 score = min(1, score + 0.1)
-            } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
-                // Otherwise if today, then add incremental score
-                score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
+            } else if isToday {
+                score = min(1, score + (0.1 / Double(requiredCount)) * Double(count))
             } else {
                 score = max(0, score - 0.2)
             }
@@ -299,6 +317,7 @@ extension Habit {
         
         return score
     }
+
     
     func calculateCompletionMap() -> [Date : Int] {
         var countMap = [Date: Int]()

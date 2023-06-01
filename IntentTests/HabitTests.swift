@@ -127,7 +127,7 @@ final class HabitTests: XCTestCase {
         
         
         let expected = NSAttributedString(habit.streakDescription).string
-        XCTAssertEqual("0 day streak", expected)
+        XCTAssertEqual(expected, "0 day streak")
     }
     
     func test_StreakDescription_IncompleteThisPeriod_Daily() {
@@ -480,6 +480,155 @@ final class HabitTests: XCTestCase {
         habit.complete()
         XCTAssertEqual(HabitStatus.complete, habit.status)
     }
+    
+    //MARK: - Streak Description Daily Edge Cases
+
+    func test_StreakDescription_HighRequiredCount_Daily() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.day, value: -5)
+        habit.timePeriod = .daily
+        habit.requiredCount = 10
+        habit.completedDates = [
+            Date().adding(.day, value: -5),
+            Date().adding(.day, value: -4),
+            Date().adding(.day, value: -3),
+            Date().adding(.day, value: -2),
+            Date().adding(.day, value: -1),
+            Date()
+        ]
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("0 day streak", expected)
+    }
+
+    func test_StreakDescription_StartsInFuture_Daily() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.day, value: 1)
+        habit.timePeriod = .daily
+        habit.requiredCount = 1
+        habit.completedDates = []
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("0 day streak", expected)
+    }
+
+    func test_StreakDescription_LongPeriodOfInactivity_Daily() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.day, value: -100)
+        habit.timePeriod = .daily
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().adding(.day, value: -100),
+            Date().adding(.day, value: -99),
+            Date().adding(.day, value: -98),
+            Date().adding(.day, value: -97),
+            Date().adding(.day, value: -96),
+            Date()
+        ]
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("1 day streak", expected)
+    }
+
+    //MARK: - Streak Description Weekly Edge Cases
+
+    func test_StreakDescription_HighRequiredCount_Weekly() {
+        print("Beginning test")
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.weekOfYear, value: -5)
+        habit.timePeriod = .weekly
+        habit.requiredCount = 10
+        habit.completedDates = [
+            Date().adding(.weekOfYear, value: -5),
+            Date().adding(.weekOfYear, value: -4),
+            Date().adding(.weekOfYear, value: -3),
+            Date().adding(.weekOfYear, value: -2),
+            Date().adding(.weekOfYear, value: -1),
+            Date()
+        ]
+
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("0 week streak", expected)
+    }
+
+    func test_StreakDescription_StartsInFuture_Weekly() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.weekOfYear, value: 1)
+        habit.timePeriod = .weekly
+        habit.requiredCount = 1
+        habit.completedDates = []
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("0 week streak", expected)
+    }
+
+    func test_StreakDescription_LongPeriodOfInactivity_Weekly() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.weekOfYear, value: -100)
+        habit.timePeriod = .weekly
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().adding(.weekOfYear, value: -100),
+            Date().adding(.weekOfYear, value: -99),
+            Date().adding(.weekOfYear, value: -98),
+            Date().adding(.weekOfYear, value: -97),
+            Date().adding(.weekOfYear, value: -96),
+            Date()
+        ]
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("1 week streak", expected)
+    }
+
+    //MARK: - Streak Description Monthly Edge Cases
+
+    func test_StreakDescription_HighRequiredCount_Monthly() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.month, value: -5)
+        habit.timePeriod = .monthly
+        habit.requiredCount = 10
+        habit.completedDates = [
+            Date().adding(.month, value: -5),
+            Date().adding(.month, value: -4),
+            Date().adding(.month, value: -3),
+            Date().adding(.month, value: -2),
+            Date().adding(.month, value: -1),
+            Date()
+        ]
+
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("0 month streak", expected)
+    }
+
+    func test_StreakDescription_StartsInFuture_Monthly() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.month, value: 1)
+        habit.timePeriod = .monthly
+        habit.requiredCount = 1
+        habit.completedDates = []
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("0 month streak", expected)
+    }
+
+    func test_StreakDescription_LongPeriodOfInactivity_Monthly() {
+        let habit = Habit(context: dataManager.viewContext)
+        habit.startDate = Date().adding(.month, value: -100)
+        habit.timePeriod = .monthly
+        habit.requiredCount = 1
+        habit.completedDates = [
+            Date().adding(.month, value: -100),
+            Date().adding(.month, value: -99),
+            Date().adding(.month, value: -98),
+            Date().adding(.month, value: -97),
+            Date().adding(.month, value: -96),
+            Date()
+        ]
+        
+        let expected = NSAttributedString(habit.streakDescription).string
+        XCTAssertEqual("1 month streak", expected)
+    }
+
     
     //MARK: - Calculate Score Daily
     
@@ -1014,17 +1163,17 @@ final class HabitTests: XCTestCase {
     }
     
     //MARK: - Calculate Completion Map
-    
+
     func test_CalculateCompletionMap_Daily_NoComplete() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date()
         habit.requiredCount = 1
         habit.timePeriod = .daily
         habit.completedDates = []
-        let expected = [Calendar.current.standardizedDate(Date()) : false]
+        let expected = [Calendar.current.standardizedDate(Date()) : 0]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
-    
+
     func test_CalculateCompletionMap_Daily_AllTrue() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)
@@ -1037,16 +1186,16 @@ final class HabitTests: XCTestCase {
             Date().adding(.day, value: -1), //4
             Date()
         ]
-        let expected: [Date: Bool] = [
-            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : true
+        let expected: [Date: Int] = [
+            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : 1
         ]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
-    
+
     func test_CalculateCompletionMap_Daily_NotAllTrue() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)
@@ -1056,16 +1205,16 @@ final class HabitTests: XCTestCase {
             Date().adding(.day, value: -4), //1
             Date().adding(.day, value: -2), //3
         ]
-        let expected: [Date: Bool] = [
-            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : false,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : false,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : false
+        let expected: [Date: Int] = [
+            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : 0,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : 0,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : 0
         ]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
-    
+
     func test_CalculateCompletionMap_Daily_LessThanReq() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)
@@ -1080,16 +1229,16 @@ final class HabitTests: XCTestCase {
             Date(),
             Date()//3
         ]
-        let expected: [Date: Bool] = [
-            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : false,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : false,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : true
+        let expected: [Date: Int] = [
+            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : 2,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : 0,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : 2,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : 2
         ]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
-    
+
     func test_CalculateCompletionMap_Daily_MoreThanReq() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)
@@ -1109,16 +1258,16 @@ final class HabitTests: XCTestCase {
             Date(),
             Date()//3
         ]
-        let expected: [Date: Bool] = [
-            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : true
+        let expected: [Date: Int] = [
+            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : 3,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : 2,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : 2,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : 3,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : 2
         ]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
-    
+
     func test_CalculateCompletionMap_Weekly_Standard() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)
@@ -1131,16 +1280,16 @@ final class HabitTests: XCTestCase {
             Date().adding(.day, value: -1), //4
             Date()
         ]
-        let expected: [Date: Bool] = [
-            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : true
+        let expected: [Date: Int] = [
+            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : 1
         ]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
-    
+
     func test_CalculateCompletionMap_Monthly_Standard() {
         let habit = Habit(context: dataManager.viewContext)
         habit.startDate = Date().adding(.day, value: -4)
@@ -1153,12 +1302,12 @@ final class HabitTests: XCTestCase {
             Date().adding(.day, value: -1), //4
             Date()
         ]
-        let expected: [Date: Bool] = [
-            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : true,
-            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : true
+        let expected: [Date: Int] = [
+            Calendar.current.standardizedDate(Date().adding(.day, value: -4)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -3)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -2)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -1)) : 1,
+            Calendar.current.standardizedDate(Date().adding(.day, value: -0)) : 1
         ]
         XCTAssertEqual(expected, habit.calculateCompletionMap())
     }
