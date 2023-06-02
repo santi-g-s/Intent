@@ -206,6 +206,7 @@ struct ContentView: View {
             .frame(height: indicatorViewSize.height, alignment: .center)
             
             Button {
+                habitEditorConfig.presentCreateHabit()
                 sheetType = .addHabit
             } label: {
                 Image(systemName: "plus")
