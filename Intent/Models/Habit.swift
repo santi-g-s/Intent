@@ -164,13 +164,13 @@ extension Habit {
     /**
      A string that describes how long ago the habit streak was kept alive.
      */
-    var streakDescription: AttributedString {
+    var streakDescription: AttributedString? {
         
         let end = status == .complete ? Date() : Calendar.current.date(byAdding: timePeriod.component, value: -1, to: Date())!
         
         let numDays = max(0,Calendar.current.numberOfInclusive(component: timePeriod.component, from: startOfMostRecentStreak, and: end))
         
-        let str: AttributedString = try! AttributedString(markdown: "**\(numDays)** \(timePeriod.unitName) streak")
+        let str: AttributedString? = try? AttributedString(markdown: "**\(numDays)** \(timePeriod.unitName) streak")
         
         return str
     }

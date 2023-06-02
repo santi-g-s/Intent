@@ -73,7 +73,7 @@ struct HabitDetailView: View {
                                 
                         )
                         .overlay(alignment: .topTrailing, content: {
-                            if completionMap[Calendar.current.standardizedDate(date)] ?? 0 > 1, let multiplier = completionMap[Calendar.current.standardizedDate(date)] ?? 0 {
+                            if completionMap[Calendar.current.standardizedDate(date)] ?? 0 > 1, let multiplier = completionMap[Calendar.current.standardizedDate(date)]{
                                 
                                 Text("x\(multiplier)")
                                     .foregroundColor(.secondary)

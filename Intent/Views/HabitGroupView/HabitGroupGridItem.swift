@@ -25,7 +25,7 @@ struct HabitGroupGridItem: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .font(.system(.body, design: .rounded))
-                Text(habit.streakDescription)
+                Text(habit.streakDescription ?? "")
                     .font(.system(.subheadline, design: .rounded))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
