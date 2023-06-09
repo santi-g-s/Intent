@@ -26,7 +26,6 @@
 		C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
 		C79F66872A24336800DB0A04 /* HabitGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79F66862A24336800DB0A04 /* HabitGroupView.swift */; };
 		C79F66892A24346700DB0A04 /* HabitGroupGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79F66882A24346700DB0A04 /* HabitGroupGridItem.swift */; };
-		C79F668F2A246AF100DB0A04 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = C79F668E2A246AF100DB0A04 /* SwiftUIKit */; };
 		C7ACD417296E332500AFF9AF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD416296E332500AFF9AF /* SettingsView.swift */; };
 		C7ACD419296E3C6600AFF9AF /* ComposeMailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD418296E3C6600AFF9AF /* ComposeMailView.swift */; };
 		C7ACD41B296E3F1700AFF9AF /* PrivacyPolicy.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C7ACD41A296E3F1700AFF9AF /* PrivacyPolicy.rtf */; };
@@ -90,7 +89,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C79F668F2A246AF100DB0A04 /* SwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +253,6 @@
 			);
 			name = Intent;
 			packageProductDependencies = (
-				C79F668E2A246AF100DB0A04 /* SwiftUIKit */,
 			);
 			productName = Intent;
 			productReference = C73D0678292815370055B13B /* Intent.app */;
@@ -308,7 +305,6 @@
 			);
 			mainGroup = C73D066F292815370055B13B;
 			packageReferences = (
-				C79F668D2A246AF100DB0A04 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
 			);
 			productRefGroup = C73D0679292815370055B13B /* Products */;
 			projectDirPath = "";
@@ -648,25 +644,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C79F668D2A246AF100DB0A04 /* XCRemoteSwiftPackageReference "SwiftUIKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/danielsaidi/SwiftUIKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C79F668E2A246AF100DB0A04 /* SwiftUIKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C79F668D2A246AF100DB0A04 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
-			productName = SwiftUIKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */ = {

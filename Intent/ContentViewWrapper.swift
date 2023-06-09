@@ -52,7 +52,7 @@ struct OnboardingView: View {
         VStack {
             VStack(alignment: .leading){
                 Spacer()
-                    .height(40)
+                    .frame(height: 40)
                 Image("IntentIcon")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
