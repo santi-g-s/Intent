@@ -19,6 +19,7 @@
 		C73D06B3292817140055B13B /* HabitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B2292817140055B13B /* HabitTests.swift */; };
 		C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
 		C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73F2D7429596C590042EF63 /* HabitEditorView.swift */; };
+		C745B3762A2BA03C00393763 /* ContentViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */; };
 		C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
 		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
 		C7770467295B997500C24952 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
@@ -63,6 +64,7 @@
 		C73D06B2292817140055B13B /* HabitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTests.swift; sourceTree = "<group>"; };
 		C73D06D42929D9160055B13B /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		C73F2D7429596C590042EF63 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
+		C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewWrapper.swift; sourceTree = "<group>"; };
 		C76611F9295AB64200798DF1 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
 		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
 		C7770466295B997500C24952 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				C73D067B292815370055B13B /* IntentApp.swift */,
 				C73D067D292815370055B13B /* ContentView.swift */,
+				C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */,
 				C7889C61292D5A9D0064D89C /* Views */,
 				C73D06A5292815710055B13B /* Models */,
 				C73D06A6292815760055B13B /* Managers */,
@@ -358,6 +361,7 @@
 				C7770467295B997500C24952 /* Date+Extensions.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
 				C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */,
+				C745B3762A2BA03C00393763 /* ContentViewWrapper.swift in Sources */,
 				C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,
 				C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */,

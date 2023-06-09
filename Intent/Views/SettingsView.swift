@@ -12,6 +12,10 @@ struct SettingsView: View {
     
     @Environment(\.requestReview) var requestReview
     
+    @Environment(\.presentationMode) var presentationMode
+    
+    @AppStorage("showOnboardingView") var showOnboardingView: Bool = false
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -57,6 +61,14 @@ struct SettingsView: View {
                     ComposeMailView {
                         Tile(systemImage: "envelope.open", text: "Contact us")
                     }
+                    
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                        showOnboardingView = true
+                    } label: {
+                        Tile(systemImage: "info.circle", text: "Show Intro")
+                    }
+                    .buttonStyle(.plain)
                 }
                 .padding()
                 

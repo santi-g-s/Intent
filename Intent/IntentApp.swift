@@ -20,7 +20,7 @@ struct IntentApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentViewWrapper()
                 .environment(\.managedObjectContext, dataManager.container.viewContext)
                 .onChange(of: scenePhase) { phase in
                     switch phase {

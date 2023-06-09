@@ -450,6 +450,89 @@ extension Habit {
         return habits
     }
     
+    @discardableResult
+    static func makeRichPreviews(count: Int, includeAll: Bool = false, context: NSManagedObjectContext) -> [Habit] {
+        var habits = [Habit]()
+        let viewContext = context
+
+        let habitDetails = [
+            ("Reading", "book"),
+            ("Staying Hydrated", "drop"),
+            ("Meditation", "figure.mind.and.body"),
+            ("Cold Showers", "shower"),
+            ("Strength Training", "figure.strengthtraining.traditional"),
+            ("Playing Piano", "music.note"),
+            ("Running", "figure.run"),
+            ("Swimming", "figure.pool.swim"),
+            ("Studying", "lamp.table"),
+            ("Cooking", "flame"),
+            ("Cycling", "bicycle"),
+            ("Sleeping Well", "powersleep"),
+            ("Drawing", "paintbrush.pointed"),
+            ("Playing Tennis", "tennis.racket"),
+            ("Walking", "figure.walk"),
+            ("Writing", "pencil"),
+            ("Yoga", "person.position"),
+        ]
+        
+        let timePeriods: [TimePeriod] = [.daily, .weekly, .monthly]
+        let completionTypes: [CompletionType] = [.equalTo, .greaterThan]
+
+        let habitMessages = [
+            "Keep pushing",
+            "Stay consistent",
+            "Remember your goal",
+            "You are making progress",
+            "Just a little bit every day",
+            "Persistence is key",
+            "Every little bit counts",
+            "Stay focused, stay sharp",
+            "The journey is the destination",
+            "Make every day count"
+        ]
+
+        for i in 0..<count {
+            let habit = Habit(context: viewContext)
+            habit.id = UUID()
+            let habitDetail = habitDetails[i % habitDetails.count]
+            habit.title = habitDetail.0
+            habit.iconName = habitDetail.1
+            
+            // Random start date up to 180 days ago
+            let startDate = Date().addingTimeInterval(-60*60*24*Double.random(in: 0...180))
+            habit.startDate = startDate
+
+            // Generate a random percentage (70-100%) of days between start date and now to be marked as completed
+            let totalDays = Calendar.current.dateComponents([.day], from: startDate, to: Date()).day!
+            let numCompletedDates = Int(Double(totalDays) * Double.random(in: 0.7...1.0))
+            
+            var completedDates: [Date] = []
+            for _ in 0..<numCompletedDates {
+                // Randomly select a date between start date and now
+                let randomTimeInterval = Double.random(in: 0...Double(totalDays)) * 60 * 60 * 24
+                let randomDate = startDate.addingTimeInterval(randomTimeInterval)
+                
+                // Ensure that the same date is not added multiple times
+                if !completedDates.contains(where: { Calendar.current.isDate($0, inSameDayAs: randomDate) }) {
+                    completedDates.append(randomDate)
+                }
+            }
+            
+            // Sort the completedDates array
+            completedDates.sort()
+            habit.completedDates = completedDates
+
+            habit.requiredCount = Int.random(in: 1...3)
+            habit.timePeriod = timePeriods[i % timePeriods.count]
+            habit.order = i
+            habit.completionType = completionTypes[i % completionTypes.count]
+            habit.messages = Array((0...2).map { _ in habitMessages.randomElement()! })
+            habit.accentColor = Color.random()
+            habits.append(habit)
+        }
+        return habits
+    }
+    
 }
 
 enum HabitStatus: Equatable {
