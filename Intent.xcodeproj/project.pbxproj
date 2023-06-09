@@ -36,6 +36,7 @@
 		C7B021012935362600462E1F /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021002935362600462E1F /* HabitView.swift */; };
 		C7B021032935372600462E1F /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021022935372600462E1F /* HabitDetailView.swift */; };
 		C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
+		C7D228162A32C05E00E4990C /* curatedsfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C7D228152A32C05E00E4990C /* curatedsfsymbols.txt */; };
 		C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		C7B021002935362600462E1F /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
 		C7B021022935372600462E1F /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
 		C7CFE828293F0A4300A89AAD /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
+		C7D228152A32C05E00E4990C /* curatedsfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = curatedsfsymbols.txt; sourceTree = "<group>"; };
 		C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +194,7 @@
 				C76611FB295AB65F00798DF1 /* sfsymbols.txt */,
 				C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */,
 				C7ACD41A296E3F1700AFF9AF /* PrivacyPolicy.rtf */,
+				C7D228152A32C05E00E4990C /* curatedsfsymbols.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73D0683292815380055B13B /* Preview Assets.xcassets in Resources */,
+				C7D228162A32C05E00E4990C /* curatedsfsymbols.txt in Resources */,
 				C7ACD41B296E3F1700AFF9AF /* PrivacyPolicy.rtf in Resources */,
 				C73D0680292815380055B13B /* Assets.xcassets in Resources */,
 				C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */,

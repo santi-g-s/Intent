@@ -33,7 +33,7 @@ struct OnboardingView: View {
     let timer = Timer.publish(every: 2, tolerance: 0.5, on: .main, in: .common).autoconnect()
     
     let symbols: [String] = {
-        guard let path = Bundle.main.path(forResource: "sfsymbols", ofType: "txt"),
+        guard let path = Bundle.main.path(forResource: "curatedsfsymbols", ofType: "txt"),
               let content = try? String(contentsOfFile: path)
         else {
             return []
