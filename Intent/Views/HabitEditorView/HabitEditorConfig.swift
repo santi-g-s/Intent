@@ -20,6 +20,12 @@ struct HabitEditorConfig {
     var createdHabitId: UUID? = nil
     var didDeleteHabit = false
     
+    var isNotificationEditorShown = false
+    
+    mutating func showNotificationEditor() {
+        self.isNotificationEditorShown = true
+    }
+    
     mutating func presentCreateHabit() {
         data = HabitData()
         isEditing = false
