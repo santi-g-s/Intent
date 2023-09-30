@@ -5,43 +5,41 @@
 //  Created by Santiago Garcia Santos on 25/12/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct HabitEditorView: View {
-    
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     @Environment(\.presentationMode) var presentationMode
-    
+
     enum Field: Hashable {
         case title
         case message
     }
-    
+
     @Binding var config: HabitEditorConfig
-    
+
     @FocusState var focusedField: Field?
-    
+
     var body: some View {
         NavigationView {
             Form {
                 Section("Details") {
-                    
                     TextField("Title", text: $config.data.title)
                         .focused($focusedField, equals: .title)
-                    
+
                     Button {
                         focusedField = nil
                         config.presentSymbolPicker()
                     } label: {
-                        HStack{
+                        HStack {
                             Text("Pick an icon")
                             Spacer()
                             Image(systemName: config.data.iconName)
                         }
                         .foregroundColor(.primary)
                     }
-                    
+
                     ColorPicker("Pick a color", selection: $config.data.accentColor, supportsOpacity: false)
                 }
 
@@ -55,7 +53,7 @@ struct HabitEditorView: View {
                         .pickerStyle(.segmented)
 
                         Picker("How many times a \(config.data.timePeriod.unitName)", selection: $config.data.requiredCount) {
-                            ForEach(1...10, id: \.self) { index in
+                            ForEach(1 ... 10, id: \.self) { index in
                                 Text("\(index)")
                             }
                         }
@@ -64,7 +62,7 @@ struct HabitEditorView: View {
                 }
 
                 Section("Messages") {
-                    VStack(alignment: .leading){
+                    VStack(alignment: .leading) {
                         TextField("Add a motivational message", text: $config.messageText, axis: .vertical)
                             .focused($focusedField, equals: .message)
                             .toolbar {
@@ -79,7 +77,7 @@ struct HabitEditorView: View {
                         Button {
                             config.addMessage()
                         } label: {
-                            HStack{
+                            HStack {
                                 Spacer()
                                 Text("Add")
                                 Image(systemName: "plus.circle.fill")
@@ -87,7 +85,7 @@ struct HabitEditorView: View {
                         }
                         .disabled(config.isAddMessageDisabled)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
-                            return 0
+                            0
                         }
                     }
                     ForEach(config.data.messages, id: \.self) { message in
@@ -102,90 +100,98 @@ struct HabitEditorView: View {
                 }
 
                 Section("Notifications") {
-
                     Button {
                         config.showNotificationEditor()
                     } label: {
-                        Text("Add a notification")
+                        Label("Add a notification", systemImage: "bell")
+                            .foregroundColor(config.data.accentColor)
                     }
                     .tint(config.data.accentColor)
                     .sheet(isPresented: $config.isNotificationEditorShown) {
-                        NotificationEditorView()
-                            .presentationDetents([.medium])
+                        NotificationEditorView(habit: config.data, onCompletion: { content, triggerDate, notificationIdentifier in
+                            UserNotificationsManager.scheduleNotification(content: content, triggerDate: triggerDate, notificationIdentifier: notificationIdentifier)
+                            config.isNotificationEditorShown.toggle()
+                            config.notifications.append((content, triggerDate, notificationIdentifier))
+                        })
+                        .presentationDetents([.medium])
                     }
-
+                    ForEach(config.notifications, id: \.id) { value in
+                        Text(UserNotificationsManager.notificationScheduleDescription(from: value.triggerDate))
+                    }
+                    .onDelete { offsets in
+                        config.deleteNotification(at: offsets)
+                    }
                 }
             }
             .navigationTitle(config.isEditing ? "Edit habit" : "Add habit")
             .safeAreaInset(edge: .bottom) {
-                
-                    HStack {
-                        if config.isEditing {
-                            Spacer()
-                            Button {
-                                Habit.deleteHabit(with: config.data, context: context)
-                                config.didDeleteHabit = true
-                                presentationMode.wrappedValue.dismiss()
-                            } label: {
-                                Label("Delete Habit", systemImage: "trash")
-                                    .bold()
-                                    .foregroundColor(.red)
-                                    .padding(8)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial)
-                                    }
-                            }
-                        }
+                HStack {
+                    if config.isEditing {
                         Spacer()
                         Button {
-                            if config.isEditing {
-                                Habit.updateHabit(with: config.data, context: context)
-                            } else {
-                                let newHabit = Habit.createHabit(with: config.data, context: context)
-                                config.createdHabitId = newHabit.id
-                            }
+                            Habit.deleteHabit(with: config.data, context: context)
+                            config.didDeleteHabit = true
                             presentationMode.wrappedValue.dismiss()
                         } label: {
-                            Label(config.isEditing ? "Update habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
+                            Label("Delete Habit", systemImage: "trash")
                                 .bold()
-                                .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
+                                .foregroundColor(.red)
                                 .padding(8)
                                 .background {
-                                    RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial)
                                 }
                         }
-                        .disabled(config.isButtonDisabled)
-                        
-                        Spacer()
-                        
                     }
-                
+                    Spacer()
+                    Button {
+                        if config.isEditing {
+                            Habit.updateHabit(with: config.data, context: context)
+                        } else {
+                            let newHabit = Habit.createHabit(with: config.data, context: context)
+                            config.createdHabitId = newHabit.id
+                        }
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Label(config.isEditing ? "Update Habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
+                            .bold()
+                            .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
+                            .padding(8)
+                            .background {
+                                RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
+                            }
+                    }
+                    .disabled(config.isButtonDisabled)
+
+                    Spacer()
+                }
                 .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
-        
+
         .sheet(isPresented: $config.isSymbolPickerShown) {
             SymbolPicker(symbol: $config.data.iconName)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.hidden)
         }
     }
+
+    @State var notificatiomEditorViewSize = CGSize.zero
 }
 
 struct AddHabitView_Previews: PreviewProvider {
     struct ContentView: View {
-        
         @State var config = HabitEditorConfig()
-        
+
         var body: some View {
             HabitEditorView(config: $config)
                 .environment(\.managedObjectContext, DataManager.preview.container.viewContext)
-                .onAppear{
+                .onAppear {
                     config.isEditing = true
                     config.data.title = "Test"
                 }
         }
     }
+
     static var previews: some View {
         ContentView()
     }

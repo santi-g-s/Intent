@@ -15,7 +15,7 @@ struct WeekdayPicker: View {
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
-                ForEach(0..<weekdays.count, id: \.self) { index in
+                ForEach(0 ..< weekdays.count, id: \.self) { index in
                     WeekdayButton(
                         title: weekdays[index],
                         isSelected: selectedDays.contains(index + 1),
@@ -49,7 +49,7 @@ struct WeekdayButton: View {
         Button(action: action) {
             Text(title)
                 .font(.body.bold())
-                .foregroundColor(isSelected ? .white : .accentColor)
+                .foregroundColor(isSelected ? (buttonColor.isDarkBackground() ? .white : .black) : buttonColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     Circle()
@@ -63,17 +63,14 @@ struct WeekdayButton: View {
 
 private struct WeekDayPickerPreview: View {
     @State private var weekdays = [Int]()
-    
+
     var body: some View {
         WeekdayPicker(selectedDays: $weekdays, buttonColor: .accentColor)
     }
 }
 
-
 struct WeekdayPicker_Previews: PreviewProvider {
-    
     static var previews: some View {
         WeekDayPickerPreview()
     }
 }
-

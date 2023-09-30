@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import UserNotifications
 
 struct HabitEditorConfig {
-    
     var data = HabitData()
     
     var isEditing = false
@@ -22,8 +22,10 @@ struct HabitEditorConfig {
     
     var isNotificationEditorShown = false
     
+    var notifications: [(content: UNMutableNotificationContent, triggerDate: DateComponents, id: UUID)] = []
+    
     mutating func showNotificationEditor() {
-        self.isNotificationEditorShown = true
+        isNotificationEditorShown = true
     }
     
     mutating func presentCreateHabit() {
@@ -49,6 +51,10 @@ struct HabitEditorConfig {
         data.messages.remove(atOffsets: offsets)
     }
     
+    mutating func deleteNotification(at offsets: IndexSet) {
+        notifications.remove(atOffsets: offsets)
+    }
+    
     mutating func rearrangeMessages(from source: IndexSet, to destination: Int) {
         data.messages.move(fromOffsets: source, toOffset: destination)
     }
@@ -60,5 +66,4 @@ struct HabitEditorConfig {
     var isButtonDisabled: Bool {
         data.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-    
 }

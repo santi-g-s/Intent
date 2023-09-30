@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct HabitDetailView: View {
-    
     @ObservedObject var habit: Habit
-    var completionMap: [Date : Int]
+    var completionMap: [Date: Int]
     
     @State var index = 0
     
     var body: some View {
-        LazyVStack(spacing: 0){
-            
+        LazyVStack(spacing: 0) {
             detailView
                 .id(0)
             
@@ -27,7 +25,7 @@ struct HabitDetailView: View {
     }
     
     var detailView: some View {
-        HStack(spacing: 5){
+        HStack(spacing: 5) {
             Image(systemName: "calendar")
             Text(habit.scheduleDescription)
         }
@@ -70,11 +68,9 @@ struct HabitDetailView: View {
                             Text(String(Calendar.current.component(.day, from: date)))
                                 .foregroundColor(habit.accentColor.isDarkBackground() ? .white : .black)
                                 .fontWeight(.bold)
-                                
                         )
                         .overlay(alignment: .topTrailing, content: {
-                            if completionMap[Calendar.current.standardizedDate(date)] ?? 0 > 1, let multiplier = completionMap[Calendar.current.standardizedDate(date)]{
-                                
+                            if completionMap[Calendar.current.standardizedDate(date)] ?? 0 > 1, let multiplier = completionMap[Calendar.current.standardizedDate(date)] {
                                 Text("x\(multiplier)")
                                     .foregroundColor(.secondary)
                                     .font(.system(.caption, design: .rounded, weight: .bold))
@@ -86,7 +82,6 @@ struct HabitDetailView: View {
                         })
                 }
             }
-            
         }
         .padding()
     }
@@ -103,7 +98,7 @@ struct HabitDetailView: View {
                             .foregroundStyle(.primary)
                             .padding()
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                            .background{
+                            .background {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundColor(Color(uiColor: UIColor.secondarySystemGroupedBackground))
                                     .shadow(color: Color.black.opacity(0.1), radius: 8)
@@ -115,12 +110,12 @@ struct HabitDetailView: View {
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .never))
                 .frame(height: 200)
-                .onAppear() {
+                .onAppear {
                     UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.label
                     UIPageControl.appearance().pageIndicatorTintColor = .tertiaryLabel
                 }
             } else {
-                HStack(alignment: .firstTextBaseline){
+                HStack(alignment: .firstTextBaseline) {
                     Text("Tap ") + Text(Image(systemName: "slider.vertical.3")) + Text(" to add a motivational message")
                 }
                 .foregroundStyle(.secondary)
