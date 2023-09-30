@@ -10,6 +10,7 @@
 		C723852129405E7E00901B43 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
 		C73959562AC7A67E00A96DEC /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959552AC7A67E00A96DEC /* NumericTextField.swift */; };
 		C73959582AC8840200A96DEC /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959572AC8840200A96DEC /* Array+Extensions.swift */; };
+		C739595A2AC88EF500A96DEC /* OnDayChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959592AC88EF500A96DEC /* OnDayChange.swift */; };
 		C73D067C292815370055B13B /* IntentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067B292815370055B13B /* IntentApp.swift */; };
 		C73D067E292815370055B13B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067D292815370055B13B /* ContentView.swift */; };
 		C73D0680292815380055B13B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D067F292815380055B13B /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 		C723852029405E7E00901B43 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C73959552AC7A67E00A96DEC /* NumericTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
 		C73959572AC8840200A96DEC /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		C73959592AC88EF500A96DEC /* OnDayChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDayChange.swift; sourceTree = "<group>"; };
 		C73D0678292815370055B13B /* Intent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Intent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C73D067B292815370055B13B /* IntentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentApp.swift; sourceTree = "<group>"; };
 		C73D067D292815370055B13B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				C76DC9042AAEC6DE0092A35C /* MonthlyPicker.swift */,
 				C73959552AC7A67E00A96DEC /* NumericTextField.swift */,
 				C73959572AC8840200A96DEC /* Array+Extensions.swift */,
+				C73959592AC88EF500A96DEC /* OnDayChange.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 			files = (
 				C7B021032935372600462E1F /* HabitDetailView.swift in Sources */,
 				C73959582AC8840200A96DEC /* Array+Extensions.swift in Sources */,
+				C739595A2AC88EF500A96DEC /* OnDayChange.swift in Sources */,
 				C73D067E292815370055B13B /* ContentView.swift in Sources */,
 				C73D06AF292816160055B13B /* Habit.swift in Sources */,
 				C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */,

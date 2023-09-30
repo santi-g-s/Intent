@@ -65,17 +65,9 @@ struct HabitEditorView: View {
                     VStack(alignment: .leading) {
                         TextField("Add a motivational message", text: $config.messageText, axis: .vertical)
                             .focused($focusedField, equals: .message)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    Spacer()
-
-                                    Button("Done") {
-                                        focusedField = nil
-                                    }
-                                }
-                            }
                         Button {
                             config.addMessage()
+                            focusedField = nil
                         } label: {
                             HStack {
                                 Spacer()
@@ -123,7 +115,9 @@ struct HabitEditorView: View {
                 }
             }
             .navigationTitle(config.isEditing ? "Edit habit" : "Add habit")
-            .safeAreaInset(edge: .bottom) {
+        }
+        .safeAreaInset(edge: .bottom) {
+            if focusedField == nil {
                 HStack {
                     if config.isEditing {
                         Spacer()
@@ -165,13 +159,21 @@ struct HabitEditorView: View {
 
                     Spacer()
                 }
-                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
         .sheet(isPresented: $config.isSymbolPickerShown) {
             SymbolPicker(symbol: $config.data.iconName)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.hidden)
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+
+                Button("Done") {
+                    focusedField = nil
+                }
+            }
         }
         .task {
             await config.populateNotificationsData()

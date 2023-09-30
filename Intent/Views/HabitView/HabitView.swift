@@ -107,6 +107,10 @@ struct HabitView: View {
             habitScore = habit.calculateScore()
             completionMap = habit.calculateCompletionMap()
         }
+        .onDayChange {
+            habitScore = habit.calculateScore()
+            completionMap = habit.calculateCompletionMap()
+        }
         .overlay(alignment: .bottom){
             HStack {
                 Spacer()
