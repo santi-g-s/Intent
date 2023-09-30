@@ -70,6 +70,18 @@ extension Habit {
     }
     
     /**
+     Identifiers pertaining to scheduled notifications associated with this habit
+     */
+    var notificationIdentifiers: [String] {
+        get {
+            return notificationIdentifiers_ ?? [String]()
+            }
+            set {
+                notificationIdentifiers_ = newValue
+            }
+        }
+    
+    /**
      The accent color associated with this habit
      */
     var accentColor: Color {
@@ -340,6 +352,7 @@ extension Habit {
         self.iconName = data.iconName
         self.messages = data.messages
         self.completionType = data.completionType
+        self.notificationIdentifiers = data.notificationIdentifiers
     }
     
     //MARK: - Static Methods
@@ -602,6 +615,7 @@ struct HabitData: Identifiable {
     var iconName: String = "star"
     var messages = [String]()
     var completionType: CompletionType = .equalTo
+    var notificationIdentifiers: [String] = []
     
     init() {
         self.id = UUID()
@@ -617,5 +631,6 @@ struct HabitData: Identifiable {
         self.iconName = habit.iconName
         self.messages = habit.messages
         self.completionType = habit.completionType
+        self.notificationIdentifiers = habit.notificationIdentifiers ?? []
     }
 }

@@ -5,70 +5,64 @@
 //  Created by Santiago Garcia Santos on 25/12/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct HabitEditorView: View {
-    
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     @Environment(\.presentationMode) var presentationMode
-    
+
     enum Field: Hashable {
         case title
         case message
     }
-    
+
     @Binding var config: HabitEditorConfig
-    
+
     @FocusState var focusedField: Field?
-    
+
     var body: some View {
         NavigationView {
             Form {
                 Section("Details") {
-                    
                     TextField("Title", text: $config.data.title)
                         .focused($focusedField, equals: .title)
-                    
+
                     Button {
                         focusedField = nil
                         config.presentSymbolPicker()
                     } label: {
-                        HStack{
+                        HStack {
                             Text("Pick an icon")
                             Spacer()
                             Image(systemName: config.data.iconName)
                         }
                         .foregroundColor(.primary)
                     }
-                    
+
                     ColorPicker("Pick a color", selection: $config.data.accentColor, supportsOpacity: false)
                 }
 
                 Section("Scheduling") {
-                    Picker("How often", selection: $config.data.timePeriod) {
-                        Text("Daily").tag(TimePeriod.daily)
-                        Text("Weekly").tag(TimePeriod.weekly)
-                        Text("Monthly").tag(TimePeriod.monthly)
-                    }
-                    .pickerStyle(.segmented)
-                    
-//                    Picker("Completion Type", selection: $config.data.completionType) {
-//                        Text("=").tag(CompletionType.equalTo)
-//                        Text(">").tag(CompletionType.greaterThan)
-//                    }
-//                    .pickerStyle(.segmented)
-                    
-                    Picker("How many times a \(config.data.timePeriod.unitName)", selection: $config.data.requiredCount) {
-                        ForEach(1...10, id: \.self) { index in
-                            Text("\(index)")
+                    VStack {
+                        Picker("How often", selection: $config.data.timePeriod) {
+                            Text("Daily").tag(TimePeriod.daily)
+                            Text("Weekly").tag(TimePeriod.weekly)
+                            Text("Monthly").tag(TimePeriod.monthly)
                         }
+                        .pickerStyle(.segmented)
+
+                        Picker("How many times a \(config.data.timePeriod.unitName)", selection: $config.data.requiredCount) {
+                            ForEach(1 ... 10, id: \.self) { index in
+                                Text("\(index)")
+                            }
+                        }
+                        .pickerStyle(.automatic)
                     }
-                    .pickerStyle(.automatic)
                 }
-                
+
                 Section("Messages") {
-                    VStack(alignment: .leading){
+                    VStack(alignment: .leading) {
                         TextField("Add a motivational message", text: $config.messageText, axis: .vertical)
                             .focused($focusedField, equals: .message)
                             .toolbar {
@@ -83,7 +77,7 @@ struct HabitEditorView: View {
                         Button {
                             config.addMessage()
                         } label: {
-                            HStack{
+                            HStack {
                                 Spacer()
                                 Text("Add")
                                 Image(systemName: "plus.circle.fill")
@@ -91,7 +85,7 @@ struct HabitEditorView: View {
                         }
                         .disabled(config.isAddMessageDisabled)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
-                            return 0
+                            0
                         }
                     }
                     ForEach(config.data.messages, id: \.self) { message in
@@ -104,12 +98,32 @@ struct HabitEditorView: View {
                         config.rearrangeMessages(from: source, to: destination)
                     }
                 }
+
+                Section("Notifications") {
+                    Button {
+                        config.showNotificationEditor()
+                    } label: {
+                        Label("Add a notification", systemImage: "bell")
+                            .foregroundColor(config.data.accentColor)
+                    }
+                    .tint(config.data.accentColor)
+                    .sheet(isPresented: $config.isNotificationEditorShown) {
+                        NotificationEditorView(habit: config.data, onCompletion: { content, triggerDate, notificationIdentifier in
+                            config.isNotificationEditorShown = false
+                            config.notifications.append((content, triggerDate, notificationIdentifier))
+                        })
+                        .presentationDetents([.medium])
+                    }
+                    ForEach(config.notifications, id: \.id) { value in
+                        Text(UserNotificationsManager.notificationScheduleDescription(from: value.triggerDate))
+                    }
+                    .onDelete { offsets in
+                        config.deleteNotification(at: offsets)
+                    }
+                }
             }
             .navigationTitle(config.isEditing ? "Edit habit" : "Add habit")
-        }
-        .safeAreaInset(edge: .bottom) {
-            VStack {
-                Spacer()
+            .safeAreaInset(edge: .bottom) {
                 HStack {
                     if config.isEditing {
                         Spacer()
@@ -129,6 +143,8 @@ struct HabitEditorView: View {
                     }
                     Spacer()
                     Button {
+                        config.scheduleNotifications(context: context)
+
                         if config.isEditing {
                             Habit.updateHabit(with: config.data, context: context)
                         } else {
@@ -137,7 +153,7 @@ struct HabitEditorView: View {
                         }
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Label(config.isEditing ? "Update habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
+                        Label(config.isEditing ? "Update Habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
                             .bold()
                             .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
                             .padding(8)
@@ -146,35 +162,39 @@ struct HabitEditorView: View {
                             }
                     }
                     .disabled(config.isButtonDisabled)
-                    
+
                     Spacer()
-                    
                 }
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .sheet(isPresented: $config.isSymbolPickerShown) {
             SymbolPicker(symbol: $config.data.iconName)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.hidden)
         }
+        .task {
+            await config.populateNotificationsData()
+        }
     }
+
+    @State var notificatiomEditorViewSize = CGSize.zero
 }
 
 struct AddHabitView_Previews: PreviewProvider {
     struct ContentView: View {
-        
         @State var config = HabitEditorConfig()
-        
+
         var body: some View {
             HabitEditorView(config: $config)
                 .environment(\.managedObjectContext, DataManager.preview.container.viewContext)
-                .onAppear{
+                .onAppear {
                     config.isEditing = true
                     config.data.title = "Test"
                 }
         }
     }
+
     static var previews: some View {
         ContentView()
     }

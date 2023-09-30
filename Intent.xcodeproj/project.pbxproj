@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C723852129405E7E00901B43 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
+		C73959562AC7A67E00A96DEC /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959552AC7A67E00A96DEC /* NumericTextField.swift */; };
 		C73D067C292815370055B13B /* IntentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067B292815370055B13B /* IntentApp.swift */; };
 		C73D067E292815370055B13B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D067D292815370055B13B /* ContentView.swift */; };
 		C73D0680292815380055B13B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D067F292815380055B13B /* Assets.xcassets */; };
@@ -22,8 +23,12 @@
 		C745B3762A2BA03C00393763 /* ContentViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */; };
 		C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
 		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
+		C76DC9012AAEB54D0092A35C /* WeekdayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */; };
+		C76DC9032AAEBC9F0092A35C /* NotificationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9022AAEBC9F0092A35C /* NotificationEditorView.swift */; };
+		C76DC9052AAEC6DE0092A35C /* MonthlyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9042AAEC6DE0092A35C /* MonthlyPicker.swift */; };
 		C7770467295B997500C24952 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
 		C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
+		C794AFE82A6464FC00D8A864 /* UserNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C794AFE72A6464FC00D8A864 /* UserNotificationsManager.swift */; };
 		C79F66872A24336800DB0A04 /* HabitGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79F66862A24336800DB0A04 /* HabitGroupView.swift */; };
 		C79F66892A24346700DB0A04 /* HabitGroupGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79F66882A24346700DB0A04 /* HabitGroupGridItem.swift */; };
 		C7ACD417296E332500AFF9AF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD416296E332500AFF9AF /* SettingsView.swift */; };
@@ -51,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		C723852029405E7E00901B43 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		C73959552AC7A67E00A96DEC /* NumericTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
 		C73D0678292815370055B13B /* Intent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Intent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C73D067B292815370055B13B /* IntentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentApp.swift; sourceTree = "<group>"; };
 		C73D067D292815370055B13B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,8 +73,12 @@
 		C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewWrapper.swift; sourceTree = "<group>"; };
 		C76611F9295AB64200798DF1 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
 		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
+		C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayPicker.swift; sourceTree = "<group>"; };
+		C76DC9022AAEBC9F0092A35C /* NotificationEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEditorView.swift; sourceTree = "<group>"; };
+		C76DC9042AAEC6DE0092A35C /* MonthlyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyPicker.swift; sourceTree = "<group>"; };
 		C7770466295B997500C24952 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		C7889C5F292D5A630064D89C /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		C794AFE72A6464FC00D8A864 /* UserNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationsManager.swift; sourceTree = "<group>"; };
 		C79F66862A24336800DB0A04 /* HabitGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGroupView.swift; sourceTree = "<group>"; };
 		C79F66882A24346700DB0A04 /* HabitGroupGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGroupGridItem.swift; sourceTree = "<group>"; };
 		C7ACD416296E332500AFF9AF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -164,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				C73D06AC292815DA0055B13B /* DataManager.swift */,
+				C794AFE72A6464FC00D8A864 /* UserNotificationsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -181,6 +192,9 @@
 				C7770466295B997500C24952 /* Date+Extensions.swift */,
 				C7AD52522960B8D000EA4221 /* Button+Extensions.swift */,
 				C7ACD418296E3C6600AFF9AF /* ComposeMailView.swift */,
+				C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */,
+				C76DC9042AAEC6DE0092A35C /* MonthlyPicker.swift */,
+				C73959552AC7A67E00A96DEC /* NumericTextField.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -232,6 +246,7 @@
 			children = (
 				C73F2D7429596C590042EF63 /* HabitEditorView.swift */,
 				C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */,
+				C76DC9022AAEBC9F0092A35C /* NotificationEditorView.swift */,
 			);
 			path = HabitEditorView;
 			sourceTree = "<group>";
@@ -347,22 +362,27 @@
 				C73D067E292815370055B13B /* ContentView.swift in Sources */,
 				C73D06AF292816160055B13B /* Habit.swift in Sources */,
 				C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */,
+				C73959562AC7A67E00A96DEC /* NumericTextField.swift in Sources */,
 				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
 				C7ACD417296E332500AFF9AF /* SettingsView.swift in Sources */,
+				C76DC9012AAEB54D0092A35C /* WeekdayPicker.swift in Sources */,
 				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
 				C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */,
 				C7AD52552960E54A00EA4221 /* PlaceholderHabitView.swift in Sources */,
 				C7ACD419296E3C6600AFF9AF /* ComposeMailView.swift in Sources */,
 				C7AD52532960B8D000EA4221 /* Button+Extensions.swift in Sources */,
+				C794AFE82A6464FC00D8A864 /* UserNotificationsManager.swift in Sources */,
 				C79F66892A24346700DB0A04 /* HabitGroupGridItem.swift in Sources */,
 				C79F66872A24336800DB0A04 /* HabitGroupView.swift in Sources */,
 				C723852129405E7E00901B43 /* CalendarView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C7770467295B997500C24952 /* Date+Extensions.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
+				C76DC9032AAEBC9F0092A35C /* NotificationEditorView.swift in Sources */,
 				C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */,
 				C745B3762A2BA03C00393763 /* ContentViewWrapper.swift in Sources */,
 				C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */,
+				C76DC9052AAEC6DE0092A35C /* MonthlyPicker.swift in Sources */,
 				C73D06AB292815B30055B13B /* CoreDataModel.xcdatamodeld in Sources */,
 				C7889C60292D5A630064D89C /* View+Extensions.swift in Sources */,
 				C73D06B1292816670055B13B /* Calendar+Extensions.swift in Sources */,
@@ -526,7 +546,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -561,7 +581,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

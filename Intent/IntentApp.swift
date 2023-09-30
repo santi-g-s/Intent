@@ -13,7 +13,7 @@ struct IntentApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
     #if targetEnvironment(simulator)
-    var dataManager = DataManager.shared
+    var dataManager = DataManager.preview
     #else
     var dataManager = DataManager.shared
     #endif
