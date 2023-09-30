@@ -27,14 +27,6 @@ struct NotificationEditorView: View {
     var onCompletion: (_ content: UNMutableNotificationContent, _ triggerDate: DateComponents, _ notificationIdentifier: UUID) -> Void
     
     @State private var timeOfDay = Date()
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let startComponents = DateComponents(year: 2021, month: 1, day: 1)
-        let endComponents = DateComponents(year: 2021, month: 12, day: 31, hour: 23, minute: 59, second: 59)
-        return calendar.date(from: startComponents)!
-            ...
-            calendar.date(from: endComponents)!
-    }()
     
     @State private var weekdays = [Int]()
     
@@ -47,6 +39,10 @@ struct NotificationEditorView: View {
     @State private var selectedOffsetValue: OffsetValue = .first
     
     @State private var selectedOffsetWeekday: Int = 1
+    
+    var buttonDisabled: Bool {
+        return selectedInterval == .weekly && weekdays.isEmpty
+    }
     
     var body: some View {
         ScrollView {
@@ -75,7 +71,6 @@ struct NotificationEditorView: View {
                     DatePicker(
                         "What time of day?",
                         selection: $timeOfDay,
-                        in: dateRange,
                         displayedComponents: [.hourAndMinute]
                     )
                     .datePickerStyle(.graphical)
@@ -104,17 +99,17 @@ struct NotificationEditorView: View {
                     .padding(8)
                     .padding(.horizontal, 8)
                     .background {
-                        RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(habit.accentColor)
+                        RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(buttonDisabled ? .gray : habit.accentColor)
                     }
+                    .opacity(buttonDisabled ? 0.5 : 1)
             }
+            .disabled(buttonDisabled)
         }
     }
 }
 
-// struct NotificationEditorView_Previews: PreviewProvider {
-//    let dataManager = DataManager.preview
-//
-//    static var previews: some View {
-//        NotificationEditorView(habit: Habit.makePreview(context: dataManager.container.viewContext), onCompletion: { _, _ in })
-//    }
-// }
+ struct NotificationEditorView_Previews: PreviewProvider {
+    static var previews: some View {
+        NotificationEditorView(habit: HabitData(), onCompletion: { _, _,_  in })
+    }
+ }

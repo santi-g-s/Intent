@@ -60,12 +60,8 @@ struct UserNotificationsManager {
             }
             content.sound = .default
 
-            let currentHour = Calendar.current.component(.hour, from: Date())
-            let currentMinute = Calendar.current.component(.minute, from: Date())
             let triggerHour = Calendar.current.component(.hour, from: timeOfDay)
             let triggerMinute = Calendar.current.component(.minute, from: timeOfDay)
-
-            let shouldTriggerToday = (triggerHour > currentHour) || (triggerHour == currentHour && triggerMinute > currentMinute)
 
             switch interval {
             case .daily:
@@ -120,17 +116,47 @@ struct UserNotificationsManager {
     /// - Parameters:
     ///   - content: The content of the notification.
     ///   - triggerDate: The date components specifying when the notification should be delivered.
-    static func scheduleNotification(content: UNMutableNotificationContent, triggerDate: DateComponents, notificationIdentifier: UUID) {
+    static func scheduleNotification(content: UNNotificationContent, triggerDate: DateComponents, notificationIdentifier: UUID) {
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
         let request = UNNotificationRequest(identifier: notificationIdentifier.uuidString, content: content, trigger: trigger)
         center.add(request)
+    }
+
+    static func getNotification(for identifier: UUID) async throws -> (content: UNNotificationContent, triggerDate: DateComponents) {
+        // Get the current notification center
+        let center = UNUserNotificationCenter.current()
+
+        // Fetch all pending notification requests
+        let requests = await center.pendingNotificationRequests()
+
+        for request in requests {
+            if request.identifier == identifier.uuidString {
+                if let content = request.content as? UNNotificationContent {
+                    if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                        let triggerDate = trigger.dateComponents
+                        return (content: content, triggerDate: triggerDate)
+                    } else {
+                        print("Trigger is not of type UNCalendarNotificationTrigger: \(request.trigger)")
+                    }
+                } else {
+                    print("Content is not of expected type: \(request.content)")
+                }
+                throw NotificationError.invalidData
+            }
+        }
+        throw NotificationError.notFound
+    }
+
+    static func deleteNotification(with identifier: UUID) {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [identifier.uuidString])
     }
 
     static func notificationScheduleDescription(from triggerDate: DateComponents) -> String {
         let timeFormatter = DateFormatter()
         timeFormatter.dateStyle = .none
         timeFormatter.timeStyle = .short
-        
+
         // Create a dummy date for time formatting
         let dummyDate = Calendar.current.date(from: DateComponents(year: 2000, month: 1, day: 1, hour: triggerDate.hour, minute: triggerDate.minute))!
         let formattedTime = timeFormatter.string(from: dummyDate)
@@ -139,7 +165,7 @@ struct UserNotificationsManager {
         if triggerDate.weekday == nil, triggerDate.day == nil, triggerDate.weekdayOrdinal == nil {
             return "Daily at \(formattedTime)"
         }
-        
+
         // For weekly schedules
         if let weekday = triggerDate.weekday, triggerDate.day == nil, triggerDate.weekdayOrdinal == nil {
             let formatter = DateFormatter()
@@ -147,7 +173,7 @@ struct UserNotificationsManager {
             let weekdayName = formatter.weekdaySymbols[weekday - 1]
             return "Every \(weekdayName) at \(formattedTime)"
         }
-        
+
         // For monthly schedules by day-of-month
         if let day = triggerDate.day, triggerDate.weekday == nil {
             let daySuffix: String
@@ -159,20 +185,24 @@ struct UserNotificationsManager {
             }
             return "On the \(day)\(daySuffix) day of the month at \(formattedTime)"
         }
-        
+
         // For monthly schedules by weekday ordinal
         if let weekdayOrdinal = triggerDate.weekdayOrdinal, let weekday = triggerDate.weekday {
             let formatter = DateFormatter()
             formatter.dateFormat = "EEEE"
             let weekdayName = formatter.weekdaySymbols[weekday - 1]
-            
+
             let ordinalStrings = ["first", "second", "third", "fourth", "fifth", "last"]
             let ordinalDescription = ordinalStrings[abs(weekdayOrdinal) - 1]
-            
+
             return "On the \(ordinalDescription) \(weekdayName) of the month at \(formattedTime)"
         }
-        
+
         return "Unrecognized schedule"
     }
 
+    enum NotificationError: Error {
+        case notFound
+        case invalidData
+    }
 }

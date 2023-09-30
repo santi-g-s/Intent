@@ -109,8 +109,7 @@ struct HabitEditorView: View {
                     .tint(config.data.accentColor)
                     .sheet(isPresented: $config.isNotificationEditorShown) {
                         NotificationEditorView(habit: config.data, onCompletion: { content, triggerDate, notificationIdentifier in
-                            UserNotificationsManager.scheduleNotification(content: content, triggerDate: triggerDate, notificationIdentifier: notificationIdentifier)
-                            config.isNotificationEditorShown.toggle()
+                            config.isNotificationEditorShown = false
                             config.notifications.append((content, triggerDate, notificationIdentifier))
                         })
                         .presentationDetents([.medium])
@@ -144,6 +143,8 @@ struct HabitEditorView: View {
                     }
                     Spacer()
                     Button {
+                        config.scheduleNotifications(context: context)
+
                         if config.isEditing {
                             Habit.updateHabit(with: config.data, context: context)
                         } else {
@@ -167,11 +168,13 @@ struct HabitEditorView: View {
                 .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
-
         .sheet(isPresented: $config.isSymbolPickerShown) {
             SymbolPicker(symbol: $config.data.iconName)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.hidden)
+        }
+        .task {
+            await config.populateNotificationsData()
         }
     }
 
