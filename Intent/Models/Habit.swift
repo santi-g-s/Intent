@@ -5,11 +5,10 @@
 //  Created by Santiago Garcia Santos on 12/11/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 extension Habit {
-    
     /**
      The title of the habit.
      */
@@ -75,18 +74,18 @@ extension Habit {
     var notificationIdentifiers: [String] {
         get {
             return notificationIdentifiers_ ?? [String]()
-            }
-            set {
-                notificationIdentifiers_ = newValue
-            }
         }
+        set {
+            notificationIdentifiers_ = newValue
+        }
+    }
     
     /**
      The accent color associated with this habit
      */
     var accentColor: Color {
         get {
-            if let data = accentColor_, let uiColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: data){
+            if let data = accentColor_, let uiColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: data) {
                 return Color(uiColor: uiColor)
             }
             return Color.accentColor
@@ -135,7 +134,7 @@ extension Habit {
         }
     }
     
-    //MARK: - Convenience Variables
+    // MARK: - Convenience Variables
     
     /**
      Represents the current status of the habit. Can be either `complete` or `pending` with an associated int for the current count.
@@ -147,7 +146,6 @@ extension Habit {
         guard !dates.isEmpty else { return .pending(0) }
         
         while count < requiredCount {
-            
             guard let last = dates.last else { return .pending(count) }
             
             if !Calendar.current.isDate(last, inSame: timePeriod.component, as: Date()) {
@@ -177,10 +175,9 @@ extension Habit {
      A string that describes how long ago the habit streak was kept alive.
      */
     var streakDescription: AttributedString? {
-        
         let end = status == .complete ? Date() : Calendar.current.date(byAdding: timePeriod.component, value: -1, to: Date())!
         
-        let numDays = max(0,Calendar.current.numberOfInclusive(component: timePeriod.component, from: startOfMostRecentStreak, and: end))
+        let numDays = max(0, Calendar.current.numberOfInclusive(component: timePeriod.component, from: startOfMostRecentStreak, and: end))
         
         let str: AttributedString? = try? AttributedString(markdown: "**\(numDays)** \(timePeriod.unitName) streak")
         
@@ -188,19 +185,18 @@ extension Habit {
     }
     
     var scheduleDescription: AttributedString {
-        
         var count = ""
         
-        switch self.requiredCount {
+        switch requiredCount {
         case 1:
             count = "Once"
         case 2:
             count = "Twice"
         default:
-            count = "\(self.requiredCount) times"
+            count = "\(requiredCount) times"
         }
         
-        let str: AttributedString = try! AttributedString(markdown: "Schedule: **\(count) a \(self.timePeriod.unitName)**")
+        let str: AttributedString = try! AttributedString(markdown: "Schedule: **\(count) a \(timePeriod.unitName)**")
         
         return str
     }
@@ -214,11 +210,10 @@ extension Habit {
         var lastDate = startDate
         var score = 0.0
         var prevScore = 0.0
-        var trackerIndex: Int = 0
+        var trackerIndex = 0
         
         // Iterate through each date from the startDate to today
         for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: timePeriod.component) {
-            
             // Count how many times the habit was completed on the current date
             var count = 0
             while trackerIndex < completedDates.count, Calendar.current.compare(date, to: completedDates[trackerIndex], toGranularity: timePeriod.component) == .orderedSame {
@@ -232,7 +227,7 @@ extension Habit {
                 score = min(1, score + 0.1)
             } else if Calendar.current.compare(date, to: Date(), toGranularity: timePeriod.component) == .orderedSame {
                 // For today, add incremental score proportional to the fraction of requiredCount that was met
-                score = min(1, score + 0.1 / Double(requiredCount) * Double(count))
+                score = min(1, score + 0.1 / Double(requiredCount)*Double(count))
             } else {
                 // The habit was not completed, so decrement the score (down to a minimum of 0)
                 score = max(0, score - 0.2)
@@ -255,8 +250,7 @@ extension Habit {
         return lastDate
     }
 
-    
-    //MARK: - Object Methods
+    // MARK: - Object Methods
     
     /**
      Call this method to cycle through the completion of the habit.
@@ -265,6 +259,24 @@ extension Habit {
      */
     func complete() {
         completedDates.append(Date())
+    }
+    
+    func addCompletion(on date: Date) {
+        completedDates.insertInOrder(date)
+    }
+    
+    func removeCompletion(on date: Date) {
+        if let targetIndex = completedDates.firstIndex(where: { d in
+            Calendar.current.isDate(d, inSameDayAs: date)
+        }) {
+            completedDates.remove(at: targetIndex)
+        }
+    }
+    
+    func hasCompletion(on date: Date) -> Bool {
+        return completedDates.firstIndex { d in
+            Calendar.current.isDate(d, inSameDayAs: date)
+        } != nil
     }
     
     func revertCompletion() {
@@ -285,7 +297,6 @@ extension Habit {
                                               steppingBy: timePeriod.component)
         
         for date in allDates {
-            
             // Extracted the comparison into a variable for clarity
             let isDateEarlierThanCompleted = trackerIndex < completedDates.count &&
                 Calendar.current.compare(date,
@@ -306,9 +317,10 @@ extension Habit {
             // Count completed dates
             var count = 0
             while trackerIndex < completedDates.count,
-                Calendar.current.compare(date,
-                                         to: completedDates[trackerIndex],
-                                         toGranularity: timePeriod.component) == .orderedSame {
+                  Calendar.current.compare(date,
+                                           to: completedDates[trackerIndex],
+                                           toGranularity: timePeriod.component) == .orderedSame
+            {
                 trackerIndex += 1
                 count += 1
             }
@@ -320,18 +332,16 @@ extension Habit {
             if requirementReached {
                 score = min(1, score + 0.1)
             } else if isToday {
-                score = min(1, score + (0.1 / Double(requiredCount)) * Double(count))
+                score = min(1, score + (0.1 / Double(requiredCount))*Double(count))
             } else {
                 score = max(0, score - 0.2)
             }
-            
         }
         
         return score
     }
 
-    
-    func calculateCompletionMap() -> [Date : Int] {
+    func calculateCompletionMap() -> [Date: Int] {
         var countMap = [Date: Int]()
         for date in Calendar.current.dates(from: startDate, through: Date(), steppingBy: .day) {
             countMap[Calendar.current.standardizedDate(date)] = 0
@@ -344,18 +354,18 @@ extension Habit {
     }
     
     private func update(with data: HabitData) {
-        self.title = data.title
-        self.startDate = data.startDate
-        self.timePeriod = data.timePeriod
-        self.requiredCount = data.requiredCount
-        self.accentColor = data.accentColor
-        self.iconName = data.iconName
-        self.messages = data.messages
-        self.completionType = data.completionType
-        self.notificationIdentifiers = data.notificationIdentifiers
+        title = data.title
+        startDate = data.startDate
+        timePeriod = data.timePeriod
+        requiredCount = data.requiredCount
+        accentColor = data.accentColor
+        iconName = data.iconName
+        messages = data.messages
+        completionType = data.completionType
+        notificationIdentifiers = data.notificationIdentifiers
     }
     
-    //MARK: - Static Methods
+    // MARK: - Static Methods
     
     @discardableResult
     static func createHabit(with data: HabitData, context: NSManagedObjectContext) -> Habit {
@@ -367,7 +377,7 @@ extension Habit {
         switch result {
         case .success(let count):
             habit.order = count ?? 0
-        case .failure(_):
+        case .failure:
             habit.order = 0
         }
         
@@ -392,7 +402,7 @@ extension Habit {
             } else {
                 createHabit(with: data, context: context)
             }
-        case .failure(_):
+        case .failure:
             print("Couldn't fetch Habit to save")
         }
         do {
@@ -412,7 +422,7 @@ extension Habit {
             } else {
                 print("Couldn't find Habit to delete")
             }
-        case .failure(_):
+        case .failure:
             print("Couldn't fetch Habit to save")
         }
         do {
@@ -439,18 +449,18 @@ extension Habit {
             habit.id = UUID()
             habit.title_ = "Example Habit \(i)"
             habit.completedDates_ = [
-                Date().addingTimeInterval(-60*60*(24)*1*10),// 10 days ago
-                Date().addingTimeInterval(-60*60*(24)*1*3),
-                Date().addingTimeInterval(-60*60*(24)*1*3),
-                Date().addingTimeInterval(-60*60*(24)*1*3),
-                Date().addingTimeInterval(-60*60*(24)*1*2),
-                Date().addingTimeInterval(-60*60*(24)*1*2),
-                Date().addingTimeInterval(-60*60*(24)*1*2),
-                Date().addingTimeInterval(-60*60*(24)*1*1),
-                Date().addingTimeInterval(-60*60*(24)*1*1),
-                Date().addingTimeInterval(-60*60*(24)*1*1)
+                Date().addingTimeInterval(-60*60*24*1*10), // 10 days ago
+                Date().addingTimeInterval(-60*60*24*1*3),
+                Date().addingTimeInterval(-60*60*24*1*3),
+                Date().addingTimeInterval(-60*60*24*1*3),
+                Date().addingTimeInterval(-60*60*24*1*2),
+                Date().addingTimeInterval(-60*60*24*1*2),
+                Date().addingTimeInterval(-60*60*24*1*2),
+                Date().addingTimeInterval(-60*60*24*1*1),
+                Date().addingTimeInterval(-60*60*24*1*1),
+                Date().addingTimeInterval(-60*60*24*1*1)
             ]
-            habit.startDate_ = Date().addingTimeInterval(-60*60*(24)*1*10)
+            habit.startDate_ = Date().addingTimeInterval(-60*60*24*1*10)
             habit.requiredCount = 3
             habit.timePeriod = .daily
             habit.order = i
@@ -485,7 +495,7 @@ extension Habit {
             ("Playing Tennis", "tennis.racket"),
             ("Walking", "figure.walk"),
             ("Writing", "pencil"),
-            ("Yoga", "person.position"),
+            ("Yoga", "person.position")
         ]
         
         let timePeriods: [TimePeriod] = [.daily, .weekly, .monthly]
@@ -517,12 +527,12 @@ extension Habit {
 
             // Generate a random percentage (70-100%) of days between start date and now to be marked as completed
             let totalDays = Calendar.current.dateComponents([.day], from: startDate, to: Date()).day!
-            let numCompletedDates = Int(Double(totalDays) * Double.random(in: 0.7...1.0))
+            let numCompletedDates = Int(Double(totalDays)*Double.random(in: 0.7...1.0))
             
             var completedDates: [Date] = []
             for _ in 0..<numCompletedDates {
                 // Randomly select a date between start date and now
-                let randomTimeInterval = Double.random(in: 0...Double(totalDays)) * 60 * 60 * 24
+                let randomTimeInterval = Double.random(in: 0...Double(totalDays))*60*60*24
                 let randomDate = startDate.addingTimeInterval(randomTimeInterval)
                 
                 // Ensure that the same date is not added multiple times
@@ -545,7 +555,6 @@ extension Habit {
         }
         return habits
     }
-    
 }
 
 enum HabitStatus: Equatable {
@@ -605,13 +614,12 @@ enum CompletionType: Int {
 }
 
 struct HabitData: Identifiable {
-    
     var id: UUID
-    var startDate: Date = Date()
+    var startDate: Date = .init()
     var title: String = ""
     var timePeriod: TimePeriod = .daily
     var requiredCount: Int = 1
-    var accentColor: Color = Color.accentColor
+    var accentColor: Color = .accentColor
     var iconName: String = "star"
     var messages = [String]()
     var completionType: CompletionType = .equalTo
@@ -631,6 +639,6 @@ struct HabitData: Identifiable {
         self.iconName = habit.iconName
         self.messages = habit.messages
         self.completionType = habit.completionType
-        self.notificationIdentifiers = habit.notificationIdentifiers ?? []
+        self.notificationIdentifiers = habit.notificationIdentifiers
     }
 }

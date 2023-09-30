@@ -40,10 +40,15 @@ struct HabitDetailView: View {
         .padding(.horizontal)
     }
     
+    @State var confirmationDialogueDate: Date? = nil
+    @State var showConfirmationDialogue = false
+    
     var calendarView: some View {
         CalendarView(interval: DateInterval(start: habit.startDate.adding(.month, value: -2), end: Date())) { date in
             
             let isComplete = completionMap[Calendar.current.standardizedDate(date)] ?? 0 >= 1
+            
+            let isToday = Calendar.current.compare(date, to: Date(), toGranularity: .day) == .orderedSame
             Group {
                 if !isComplete {
                     Text("30")
@@ -51,6 +56,14 @@ struct HabitDetailView: View {
                         .padding(8)
                         .background(.clear)
                         .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .foregroundColor(isToday ? habit.accentColor.opacity(0.2) : .clear)
+                                .overlay {
+                                    Circle()
+                                        .stroke(isToday ? habit.accentColor : Color.clear, lineWidth: 2)
+                                }
+                        )
                         .padding(.vertical, 4)
                         .overlay(
                             Text(String(Calendar.current.component(.day, from: date)))
@@ -80,6 +93,25 @@ struct HabitDetailView: View {
                             }
                             
                         })
+                }
+            }
+            .onTapGesture {
+                showConfirmationDialogue = true
+                confirmationDialogueDate = date
+            }
+        }
+        .confirmationDialog(Date().formatted(), isPresented: $showConfirmationDialogue, titleVisibility: .visible, presenting: confirmationDialogueDate ?? Date()) { date in
+            Button {
+                habit.addCompletion(on: date)
+            } label: {
+                Text("Add Completion")
+            }
+            // If let completedDates matches a date item
+            if habit.hasCompletion(on: date) {
+                Button(role: .destructive) {
+                    habit.removeCompletion(on: date)
+                } label: {
+                    Text("Remove Completion")
                 }
             }
         }

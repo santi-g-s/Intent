@@ -111,7 +111,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.timePeriod = .daily
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 day streak", expected)
     }
     
@@ -126,7 +126,7 @@ final class HabitTests: XCTestCase {
         ]
         
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual(expected, "0 day streak")
     }
     
@@ -140,7 +140,7 @@ final class HabitTests: XCTestCase {
             Date().adding(.day, value: -1),
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("2 day streak", expected)
     }
     
@@ -155,7 +155,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("3 day streak", expected)
     }
     
@@ -172,7 +172,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("2 day streak", expected)
     }
     
@@ -195,7 +195,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("3 day streak", expected)
     }
     
@@ -209,7 +209,7 @@ final class HabitTests: XCTestCase {
             dates.append(Date().adding(.day, value: -i))
         }
         habit.completedDates_ = dates
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("1000 day streak", expected)
     }
     
@@ -221,7 +221,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.timePeriod = .weekly
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 week streak", expected)
     }
     
@@ -235,7 +235,7 @@ final class HabitTests: XCTestCase {
             Date().adding(.weekOfYear, value: -2),
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 week streak", expected)
     }
 
@@ -249,7 +249,7 @@ final class HabitTests: XCTestCase {
             Date().adding(.weekOfYear, value: -1),
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("2 week streak", expected)
     }
 
@@ -264,7 +264,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("3 week streak", expected)
     }
 
@@ -281,7 +281,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("2 week streak", expected)
     }
 
@@ -304,7 +304,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("3 week streak", expected)
     }
 
@@ -318,7 +318,7 @@ final class HabitTests: XCTestCase {
             dates.append(Date().adding(.weekOfYear, value: -i))
         }
         habit.completedDates_ = dates
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("1000 week streak", expected)
     }
     
@@ -329,7 +329,7 @@ final class HabitTests: XCTestCase {
         habit.startDate = Date()
         habit.timePeriod = .monthly
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 month streak", expected)
     }
     
@@ -343,7 +343,7 @@ final class HabitTests: XCTestCase {
             Date().adding(.month, value: -2),
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 month streak", expected)
     }
 
@@ -357,7 +357,7 @@ final class HabitTests: XCTestCase {
             Date().adding(.month, value: -1),
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("2 month streak", expected)
     }
 
@@ -372,7 +372,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("3 month streak", expected)
     }
 
@@ -389,7 +389,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("2 month streak", expected)
     }
 
@@ -412,7 +412,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("3 month streak", expected)
     }
 
@@ -426,7 +426,7 @@ final class HabitTests: XCTestCase {
             dates.append(Date().adding(.month, value: -i))
         }
         habit.completedDates_ = dates
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("1000 month streak", expected)
     }
     
@@ -497,7 +497,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 day streak", expected)
     }
 
@@ -508,7 +508,7 @@ final class HabitTests: XCTestCase {
         habit.requiredCount = 1
         habit.completedDates = []
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 day streak", expected)
     }
 
@@ -526,7 +526,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("1 day streak", expected)
     }
 
@@ -547,7 +547,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 week streak", expected)
     }
 
@@ -558,7 +558,7 @@ final class HabitTests: XCTestCase {
         habit.requiredCount = 1
         habit.completedDates = []
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 week streak", expected)
     }
 
@@ -576,7 +576,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("1 week streak", expected)
     }
 
@@ -596,7 +596,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
 
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 month streak", expected)
     }
 
@@ -607,7 +607,7 @@ final class HabitTests: XCTestCase {
         habit.requiredCount = 1
         habit.completedDates = []
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("0 month streak", expected)
     }
 
@@ -625,7 +625,7 @@ final class HabitTests: XCTestCase {
             Date()
         ]
         
-        let expected = NSAttributedString(habit.streakDescription).string
+        let expected = NSAttributedString(habit.streakDescription!).string
         XCTAssertEqual("1 month streak", expected)
     }
 
