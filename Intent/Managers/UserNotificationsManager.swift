@@ -131,16 +131,14 @@ struct UserNotificationsManager {
 
         for request in requests {
             if request.identifier == identifier.uuidString {
-                if let content = request.content as? UNNotificationContent {
-                    if let trigger = request.trigger as? UNCalendarNotificationTrigger {
-                        let triggerDate = trigger.dateComponents
-                        return (content: content, triggerDate: triggerDate)
-                    } else {
-                        print("Trigger is not of type UNCalendarNotificationTrigger: \(request.trigger)")
-                    }
+                let content = request.content
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                    let triggerDate = trigger.dateComponents
+                    return (content: content, triggerDate: triggerDate)
                 } else {
-                    print("Content is not of expected type: \(request.content)")
+                    print("Trigger is not of type UNCalendarNotificationTrigger: \(String(describing: request.trigger))")
                 }
+
                 throw NotificationError.invalidData
             }
         }
