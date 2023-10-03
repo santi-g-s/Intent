@@ -115,49 +115,49 @@ struct HabitEditorView: View {
                 }
             }
             .navigationTitle(config.isEditing ? "Edit habit" : "Add habit")
-        }
-        .safeAreaInset(edge: .bottom) {
-            if focusedField == nil {
-                HStack {
-                    if config.isEditing {
+            .safeAreaInset(edge: .bottom) {
+                if focusedField == nil {
+                    HStack {
+                        if config.isEditing {
+                            Spacer()
+                            Button {
+                                Habit.deleteHabit(with: config.data, context: context)
+                                config.didDeleteHabit = true
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Label("Delete Habit", systemImage: "trash")
+                                    .bold()
+                                    .foregroundColor(.red)
+                                    .padding(8)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial)
+                                    }
+                            }
+                        }
                         Spacer()
                         Button {
-                            Habit.deleteHabit(with: config.data, context: context)
-                            config.didDeleteHabit = true
+                            config.scheduleNotifications(context: context)
+
+                            if config.isEditing {
+                                Habit.updateHabit(with: config.data, context: context)
+                            } else {
+                                let newHabit = Habit.createHabit(with: config.data, context: context)
+                                config.createdHabitId = newHabit.id
+                            }
                             presentationMode.wrappedValue.dismiss()
                         } label: {
-                            Label("Delete Habit", systemImage: "trash")
+                            Label(config.isEditing ? "Update Habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
                                 .bold()
-                                .foregroundColor(.red)
+                                .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
                                 .padding(8)
                                 .background {
-                                    RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(.regularMaterial)
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
                                 }
                         }
-                    }
-                    Spacer()
-                    Button {
-                        config.scheduleNotifications(context: context)
+                        .disabled(config.isButtonDisabled)
 
-                        if config.isEditing {
-                            Habit.updateHabit(with: config.data, context: context)
-                        } else {
-                            let newHabit = Habit.createHabit(with: config.data, context: context)
-                            config.createdHabitId = newHabit.id
-                        }
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Label(config.isEditing ? "Update Habit" : "Create Habit", systemImage: config.isEditing ? "checkmark" : "plus")
-                            .bold()
-                            .foregroundColor(config.data.accentColor.isDarkBackground() ? .white : .black)
-                            .padding(8)
-                            .background {
-                                RoundedRectangle(cornerRadius: 16, style: .continuous).foregroundStyle(config.data.accentColor)
-                            }
+                        Spacer()
                     }
-                    .disabled(config.isButtonDisabled)
-
-                    Spacer()
                 }
             }
         }

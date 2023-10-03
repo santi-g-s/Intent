@@ -55,9 +55,7 @@ struct UserNotificationsManager {
 
             let content = UNMutableNotificationContent()
             content.title = habit.title
-            if let body = habit.messages.first {
-                content.body = body
-            }
+            content.body = habit.messages.first ?? "The journey of a thousand miles begins with one step."
             content.sound = .default
 
             let triggerHour = Calendar.current.component(.hour, from: timeOfDay)
@@ -117,7 +115,7 @@ struct UserNotificationsManager {
     ///   - content: The content of the notification.
     ///   - triggerDate: The date components specifying when the notification should be delivered.
     static func scheduleNotification(content: UNNotificationContent, triggerDate: DateComponents, notificationIdentifier: UUID) {
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         let request = UNNotificationRequest(identifier: notificationIdentifier.uuidString, content: content, trigger: trigger)
         center.add(request)
     }

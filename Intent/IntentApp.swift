@@ -9,15 +9,14 @@ import SwiftUI
 
 @main
 struct IntentApp: App {
-    
     @Environment(\.scenePhase) private var scenePhase
-    
+
     #if targetEnvironment(simulator)
-    var dataManager = DataManager.preview
+    var dataManager = DataManager.shared
     #else
     var dataManager = DataManager.shared
     #endif
-    
+
     var body: some Scene {
         WindowGroup {
             ContentViewWrapper()
@@ -31,7 +30,7 @@ struct IntentApp: App {
                     case .background:
                         dataManager.saveData()
                     default:
-                        return 
+                        return
                     }
                 }
         }

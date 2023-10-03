@@ -58,7 +58,7 @@ struct HabitDetailView: View {
                         .clipShape(Circle())
                         .overlay(
                             Circle()
-                                .foregroundColor(isToday ? habit.accentColor.opacity(0.2) : .clear)
+                                .foregroundColor(isToday ? habit.accentColor.opacity(0.1) : .clear)
                                 .overlay {
                                     Circle()
                                         .stroke(isToday ? habit.accentColor : Color.clear, lineWidth: 2)
@@ -96,11 +96,13 @@ struct HabitDetailView: View {
                 }
             }
             .onTapGesture {
-                showConfirmationDialogue = true
-                confirmationDialogueDate = date
+                if Calendar.current.compare(date, to: Date(), toGranularity: .day) != .orderedDescending {
+                    showConfirmationDialogue = true
+                    confirmationDialogueDate = date
+                }
             }
         }
-        .confirmationDialog(Date().formatted(), isPresented: $showConfirmationDialogue, titleVisibility: .visible, presenting: confirmationDialogueDate ?? Date()) { date in
+        .confirmationDialog((confirmationDialogueDate ?? Date()).formatted(date: .complete, time: .omitted), isPresented: $showConfirmationDialogue, titleVisibility: .visible, presenting: confirmationDialogueDate ?? Date()) { date in
             Button {
                 habit.addCompletion(on: date)
             } label: {

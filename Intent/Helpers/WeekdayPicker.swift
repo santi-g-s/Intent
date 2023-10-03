@@ -9,21 +9,28 @@ import SwiftUI
 
 struct WeekdayPicker: View {
     @Binding var selectedDays: [Int]
-    let weekdays = Calendar.current.veryShortWeekdaySymbols
     var buttonColor: Color = .red
+
+    var orderedWeekdays: [String] {
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        let weekdays = formatter.veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
+        let firstWeekday = calendar.firstWeekday
+        return Array(weekdays[(firstWeekday - 1)...]) + Array(weekdays[0 ..< (firstWeekday - 1)])
+    }
 
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
-                ForEach(0 ..< weekdays.count, id: \.self) { index in
+                ForEach(0 ..< orderedWeekdays.count, id: \.self) { index in
                     WeekdayButton(
-                        title: weekdays[index],
-                        isSelected: selectedDays.contains(index + 1),
+                        title: orderedWeekdays[index],
+                        isSelected: selectedDays.contains((index + Calendar.current.firstWeekday - 1) % 7 + 1),
                         buttonColor: buttonColor
                     ) {
-                        toggleSelection(day: index + 1)
+                        toggleSelection(day: index)
                     }
-                    .frame(width: geometry.size.width / CGFloat(weekdays.count), height: geometry.size.width / CGFloat(weekdays.count))
+                    .frame(width: geometry.size.width / CGFloat(orderedWeekdays.count), height: geometry.size.width / CGFloat(orderedWeekdays.count))
                 }
             }
         }
@@ -31,10 +38,12 @@ struct WeekdayPicker: View {
     }
 
     private func toggleSelection(day: Int) {
-        if let existingIndex = selectedDays.firstIndex(of: day) {
+        let firstWeekday = Calendar.current.firstWeekday
+        let adjustedDay = (day + firstWeekday - 1) % 7 + 1
+        if let existingIndex = selectedDays.firstIndex(of: adjustedDay) {
             selectedDays.remove(at: existingIndex)
         } else {
-            selectedDays.append(day)
+            selectedDays.append(adjustedDay)
         }
     }
 }
