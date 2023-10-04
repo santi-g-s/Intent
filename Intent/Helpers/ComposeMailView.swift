@@ -15,13 +15,12 @@ import UIKit
 import SwiftUI
 
 struct ComposeMailView<Content>: View where Content: View {
-    
     #if os(iOS)
     @State var isShowingMailView = false
     @State var alertNoMail = false
     @State var result: Result<MFMailComposeResult, Error>? = nil
     #endif
-    
+
     let content: () -> Content
 
     init(@ViewBuilder content: @escaping () -> Content) {
@@ -37,9 +36,9 @@ struct ComposeMailView<Content>: View where Content: View {
                 content()
             }
             .buttonStyle(PlainButtonStyle())
-                //            .disabled(!MFMailComposeViewController.canSendMail())
+            //            .disabled(!MFMailComposeViewController.canSendMail())
             .sheet(isPresented: $isShowingMailView, onDismiss: {
-                //hideKeyboard()
+                // hideKeyboard()
             }) {
                 MailView(result: self.$result)
             }
@@ -50,7 +49,7 @@ struct ComposeMailView<Content>: View where Content: View {
             Button(action: {
                 let service = NSSharingService(named: NSSharingService.Name.composeEmail)
 
-                service?.recipients = ["support@thenoahapp.com"]
+                service?.recipients = ["sumone.studios.ltd@gmail.com"]
                 service?.perform(withItems: ["Test Mail body"])
             }) {
                 content()
@@ -59,10 +58,7 @@ struct ComposeMailView<Content>: View where Content: View {
             #endif
         }
     }
-    
 }
-
-
 
 #if os(iOS)
 struct MailView: UIViewControllerRepresentable {
@@ -94,9 +90,9 @@ struct MailView: UIViewControllerRepresentable {
                 return
             }
             self.result = .success(result)
-            
+
             if result == .sent {
-            AudioServicesPlayAlertSound(SystemSoundID(1001))
+                AudioServicesPlayAlertSound(SystemSoundID(1001))
             }
         }
     }

@@ -262,6 +262,9 @@ extension Habit {
     }
     
     func addCompletion(on date: Date) {
+        if date < startDate {
+            startDate = date
+        }
         completedDates.insertInOrder(date)
     }
     

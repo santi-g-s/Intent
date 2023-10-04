@@ -44,7 +44,7 @@ struct HabitDetailView: View {
     @State var showConfirmationDialogue = false
     
     var calendarView: some View {
-        CalendarView(interval: DateInterval(start: habit.startDate.adding(.month, value: -2), end: Date())) { date in
+        CalendarView(interval: DateInterval(start: min(Date().adding(.month, value: -2), habit.startDate), end: Date())) { date in
             
             let isComplete = completionMap[Calendar.current.standardizedDate(date)] ?? 0 >= 1
             

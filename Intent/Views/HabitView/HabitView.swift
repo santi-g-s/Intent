@@ -5,17 +5,16 @@
 //  Created by Santiago Garcia Santos on 28/11/2022.
 //
 
-import SwiftUI
 import CoreHaptics
+import SwiftUI
 
 struct HabitView: View {
-    
     @ObservedObject var habit: Habit
     
     @Binding var habitEditorConfig: HabitEditorConfig
     
     @State var habitScore = 0.5
-    @State var completionMap = [Date : Int]()
+    @State var completionMap = [Date: Int]()
     
     @State var showDetail = false
     @State var scrollOffset: CGPoint = .zero
@@ -29,11 +28,11 @@ struct HabitView: View {
     @State private var bounce = false
     
     var availableWidth: CGFloat {
-        max(0,(UIScreen.main.bounds.width - 2*40) * habitScore - 12)
+        max(0, (UIScreen.main.bounds.width - 2 * 40) * habitScore - 12)
     }
     
     var body: some View {
-        VStack(spacing: 0){
+        VStack(spacing: 0) {
             Text(habit.title)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
@@ -42,7 +41,7 @@ struct HabitView: View {
                     returnToTop.toggle()
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .scaleEffect(max(2/3, min((250+scrollOffset.y) / 250, 1.2)), anchor: .top)
+                .scaleEffect(max(2/3, min((250 + scrollOffset.y)/250, 1.2)), anchor: .top)
                 .padding(.top, 4)
             
             GeometryReader { geoReader in
@@ -53,27 +52,26 @@ struct HabitView: View {
                         offsetChanged: { offset in
                             self.scrollOffset = offset
                             if showDetail == false {
-                                if (offset.y < -110) {
+                                if offset.y < -110 {
                                     showDetail = true
                                     
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01){
-                                        withAnimation(.easeInOut(duration: 0.1)){
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                                        withAnimation(.easeInOut(duration: 0.1)) {
                                             proxy.scrollTo(0, anchor: .top)
                                         }
                                         scrollHaptic()
-                                        
                                     }
-                                } else if (offset.y > 120) {
+                                } else if offset.y > 120 {
                                     habitEditorConfig.isGroupViewShown = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01){
-                                        withAnimation(.easeInOut(duration: 0.1)){
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                                        withAnimation(.easeInOut(duration: 0.1)) {
                                             proxy.scrollTo("top", anchor: .top)
                                         }
                                         scrollHaptic()
                                     }
                                 }
                             } else {
-                                if (offset.y > -20) {
+                                if offset.y > -20 {
                                     showDetail = false
                                 }
                             }
@@ -98,7 +96,7 @@ struct HabitView: View {
         }
         .onAppear {
             prepareHaptics()
-            withAnimation(.none){
+            withAnimation(.none) {
                 habitScore = habit.calculateScore()
                 completionMap = habit.calculateCompletionMap()
             }
@@ -111,7 +109,7 @@ struct HabitView: View {
             habitScore = habit.calculateScore()
             completionMap = habit.calculateCompletionMap()
         }
-        .overlay(alignment: .bottom){
+        .overlay(alignment: .bottom) {
             HStack {
                 Spacer()
                 Button {
@@ -126,7 +124,7 @@ struct HabitView: View {
             }
             .padding(.horizontal)
             .disabled(!showDetail)
-            .opacity(min(1, -scrollOffset.y/(UIScreen.main.bounds.height-200)))
+            .opacity(min(1, -scrollOffset.y/(UIScreen.main.bounds.height - 200)))
         }
         .sheet(isPresented: $presentEditHabit, onDismiss: {
             habitScore = habit.calculateScore()
@@ -154,7 +152,6 @@ struct HabitView: View {
                             Text("Tap to log your habit")
                                 .foregroundStyle(.secondary)
                         }
-                        
                     }
                 
                 Button {
@@ -191,8 +188,8 @@ struct HabitView: View {
                             }
                         }
                         .animation(.spring(response: 0.4, dampingFraction: 0.45, blendDuration: 0), value: bounce)
-                        .onChange(of: habit.completionsInPeriod) { newValue in
-                            bounce.toggle()  // this will trigger the bounce animation
+                        .onChange(of: habit.completionsInPeriod) { _ in
+                            bounce.toggle() // this will trigger the bounce animation
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 bounce = false
                             }
@@ -205,9 +202,7 @@ struct HabitView: View {
         .padding(.horizontal, 40)
         .overlay(alignment: .top) {
             VStack {
-                
                 VStack {
-                    
                     Text("Swipe down to manage habits")
                         .font(.caption)
                         .bold()
@@ -221,7 +216,6 @@ struct HabitView: View {
                     
                 }.padding(.top, -60)
                 
-                
                 if let dateStartedDescription = habit.streakDescription {
                     Text(dateStartedDescription)
                         .font(.subheadline)
@@ -229,9 +223,6 @@ struct HabitView: View {
                 }
                 
                 Spacer()
-                
-                
-                
                 
                 VStack {
                     Text(showDetail ? "See less" : "See more")
@@ -246,8 +237,7 @@ struct HabitView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 .overlay(alignment: .bottom) {
-                    HStack(alignment: .bottom){
-                        
+                    HStack(alignment: .bottom) {
                         Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
                             .font(.system(.body, design: .rounded, weight: .bold))
                             .foregroundColor(habit.accentColor)
@@ -256,10 +246,7 @@ struct HabitView: View {
                             .scaleEffect(bounce ? 1.1 : 1.0)
                             .animation(.easeInOut(duration: 0.1), value: bounce)
                         
-                        
                         Spacer()
-                        
-                        
                         
                         Spacer()
                         
@@ -272,19 +259,13 @@ struct HabitView: View {
                                     .padding(8)
                                     .background(Circle().foregroundStyle(.regularMaterial))
                                     .padding(.trailing, 6)
-            
                             }
                         }
-                        
                     }
                 }
                 .padding(.horizontal)
-                
-                
             }
-            
         }
-        
     }
     
     func prepareHaptics() {
@@ -365,7 +346,6 @@ struct HabitView: View {
             print("Failed to play pattern: \(error.localizedDescription).")
         }
     }
-    
 }
 
 struct HabitView_Previews: PreviewProvider {

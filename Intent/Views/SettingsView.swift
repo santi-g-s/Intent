@@ -5,11 +5,10 @@
 //  Created by Santiago Garcia Santos on 10/01/2023.
 //
 
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 struct SettingsView: View {
-    
     @Environment(\.requestReview) var requestReview
     
     @Environment(\.presentationMode) var presentationMode
@@ -19,8 +18,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 40){
-                    VStack(spacing: 20){
+                VStack(spacing: 40) {
+                    VStack(spacing: 20) {
                         Image("IntentIcon")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -34,7 +33,6 @@ struct SettingsView: View {
                             Text(UIApplication.appVersion ?? "0.0.0")
                                 .foregroundStyle(.tertiary)
                         }
-                        
                     }
                     Text("Created with \(Image(systemName: "heart.fill")) by **Sumone Studios**")
                         .foregroundStyle(.secondary)
@@ -42,7 +40,7 @@ struct SettingsView: View {
                 
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 16), GridItem(.flexible(), spacing: 16)], spacing: 16) {
                     NavigationLink(
-                        destination: ScrollView{
+                        destination: ScrollView {
                             Text(attributedText).padding()
                         },
                         label: {
@@ -58,9 +56,14 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.plain)
                     
-                    ComposeMailView {
-                        Tile(systemImage: "envelope.open", text: "Contact us")
+                    Button {
+                        if let url = URL(string: "https://join.slack.com/t/intent-app/shared_invite/zt-24efkhgdf-78ideBD5S6DfctkULbayDQ") {
+                            UIApplication.shared.open(url)
+                        }
+                    } label: {
+                        Tile(systemImage: "bubble.left.and.bubble.right", text: "Chat with us")
                     }
+                    .buttonStyle(.plain)
                     
                     Button {
                         presentationMode.wrappedValue.dismiss()
@@ -71,10 +74,8 @@ struct SettingsView: View {
                     .buttonStyle(.plain)
                 }
                 .padding()
-                
             }
         }
-        
     }
     
     struct Tile: View {
@@ -82,7 +83,7 @@ struct SettingsView: View {
         var text: String
         
         var body: some View {
-            VStack(alignment: .leading, spacing: 16){
+            VStack(alignment: .leading, spacing: 16) {
                 Image(systemName: systemImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -110,11 +111,10 @@ struct SettingsView: View {
                 
                 dynamicAttributedString.addAttribute(.foregroundColor, value: Color.primary, range: NSRange(location: 0, length: dynamicAttributedString.length))
                 
-                
                 string = dynamicAttributedString
             }
             
-            catch let error {
+            catch {
                 print(error)
             }
         }
