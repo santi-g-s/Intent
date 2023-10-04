@@ -65,7 +65,7 @@ struct MonthlyPicker: View {
                             .bold(selectedDay == day)
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44)
                             .background(selectedDay == day ? accentColor : Color(uiColor: UIColor.systemBackground))
-                            .foregroundColor(selectedDay == day ? (accentColor.isDarkBackground() ? .white : .black) : .black)
+                            .foregroundColor(selectedDay == day ? (accentColor.isDarkBackground() ? .white : .primary) : .primary)
                             .cornerRadius(32)
                             .onTapGesture {
                                 selectedDay = day

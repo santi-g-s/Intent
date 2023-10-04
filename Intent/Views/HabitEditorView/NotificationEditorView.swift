@@ -26,6 +26,8 @@ struct NotificationEditorView: View {
     var habit: HabitData
     var onCompletion: (_ content: UNMutableNotificationContent, _ triggerDate: DateComponents, _ notificationIdentifier: UUID) -> Void
     
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var timeOfDay = Date()
     
     @State private var weekdays = [Int]()
@@ -47,6 +49,21 @@ struct NotificationEditorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                Text("Add a notification")
+                    .font(.headline)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .overlay(alignment: .trailing) {
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .resizable()
+                                .symbolRenderingMode(.hierarchical)
+                                .foregroundStyle(.tertiary)
+                                .frame(width: 28, height: 28)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 Picker("Select Interval", selection: $selectedInterval) {
                     ForEach(NotificationInterval.allCases, id: \.self) { type in
                         Text(type.rawValue.capitalized).tag(type)
@@ -108,8 +125,8 @@ struct NotificationEditorView: View {
     }
 }
 
- struct NotificationEditorView_Previews: PreviewProvider {
+struct NotificationEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationEditorView(habit: HabitData(), onCompletion: { _, _,_  in })
+        NotificationEditorView(habit: HabitData(), onCompletion: { _, _, _ in })
     }
- }
+}

@@ -36,6 +36,7 @@ struct HabitEditorView: View {
                             Text("Pick an icon")
                             Spacer()
                             Image(systemName: config.data.iconName)
+                                .fontWeight(.semibold)
                         }
                         .foregroundColor(.primary)
                     }
@@ -95,8 +96,13 @@ struct HabitEditorView: View {
                     Button {
                         config.showNotificationEditor()
                     } label: {
-                        Label("Add a notification", systemImage: "bell")
-                            .foregroundColor(config.data.accentColor)
+                        HStack {
+                            Text("Add a notification")
+                                .fontWeight(.semibold)
+                            Spacer()
+                            Image(systemName: "bell")
+                                .fontWeight(.semibold)
+                        }
                     }
                     .tint(config.data.accentColor)
                     .sheet(isPresented: $config.isNotificationEditorShown) {

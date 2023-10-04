@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SymbolPicker: View {
-    
     private static let symbols: [String] = {
         guard let path = Bundle.main.path(forResource: "sfsymbols", ofType: "txt"),
               let content = try? String(contentsOfFile: path)
@@ -17,9 +16,9 @@ struct SymbolPicker: View {
         }
         return content.replacingOccurrences(of: ".fill\n", with: "\n")
             .split(separator: "\n")
-            .map { String($0)}
+            .map { String($0) }
     }()
-    
+
     // MARK: - Properties
 
     @Binding public var symbol: String
@@ -31,24 +30,35 @@ struct SymbolPicker: View {
     public init(symbol: Binding<String>) {
         _symbol = symbol
     }
-    
-    var body: some View {NavigationView {
-        
-        symbolGrid
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
-                    presentationMode.wrappedValue.dismiss()
+
+    var body: some View {
+        NavigationView {
+            symbolGrid
+                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Pick an icon")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .overlay(alignment: .trailing) {
+                                Button {
+                                    presentationMode.wrappedValue.dismiss()
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .resizable()
+                                        .symbolRenderingMode(.hierarchical)
+                                        .foregroundStyle(.tertiary)
+                                        .frame(width: 28, height: 28)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                    }
                 }
-            }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
-    .navigationViewStyle(StackNavigationViewStyle())
-        
-    }
-    
+
     private var symbolGrid: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 64, maximum: 64))]) {
