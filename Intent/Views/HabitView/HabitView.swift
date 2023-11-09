@@ -216,10 +216,19 @@ struct HabitView: View {
                     
                 }.padding(.top, -60)
                 
-                if let dateStartedDescription = habit.streakDescription {
-                    Text(dateStartedDescription)
-                        .font(.subheadline)
-                        .foregroundColor(habit.accentColor)
+                if let leadingDesc = habit.leadingStreakDescription, let numDays = habit.streakDescriptionsNumDays, let trailingDesc = habit.trailingStreakDescription {
+                    HStack(spacing: 4){
+                        Text(leadingDesc)
+                            .foregroundStyle(.secondary)
+                        Text(String(numDays))
+                            .bold()
+                            .foregroundColor(habit.accentColor)
+                            .padding(4)
+                            .background(RoundedRectangle(cornerRadius: 8, style: .continuous).foregroundColor(habit.accentColor).opacity(0.1))
+                        Text(trailingDesc)
+                            .foregroundStyle(.secondary)
+                    }
+                    
                 }
                 
                 Spacer()

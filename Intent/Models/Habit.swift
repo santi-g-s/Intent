@@ -184,6 +184,22 @@ extension Habit {
         return str
     }
     
+    var leadingStreakDescription: String? {
+        return "You're on a"
+    }
+    
+    var streakDescriptionsNumDays: Int? {
+        let end = status == .complete ? Date() : Calendar.current.date(byAdding: timePeriod.component, value: -1, to: Date())!
+        
+        let numDays = max(0, Calendar.current.numberOfInclusive(component: timePeriod.component, from: startOfMostRecentStreak, and: end))
+        
+        return numDays
+    }
+    
+    var trailingStreakDescription: String? {
+        return "\(timePeriod.unitName) streak"
+    }
+    
     var scheduleDescription: AttributedString {
         var count = ""
         
@@ -421,6 +437,11 @@ extension Habit {
         switch result {
         case .success(let habit):
             if let habit = habit {
+                for notificationIdentifier in habit.notificationIdentifiers {
+                    if let id = UUID(uuidString: notificationIdentifier) {
+                        UserNotificationsManager.deleteNotification(with: id)
+                    }
+                }
                 context.delete(habit)
             } else {
                 print("Couldn't find Habit to delete")

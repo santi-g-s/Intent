@@ -25,19 +25,29 @@ struct HabitDetailView: View {
     }
     
     var detailView: some View {
-        HStack(spacing: 5) {
-            Image(systemName: "calendar")
-            Text(habit.scheduleDescription)
+        VStack {
+            HStack(spacing: 5) {
+                Image(systemName: "calendar")
+                Text(habit.scheduleDescription)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .overlay(alignment: .trailing, content: {
+                if !habit.notificationIdentifiers.isEmpty {
+                    Image(systemName: "bell.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            })
+            .padding(8)
+            .background {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .foregroundStyle(.regularMaterial)
+            }
+            
+            .padding(.horizontal)
         }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        .frame(minWidth: 0, maxWidth: .infinity)
-        .padding(8)
-        .background {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .foregroundStyle(.regularMaterial)
-        }
-        .padding(.horizontal)
     }
     
     @State var confirmationDialogueDate: Date? = nil
@@ -58,11 +68,8 @@ struct HabitDetailView: View {
                         .clipShape(Circle())
                         .overlay(
                             Circle()
-                                .foregroundColor(isToday ? habit.accentColor.opacity(0.1) : .clear)
-                                .overlay {
-                                    Circle()
-                                        .stroke(isToday ? habit.accentColor : Color.clear, lineWidth: 2)
-                                }
+                                .stroke(isToday ? habit.accentColor : Color.clear, lineWidth: 2)
+                                .scaleEffect(1.1)
                         )
                         .padding(.vertical, 4)
                         .overlay(
@@ -76,6 +83,11 @@ struct HabitDetailView: View {
                         .padding(8)
                         .background(habit.accentColor)
                         .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(isToday ? habit.accentColor : Color.clear, lineWidth: 2)
+                                .scaleEffect(1.2)
+                        )
                         .padding(.vertical, 4)
                         .overlay(
                             Text(String(Calendar.current.component(.day, from: date)))
@@ -120,10 +132,12 @@ struct HabitDetailView: View {
         .padding()
     }
     
+    @State var tabViewSelectionIndex = 0
+    
     var messageView: some View {
         Group {
             if !habit.messages.isEmpty {
-                TabView {
+                TabView(selection: $tabViewSelectionIndex) {
                     ForEach(habit.messages.indices, id: \.self) { index in
                         Text(habit.messages[index])
                             .minimumScaleFactor(0.5)
@@ -159,6 +173,9 @@ struct HabitDetailView: View {
                 .background(RoundedRectangle(cornerRadius: 8).foregroundStyle(.regularMaterial))
                 .padding()
             }
+        }
+        .onAppear {
+            tabViewSelectionIndex = Int.random(in: 0 ..< habit.messages.count)
         }
     }
 }
