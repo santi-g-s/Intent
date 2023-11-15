@@ -134,6 +134,11 @@ struct HabitView: View {
         }
     }
     
+    var partialCircleProgress: Double {
+        let progress = Double(habit.completionsInPeriod)/Double(habit.requiredCount)
+        return progress.isEqual(to: 0.0) ? 1.0 : progress
+    }
+    
     var content: some View {
         VStack {
             ZStack {
@@ -151,6 +156,12 @@ struct HabitView: View {
                         if habitScore.isEqual(to: 0.0) {
                             Text("Tap to log your habit")
                                 .foregroundStyle(.secondary)
+                        } else {
+                            if habit.completionsInPeriod < habit.requiredCount {
+                                Text("\(habit.completionsInPeriod) / \(habit.requiredCount)")
+                                    .font(Font.system(size: 20))
+                                    .foregroundStyle(.tertiary)
+                            }
                         }
                     }
                 
@@ -162,10 +173,11 @@ struct HabitView: View {
                         tapHaptic()
                     }
                 } label: {
-                    Circle()
-                        .foregroundColor(habit.accentColor.opacity(habit.status == .complete ? 1 : 0.75))
+                    PartialCircle(progress: partialCircleProgress)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0), value: partialCircleProgress)
+                        .foregroundColor(habit.accentColor.opacity(habit.status != .pending(0) ? 1 : 2/3))
                         .shadow(color: habit.accentColor.adjust(brightness: -0.3).opacity(0.2), radius: habit.status == .complete ? 16 : 0, x: 0, y: 0)
-                        .scaleEffect(habitScore)
+                        .scaleEffect(habitScore.roundedUp(toNearest: 0.1))
                         .scaleEffect(bounce ? 1.1 : 1)
                         .overlay {
                             Group {
@@ -178,7 +190,7 @@ struct HabitView: View {
                                         .foregroundStyle(.tertiary)
                                         .colorScheme(habit.accentColor.isDarkBackground() ? .dark : .light)
                                 case .pending(let score):
-                                    if score != 0 {
+                                    if !habitScore.isEqual(to: 0.0) {
                                         Text("\(score) / \(habit.requiredCount)")
                                             .font(Font.system(size: 20))
                                             .foregroundStyle(.tertiary)
@@ -217,7 +229,7 @@ struct HabitView: View {
                 }.padding(.top, -60)
                 
                 if let leadingDesc = habit.leadingStreakDescription, let numDays = habit.streakDescriptionsNumDays, let trailingDesc = habit.trailingStreakDescription {
-                    HStack(spacing: 4){
+                    HStack(spacing: 4) {
                         Text(leadingDesc)
                             .foregroundStyle(.secondary)
                         Text(String(numDays))
@@ -228,7 +240,6 @@ struct HabitView: View {
                         Text(trailingDesc)
                             .foregroundStyle(.secondary)
                     }
-                    
                 }
                 
                 Spacer()

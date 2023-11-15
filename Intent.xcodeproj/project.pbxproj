@@ -23,6 +23,7 @@
 		C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
 		C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73F2D7429596C590042EF63 /* HabitEditorView.swift */; };
 		C745B3762A2BA03C00393763 /* ContentViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */; };
+		C74A40672B006F35006395DA /* PartialCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A40662B006F35006395DA /* PartialCircle.swift */; };
 		C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
 		C76611FC295AB65F00798DF1 /* sfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C76611FB295AB65F00798DF1 /* sfsymbols.txt */; };
 		C76DC9012AAEB54D0092A35C /* WeekdayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */; };
@@ -75,6 +76,7 @@
 		C73D06D42929D9160055B13B /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		C73F2D7429596C590042EF63 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
 		C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewWrapper.swift; sourceTree = "<group>"; };
+		C74A40662B006F35006395DA /* PartialCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialCircle.swift; sourceTree = "<group>"; };
 		C76611F9295AB64200798DF1 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
 		C76611FB295AB65F00798DF1 /* sfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sfsymbols.txt; sourceTree = "<group>"; };
 		C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayPicker.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				C73959552AC7A67E00A96DEC /* NumericTextField.swift */,
 				C73959572AC8840200A96DEC /* Array+Extensions.swift */,
 				C73959592AC88EF500A96DEC /* OnDayChange.swift */,
+				C74A40662B006F35006395DA /* PartialCircle.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
 				C76611FA295AB64200798DF1 /* SymbolPicker.swift in Sources */,
 				C7AD52552960E54A00EA4221 /* PlaceholderHabitView.swift in Sources */,
+				C74A40672B006F35006395DA /* PartialCircle.swift in Sources */,
 				C7ACD419296E3C6600AFF9AF /* ComposeMailView.swift in Sources */,
 				C7AD52532960B8D000EA4221 /* Button+Extensions.swift in Sources */,
 				C794AFE82A6464FC00D8A864 /* UserNotificationsManager.swift in Sources */,
@@ -554,7 +558,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -589,7 +593,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
