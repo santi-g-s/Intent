@@ -175,7 +175,9 @@ struct HabitDetailView: View {
             }
         }
         .onAppear {
-            tabViewSelectionIndex = Int.random(in: 0 ..< habit.messages.count)
+            if habit.messages.count != 0 {
+                tabViewSelectionIndex = Int.random(in: 0 ..< habit.messages.count)
+            }
         }
     }
 }
