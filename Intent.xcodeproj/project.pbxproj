@@ -7,7 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7063CE02B06932900FF4EA2 /* HabitCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7063CDF2B06932900FF4EA2 /* HabitCircleView.swift */; };
+		C7063CE22B06A8FC00FF4EA2 /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C7063CE12B06A8FC00FF4EA2 /* Widgets.intentdefinition */; };
+		C7063CE32B06A90F00FF4EA2 /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C7063CE12B06A8FC00FF4EA2 /* Widgets.intentdefinition */; };
 		C723852129405E7E00901B43 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
+		C7359C942B05674000D41AF0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7359C932B05674000D41AF0 /* WidgetKit.framework */; };
+		C7359C962B05674000D41AF0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7359C952B05674000D41AF0 /* SwiftUI.framework */; };
+		C7359C992B05674000D41AF0 /* WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7359C982B05674000D41AF0 /* WidgetsBundle.swift */; };
+		C7359C9B2B05674000D41AF0 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7359C9A2B05674000D41AF0 /* Widgets.swift */; };
+		C7359C9D2B05674100D41AF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7359C9C2B05674100D41AF0 /* Assets.xcassets */; };
+		C7359CA12B05674100D41AF0 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C7359C912B05674000D41AF0 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C73959562AC7A67E00A96DEC /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959552AC7A67E00A96DEC /* NumericTextField.swift */; };
 		C73959582AC8840200A96DEC /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959572AC8840200A96DEC /* Array+Extensions.swift */; };
 		C739595A2AC88EF500A96DEC /* OnDayChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959592AC88EF500A96DEC /* OnDayChange.swift */; };
@@ -45,9 +54,68 @@
 		C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
 		C7D228162A32C05E00E4990C /* curatedsfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C7D228152A32C05E00E4990C /* curatedsfsymbols.txt */; };
 		C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */; };
+		C7FF25292B0BF6E80076885A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AC292815DA0055B13B /* DataManager.swift */; };
+		C7FF252A2B0BF6ED0076885A /* HabitCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7063CDF2B06932900FF4EA2 /* HabitCircleView.swift */; };
+		C7FF252B2B0BF9590076885A /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */; };
+		C7FF252C2B0BF9C60076885A /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AE292816160055B13B /* Habit.swift */; };
+		C7FF252D2B0BF9D20076885A /* PartialCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A40662B006F35006395DA /* PartialCircle.swift */; };
+		C7FF252E2B0BF9DB0076885A /* Button+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AD52522960B8D000EA4221 /* Button+Extensions.swift */; };
+		C7FF252F2B0BF9F90076885A /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
+		C7FF25302B0BF9F90076885A /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
+		C7FF25312B0BF9F90076885A /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959572AC8840200A96DEC /* Array+Extensions.swift */; };
+		C7FF25322B0BF9F90076885A /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
+		C7FF25332B0BF9F90076885A /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B020FE2935340B00462E1F /* Color+Extensions.swift */; };
+		C7FF25342B0BF9F90076885A /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B0292816670055B13B /* Calendar+Extensions.swift */; };
+		C7FF25352B0BFA1B0076885A /* UserNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C794AFE72A6464FC00D8A864 /* UserNotificationsManager.swift */; };
+		C7FF25362B0BFA350076885A /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021002935362600462E1F /* HabitView.swift */; };
+		C7FF25372B0BFA350076885A /* PlaceholderHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AD52542960E54A00EA4221 /* PlaceholderHabitView.swift */; };
+		C7FF25382B0BFA350076885A /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021022935372600462E1F /* HabitDetailView.swift */; };
+		C7FF25392B0BFA480076885A /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
+		C7FF253A2B0BFA480076885A /* OnDayChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959592AC88EF500A96DEC /* OnDayChange.swift */; };
+		C7FF253B2B0BFA480076885A /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
+		C7FF253C2B0BFA480076885A /* MonthlyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9042AAEC6DE0092A35C /* MonthlyPicker.swift */; };
+		C7FF253D2B0BFA480076885A /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959552AC7A67E00A96DEC /* NumericTextField.swift */; };
+		C7FF253E2B0BFA480076885A /* WeekdayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */; };
+		C7FF253F2B0BFA480076885A /* ComposeMailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD418296E3C6600AFF9AF /* ComposeMailView.swift */; };
+		C7FF25402B0BFA480076885A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
+		C7FF25412B0BFA540076885A /* NotificationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9022AAEBC9F0092A35C /* NotificationEditorView.swift */; };
+		C7FF25422B0BFA5D0076885A /* HabitEditorConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */; };
+		C7FF25432B0BFA730076885A /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73F2D7429596C590042EF63 /* HabitEditorView.swift */; };
+		C7FF25832B0BFC3F0076885A /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7FF255E2B0BFC240076885A /* Intents.framework */; };
+		C7FF25862B0BFC3F0076885A /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF25852B0BFC3F0076885A /* IntentHandler.swift */; };
+		C7FF258A2B0BFC3F0076885A /* HabitIntentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C7FF25822B0BFC3F0076885A /* HabitIntentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C7FF258E2B0BFCA40076885A /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C7063CE12B06A8FC00FF4EA2 /* Widgets.intentdefinition */; };
+		C7FF258F2B0BFD260076885A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AC292815DA0055B13B /* DataManager.swift */; };
+		C7FF25902B0BFDAF0076885A /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06AE292816160055B13B /* Habit.swift */; };
+		C7FF25912B0BFE6D0076885A /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C73D06A9292815B30055B13B /* CoreDataModel.xcdatamodeld */; };
+		C7FF25922B0BFEA60076885A /* UserNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C794AFE72A6464FC00D8A864 /* UserNotificationsManager.swift */; };
+		C7FF25932B0BFEAA0076885A /* WeekdayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9002AAEB54D0092A35C /* WeekdayPicker.swift */; };
+		C7FF25942B0BFEAA0076885A /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06B0292816670055B13B /* Calendar+Extensions.swift */; };
+		C7FF25952B0BFEAA0076885A /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7889C5F292D5A630064D89C /* View+Extensions.swift */; };
+		C7FF25962B0BFEAA0076885A /* Button+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AD52522960B8D000EA4221 /* Button+Extensions.swift */; };
+		C7FF25972B0BFEAA0076885A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
+		C7FF25982B0BFEAA0076885A /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959572AC8840200A96DEC /* Array+Extensions.swift */; };
+		C7FF25992B0BFEAA0076885A /* MonthlyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9042AAEC6DE0092A35C /* MonthlyPicker.swift */; };
+		C7FF259A2B0BFEAA0076885A /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D06D42929D9160055B13B /* Double+Extensions.swift */; };
+		C7FF259B2B0BFEAA0076885A /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B020FE2935340B00462E1F /* Color+Extensions.swift */; };
+		C7FF259C2B0BFEAA0076885A /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7770466295B997500C24952 /* Date+Extensions.swift */; };
+		C7FF259D2B0BFEAA0076885A /* OnDayChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959592AC88EF500A96DEC /* OnDayChange.swift */; };
+		C7FF259E2B0BFEAA0076885A /* ComposeMailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACD418296E3C6600AFF9AF /* ComposeMailView.swift */; };
+		C7FF259F2B0BFEAA0076885A /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76611F9295AB64200798DF1 /* SymbolPicker.swift */; };
+		C7FF25A02B0BFEAA0076885A /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959552AC7A67E00A96DEC /* NumericTextField.swift */; };
+		C7FF25A12B0BFEAA0076885A /* PartialCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A40662B006F35006395DA /* PartialCircle.swift */; };
+		C7FF25A22B0BFEAA0076885A /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
+		C7FF25A32B0BFEB20076885A /* NotificationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76DC9022AAEBC9F0092A35C /* NotificationEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C7359C9F2B05674100D41AF0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C73D0670292815370055B13B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C7359C902B05674000D41AF0;
+			remoteInfo = WidgetsExtension;
+		};
 		C73D0689292815380055B13B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C73D0670292815370055B13B /* Project object */;
@@ -55,10 +123,51 @@
 			remoteGlobalIDString = C73D0677292815370055B13B;
 			remoteInfo = Intent;
 		};
+		C7FF25882B0BFC3F0076885A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C73D0670292815370055B13B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C7FF25812B0BFC3F0076885A;
+			remoteInfo = HabitIntentExtension;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C7359CA22B05674100D41AF0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C7359CA12B05674100D41AF0 /* WidgetsExtension.appex in Embed Foundation Extensions */,
+				C7FF258A2B0BFC3F0076885A /* HabitIntentExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C7FF25582B0BFBEC0076885A /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		C7063CDF2B06932900FF4EA2 /* HabitCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCircleView.swift; sourceTree = "<group>"; };
+		C7063CE12B06A8FC00FF4EA2 /* Widgets.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Widgets.intentdefinition; sourceTree = "<group>"; };
 		C723852029405E7E00901B43 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		C7359C912B05674000D41AF0 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7359C932B05674000D41AF0 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C7359C952B05674000D41AF0 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C7359C982B05674000D41AF0 /* WidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetsBundle.swift; sourceTree = "<group>"; };
+		C7359C9A2B05674000D41AF0 /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
+		C7359C9C2B05674100D41AF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C7359C9E2B05674100D41AF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C73959552AC7A67E00A96DEC /* NumericTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
 		C73959572AC8840200A96DEC /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		C73959592AC88EF500A96DEC /* OnDayChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDayChange.swift; sourceTree = "<group>"; };
@@ -98,9 +207,27 @@
 		C7CFE828293F0A4300A89AAD /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		C7D228152A32C05E00E4990C /* curatedsfsymbols.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = curatedsfsymbols.txt; sourceTree = "<group>"; };
 		C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorConfig.swift; sourceTree = "<group>"; };
+		C7FF25262B0BF16B0076885A /* Intent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Intent.entitlements; sourceTree = "<group>"; };
+		C7FF25272B0BF17B0076885A /* WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetsExtension.entitlements; sourceTree = "<group>"; };
+		C7FF25282B0BF6A30076885A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C7FF255E2B0BFC240076885A /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		C7FF25692B0BFC240076885A /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		C7FF25822B0BFC3F0076885A /* HabitIntentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HabitIntentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7FF25852B0BFC3F0076885A /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		C7FF25872B0BFC3F0076885A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7FF25A42B0C0F660076885A /* HabitIntentExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitIntentExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C7359C8E2B05674000D41AF0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7359C962B05674000D41AF0 /* SwiftUI.framework in Frameworks */,
+				C7359C942B05674000D41AF0 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C73D0675292815370055B13B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,14 +242,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C7FF257F2B0BFC3F0076885A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7FF25832B0BFC3F0076885A /* Intents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C7359C922B05674000D41AF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7359C932B05674000D41AF0 /* WidgetKit.framework */,
+				C7359C952B05674000D41AF0 /* SwiftUI.framework */,
+				C7FF255E2B0BFC240076885A /* Intents.framework */,
+				C7FF25692B0BFC240076885A /* IntentsUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C7359C972B05674000D41AF0 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				C7359C982B05674000D41AF0 /* WidgetsBundle.swift */,
+				C7359C9A2B05674000D41AF0 /* Widgets.swift */,
+				C7063CE12B06A8FC00FF4EA2 /* Widgets.intentdefinition */,
+				C7359C9C2B05674100D41AF0 /* Assets.xcassets */,
+				C7359C9E2B05674100D41AF0 /* Info.plist */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
 		C73D066F292815370055B13B = {
 			isa = PBXGroup;
 			children = (
+				C7FF25272B0BF17B0076885A /* WidgetsExtension.entitlements */,
 				C73D067A292815370055B13B /* Intent */,
 				C73D068B292815380055B13B /* IntentTests */,
+				C7359C972B05674000D41AF0 /* Widgets */,
+				C7FF25842B0BFC3F0076885A /* HabitIntentExtension */,
+				C7359C922B05674000D41AF0 /* Frameworks */,
 				C73D0679292815370055B13B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,6 +294,8 @@
 			children = (
 				C73D0678292815370055B13B /* Intent.app */,
 				C73D0688292815380055B13B /* IntentTests.xctest */,
+				C7359C912B05674000D41AF0 /* WidgetsExtension.appex */,
+				C7FF25822B0BFC3F0076885A /* HabitIntentExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,6 +303,8 @@
 		C73D067A292815370055B13B /* Intent */ = {
 			isa = PBXGroup;
 			children = (
+				C7FF25282B0BF6A30076885A /* Info.plist */,
+				C7FF25262B0BF16B0076885A /* Intent.entitlements */,
 				C73D067B292815370055B13B /* IntentApp.swift */,
 				C73D067D292815370055B13B /* ContentView.swift */,
 				C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */,
@@ -246,6 +412,7 @@
 				C7B021002935362600462E1F /* HabitView.swift */,
 				C7B021022935372600462E1F /* HabitDetailView.swift */,
 				C7AD52542960E54A00EA4221 /* PlaceholderHabitView.swift */,
+				C7063CDF2B06932900FF4EA2 /* HabitCircleView.swift */,
 			);
 			path = HabitView;
 			sourceTree = "<group>";
@@ -260,9 +427,36 @@
 			path = HabitEditorView;
 			sourceTree = "<group>";
 		};
+		C7FF25842B0BFC3F0076885A /* HabitIntentExtension */ = {
+			isa = PBXGroup;
+			children = (
+				C7FF25A42B0C0F660076885A /* HabitIntentExtension.entitlements */,
+				C7FF25852B0BFC3F0076885A /* IntentHandler.swift */,
+				C7FF25872B0BFC3F0076885A /* Info.plist */,
+			);
+			path = HabitIntentExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C7359C902B05674000D41AF0 /* WidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7359CA52B05674100D41AF0 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
+			buildPhases = (
+				C7359C8D2B05674000D41AF0 /* Sources */,
+				C7359C8E2B05674000D41AF0 /* Frameworks */,
+				C7359C8F2B05674000D41AF0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WidgetsExtension;
+			productName = WidgetsExtension;
+			productReference = C7359C912B05674000D41AF0 /* WidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C73D0677292815370055B13B /* Intent */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C73D069C292815380055B13B /* Build configuration list for PBXNativeTarget "Intent" */;
@@ -270,10 +464,14 @@
 				C73D0674292815370055B13B /* Sources */,
 				C73D0675292815370055B13B /* Frameworks */,
 				C73D0676292815370055B13B /* Resources */,
+				C7359CA22B05674100D41AF0 /* Embed Foundation Extensions */,
+				C7FF25582B0BFBEC0076885A /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C7359CA02B05674100D41AF0 /* PBXTargetDependency */,
+				C7FF25892B0BFC3F0076885A /* PBXTargetDependency */,
 			);
 			name = Intent;
 			packageProductDependencies = (
@@ -300,6 +498,23 @@
 			productReference = C73D0688292815380055B13B /* IntentTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C7FF25812B0BFC3F0076885A /* HabitIntentExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7FF258B2B0BFC400076885A /* Build configuration list for PBXNativeTarget "HabitIntentExtension" */;
+			buildPhases = (
+				C7FF257E2B0BFC3F0076885A /* Sources */,
+				C7FF257F2B0BFC3F0076885A /* Frameworks */,
+				C7FF25802B0BFC3F0076885A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HabitIntentExtension;
+			productName = HabitIntentExtension;
+			productReference = C7FF25822B0BFC3F0076885A /* HabitIntentExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -307,15 +522,21 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					C7359C902B05674000D41AF0 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					C73D0677292815370055B13B = {
 						CreatedOnToolsVersion = 14.0;
 					};
 					C73D0687292815380055B13B = {
 						CreatedOnToolsVersion = 14.0;
 						TestTargetID = C73D0677292815370055B13B;
+					};
+					C7FF25812B0BFC3F0076885A = {
+						CreatedOnToolsVersion = 14.3.1;
 					};
 				};
 			};
@@ -336,11 +557,21 @@
 			targets = (
 				C73D0677292815370055B13B /* Intent */,
 				C73D0687292815380055B13B /* IntentTests */,
+				C7359C902B05674000D41AF0 /* WidgetsExtension */,
+				C7FF25812B0BFC3F0076885A /* HabitIntentExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C7359C8F2B05674000D41AF0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7359C9D2B05674100D41AF0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C73D0676292815370055B13B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -360,9 +591,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C7FF25802B0BFC3F0076885A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C7359C8D2B05674000D41AF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7359C992B05674000D41AF0 /* WidgetsBundle.swift in Sources */,
+				C7FF253B2B0BFA480076885A /* ScrollView.swift in Sources */,
+				C7FF25392B0BFA480076885A /* SymbolPicker.swift in Sources */,
+				C7FF253A2B0BFA480076885A /* OnDayChange.swift in Sources */,
+				C7FF253E2B0BFA480076885A /* WeekdayPicker.swift in Sources */,
+				C7FF25382B0BFA350076885A /* HabitDetailView.swift in Sources */,
+				C7FF25422B0BFA5D0076885A /* HabitEditorConfig.swift in Sources */,
+				C7FF253D2B0BFA480076885A /* NumericTextField.swift in Sources */,
+				C7FF25362B0BFA350076885A /* HabitView.swift in Sources */,
+				C7FF25292B0BF6E80076885A /* DataManager.swift in Sources */,
+				C7FF25342B0BF9F90076885A /* Calendar+Extensions.swift in Sources */,
+				C7FF252E2B0BF9DB0076885A /* Button+Extensions.swift in Sources */,
+				C7FF25322B0BF9F90076885A /* Date+Extensions.swift in Sources */,
+				C7FF252B2B0BF9590076885A /* CoreDataModel.xcdatamodeld in Sources */,
+				C7FF253C2B0BFA480076885A /* MonthlyPicker.swift in Sources */,
+				C7FF25402B0BFA480076885A /* CalendarView.swift in Sources */,
+				C7FF25432B0BFA730076885A /* HabitEditorView.swift in Sources */,
+				C7FF25372B0BFA350076885A /* PlaceholderHabitView.swift in Sources */,
+				C7FF252C2B0BF9C60076885A /* Habit.swift in Sources */,
+				C7FF253F2B0BFA480076885A /* ComposeMailView.swift in Sources */,
+				C7063CE32B06A90F00FF4EA2 /* Widgets.intentdefinition in Sources */,
+				C7FF252D2B0BF9D20076885A /* PartialCircle.swift in Sources */,
+				C7FF25312B0BF9F90076885A /* Array+Extensions.swift in Sources */,
+				C7FF252A2B0BF6ED0076885A /* HabitCircleView.swift in Sources */,
+				C7FF252F2B0BF9F90076885A /* View+Extensions.swift in Sources */,
+				C7FF25332B0BF9F90076885A /* Color+Extensions.swift in Sources */,
+				C7FF25412B0BFA540076885A /* NotificationEditorView.swift in Sources */,
+				C7FF25352B0BFA1B0076885A /* UserNotificationsManager.swift in Sources */,
+				C7FF25302B0BF9F90076885A /* Double+Extensions.swift in Sources */,
+				C7359C9B2B05674000D41AF0 /* Widgets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C73D0674292815370055B13B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -389,6 +664,8 @@
 				C723852129405E7E00901B43 /* CalendarView.swift in Sources */,
 				C73D06AD292815DA0055B13B /* DataManager.swift in Sources */,
 				C7770467295B997500C24952 /* Date+Extensions.swift in Sources */,
+				C7063CE22B06A8FC00FF4EA2 /* Widgets.intentdefinition in Sources */,
+				C7063CE02B06932900FF4EA2 /* HabitCircleView.swift in Sources */,
 				C73D067C292815370055B13B /* IntentApp.swift in Sources */,
 				C76DC9032AAEBC9F0092A35C /* NotificationEditorView.swift in Sources */,
 				C73F2D7529596C590042EF63 /* HabitEditorView.swift in Sources */,
@@ -410,17 +687,115 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C7FF257E2B0BFC3F0076885A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7FF258E2B0BFCA40076885A /* Widgets.intentdefinition in Sources */,
+				C7FF25A22B0BFEAA0076885A /* ScrollView.swift in Sources */,
+				C7FF25962B0BFEAA0076885A /* Button+Extensions.swift in Sources */,
+				C7FF259A2B0BFEAA0076885A /* Double+Extensions.swift in Sources */,
+				C7FF25952B0BFEAA0076885A /* View+Extensions.swift in Sources */,
+				C7FF25942B0BFEAA0076885A /* Calendar+Extensions.swift in Sources */,
+				C7FF259B2B0BFEAA0076885A /* Color+Extensions.swift in Sources */,
+				C7FF259D2B0BFEAA0076885A /* OnDayChange.swift in Sources */,
+				C7FF25A12B0BFEAA0076885A /* PartialCircle.swift in Sources */,
+				C7FF258F2B0BFD260076885A /* DataManager.swift in Sources */,
+				C7FF25992B0BFEAA0076885A /* MonthlyPicker.swift in Sources */,
+				C7FF25A32B0BFEB20076885A /* NotificationEditorView.swift in Sources */,
+				C7FF25902B0BFDAF0076885A /* Habit.swift in Sources */,
+				C7FF259C2B0BFEAA0076885A /* Date+Extensions.swift in Sources */,
+				C7FF25972B0BFEAA0076885A /* CalendarView.swift in Sources */,
+				C7FF259E2B0BFEAA0076885A /* ComposeMailView.swift in Sources */,
+				C7FF25982B0BFEAA0076885A /* Array+Extensions.swift in Sources */,
+				C7FF25862B0BFC3F0076885A /* IntentHandler.swift in Sources */,
+				C7FF259F2B0BFEAA0076885A /* SymbolPicker.swift in Sources */,
+				C7FF25912B0BFE6D0076885A /* CoreDataModel.xcdatamodeld in Sources */,
+				C7FF25A02B0BFEAA0076885A /* NumericTextField.swift in Sources */,
+				C7FF25932B0BFEAA0076885A /* WeekdayPicker.swift in Sources */,
+				C7FF25922B0BFEA60076885A /* UserNotificationsManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C7359CA02B05674100D41AF0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C7359C902B05674000D41AF0 /* WidgetsExtension */;
+			targetProxy = C7359C9F2B05674100D41AF0 /* PBXContainerItemProxy */;
+		};
 		C73D068A292815380055B13B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C73D0677292815370055B13B /* Intent */;
 			targetProxy = C73D0689292815380055B13B /* PBXContainerItemProxy */;
 		};
+		C7FF25892B0BFC3F0076885A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C7FF25812B0BFC3F0076885A /* HabitIntentExtension */;
+			targetProxy = C7FF25882B0BFC3F0076885A /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C7359CA32B05674100D41AF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LQ3XV8JU7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.4.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent.Widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C7359CA42B05674100D41AF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LQ3XV8JU7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.4.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent.Widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C73D069A292815380055B13B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -538,14 +913,17 @@
 		C73D069D292815380055B13B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Intent/Intent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Intent/Preview Content\"";
 				DEVELOPMENT_TEAM = 6LQ3XV8JU7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Intent/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Intent;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -558,7 +936,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -573,14 +951,17 @@
 		C73D069E292815380055B13B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Intent/Intent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Intent/Preview Content\"";
 				DEVELOPMENT_TEAM = 6LQ3XV8JU7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Intent/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Intent;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -593,7 +974,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -645,9 +1026,72 @@
 			};
 			name = Release;
 		};
+		C7FF258C2B0BFC400076885A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HabitIntentExtension/HabitIntentExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LQ3XV8JU7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HabitIntentExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HabitIntentExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.4.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent.HabitIntentExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C7FF258D2B0BFC400076885A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HabitIntentExtension/HabitIntentExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LQ3XV8JU7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HabitIntentExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HabitIntentExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.4.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sumone.Intent.HabitIntentExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C7359CA52B05674100D41AF0 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7359CA32B05674100D41AF0 /* Debug */,
+				C7359CA42B05674100D41AF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C73D0673292815370055B13B /* Build configuration list for PBXProject "Intent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -671,6 +1115,15 @@
 			buildConfigurations = (
 				C73D06A0292815380055B13B /* Debug */,
 				C73D06A1292815380055B13B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C7FF258B2B0BFC400076885A /* Build configuration list for PBXNativeTarget "HabitIntentExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7FF258C2B0BFC400076885A /* Debug */,
+				C7FF258D2B0BFC400076885A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
