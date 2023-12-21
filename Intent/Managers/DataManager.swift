@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import WidgetKit
 
 enum StorageType {
     case persistent, inMemory
@@ -108,6 +109,7 @@ class DataManager {
             } catch let error as NSError {
                 NSLog("Unresolved error saving context: \(error), \(error.userInfo)")
             }
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
 

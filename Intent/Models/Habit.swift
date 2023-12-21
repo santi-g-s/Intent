@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import WidgetKit
 
 extension Habit {
     /**
@@ -404,6 +405,7 @@ extension Habit {
         
         do {
             try context.save()
+            WidgetCenter.shared.reloadAllTimelines()
         } catch {
             print("Couldn't save context", error.localizedDescription)
         }
@@ -426,6 +428,7 @@ extension Habit {
         }
         do {
             try context.save()
+            WidgetCenter.shared.reloadAllTimelines()
         } catch {
             print("Couldn't save context", error.localizedDescription)
         }
@@ -451,6 +454,7 @@ extension Habit {
         }
         do {
             try context.save()
+            WidgetCenter.shared.reloadAllTimelines()
         } catch {
             print("Couldn't save context", error.localizedDescription)
         }
