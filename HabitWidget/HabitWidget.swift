@@ -5,20 +5,20 @@
 //  Created by Santiago Garcia Santos on 21/12/2023.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
-struct Provider: TimelineProvider {
+struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), emoji: "😀")
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(for configuration: HabitProgressIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let entry = SimpleEntry(date: Date(), emoji: "😀")
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(for configuration: HabitProgressIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -39,7 +39,7 @@ struct SimpleEntry: TimelineEntry {
     let emoji: String
 }
 
-struct HabitWidgetEntryView : View {
+struct HabitWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
@@ -50,31 +50,38 @@ struct HabitWidgetEntryView : View {
             Text("Emoji:")
             Text(entry.emoji)
         }
+        .widgetBackground(Color(uiColor: .systemBackground))
+    }
+}
+
+extension View {
+    func widgetBackground(_ backgroundView: some View) -> some View {
+        if #available(iOS 17.0, *) {
+            return containerBackground(for: .widget) {
+                backgroundView
+            }
+        } else {
+            return background(backgroundView)
+        }
     }
 }
 
 struct HabitWidget: Widget {
-    let kind: String = "HabitWidget"
+    let kind: String = "com.sumone.Intent.HabitWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                HabitWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                HabitWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
-        }
+        IntentConfiguration(kind: kind, intent: HabitProgressIntent.self, provider: Provider(), content: { entry in
+            HabitWidgetEntryView(entry: entry)
+        })
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
     }
 }
 
-#Preview(as: .systemSmall) {
-    HabitWidget()
-} timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+struct HabitWidget_Previews: PreviewProvider {
+    static var previews: some View {
+        let entry = SimpleEntry(date: Date(), emoji: "🧐")
+        HabitWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
 }

@@ -7,20 +7,7 @@
 
 import SwiftUI
 
-enum NotificationInterval: String, CaseIterable {
-    case daily, weekly, monthly
-    
-    var unitDescription: String {
-        switch self {
-        case .daily:
-            return "day"
-        case .weekly:
-            return "week"
-        case .monthly:
-            return "month"
-        }
-    }
-}
+
 
 struct NotificationEditorView: View {
     var habit: HabitData

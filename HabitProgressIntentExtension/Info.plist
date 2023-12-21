@@ -9,7 +9,9 @@
 			<key>IntentsRestrictedWhileLocked</key>
 			<array/>
 			<key>IntentsSupported</key>
-			<array/>
+			<array>
+				<string>HabitProgressIntent</string>
+			</array>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.intents-service</string>

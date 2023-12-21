@@ -110,6 +110,16 @@ class DataManager {
             }
         }
     }
+
+    func getAllHabits() -> [Habit] {
+        let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
+        do {
+            return try viewContext.fetch(fetchRequest)
+        } catch {
+            print("can't fetch")
+            return []
+        }
+    }
 }
 
 extension DataManager {

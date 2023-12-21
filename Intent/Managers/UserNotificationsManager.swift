@@ -8,6 +8,52 @@
 import Foundation
 import UserNotifications
 
+enum NotificationInterval: String, CaseIterable {
+    case daily, weekly, monthly
+    
+    var unitDescription: String {
+        switch self {
+        case .daily:
+            return "day"
+        case .weekly:
+            return "week"
+        case .monthly:
+            return "month"
+        }
+    }
+}
+
+enum MonthlyPickerType: String, CaseIterable {
+    case dayOfMonth = "Day of month"
+    case offset = "On the..."
+}
+
+enum OffsetValue: Int, CaseIterable {
+    case first = 1
+    case second = 2
+    case third = 3
+    case fourth = 4
+    case fifth = 5
+    case last = -1
+
+    var stringValue: String {
+        switch self {
+        case .first:
+            return "first"
+        case .second:
+            return "second"
+        case .third:
+            return "third"
+        case .fourth:
+            return "fourth"
+        case .fifth:
+            return "fifth"
+        case .last:
+            return "last"
+        }
+    }
+}
+
 struct UserNotificationsManager {
     /// The user notification center object for the app.
     static let center = UNUserNotificationCenter.current()
