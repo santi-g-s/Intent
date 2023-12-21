@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C70167332B34AF4E0085A33D /* NSPersistentContainer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70167322B34AF4E0085A33D /* NSPersistentContainer+Extensions.swift */; };
 		C723852129405E7E00901B43 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C723852029405E7E00901B43 /* CalendarView.swift */; };
 		C73959562AC7A67E00A96DEC /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959552AC7A67E00A96DEC /* NumericTextField.swift */; };
 		C73959582AC8840200A96DEC /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73959572AC8840200A96DEC /* Array+Extensions.swift */; };
@@ -58,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C70167312B33A76C0085A33D /* Intent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Intent.entitlements; sourceTree = "<group>"; };
+		C70167322B34AF4E0085A33D /* NSPersistentContainer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPersistentContainer+Extensions.swift"; sourceTree = "<group>"; };
 		C723852029405E7E00901B43 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C73959552AC7A67E00A96DEC /* NumericTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
 		C73959572AC8840200A96DEC /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -139,6 +142,7 @@
 		C73D067A292815370055B13B /* Intent */ = {
 			isa = PBXGroup;
 			children = (
+				C70167312B33A76C0085A33D /* Intent.entitlements */,
 				C73D067B292815370055B13B /* IntentApp.swift */,
 				C73D067D292815370055B13B /* ContentView.swift */,
 				C745B3752A2BA03C00393763 /* ContentViewWrapper.swift */,
@@ -204,6 +208,7 @@
 				C73959572AC8840200A96DEC /* Array+Extensions.swift */,
 				C73959592AC88EF500A96DEC /* OnDayChange.swift */,
 				C74A40662B006F35006395DA /* PartialCircle.swift */,
+				C70167322B34AF4E0085A33D /* NSPersistentContainer+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				C7B020FF2935340B00462E1F /* Color+Extensions.swift in Sources */,
 				C73959562AC7A67E00A96DEC /* NumericTextField.swift in Sources */,
 				C73D06D52929D9160055B13B /* Double+Extensions.swift in Sources */,
+				C70167332B34AF4E0085A33D /* NSPersistentContainer+Extensions.swift in Sources */,
 				C7ACD417296E332500AFF9AF /* SettingsView.swift in Sources */,
 				C76DC9012AAEB54D0092A35C /* WeekdayPicker.swift in Sources */,
 				C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */,
@@ -540,6 +546,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Intent/Intent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Intent/Preview Content\"";
@@ -575,6 +582,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Intent/Intent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Intent/Preview Content\"";
