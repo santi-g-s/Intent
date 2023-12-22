@@ -158,6 +158,7 @@ struct HabitWidgetEntryView: View {
         Text("Edit Widget to Display a Habit")
             .font(.system(.subheadline, design: .rounded)).bold()
             .foregroundStyle(.secondary)
+            .widgetBackground(Color(uiColor: .systemBackground))
     }
 
     var smallWidget: some View {
@@ -205,6 +206,7 @@ struct HabitWidgetEntryView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .widgetBackground(Color(uiColor: .systemBackground))
+        .widgetURL(URL(string: "habitwidget://\(entry.identifier)"))
     }
 
     var mediumWidget: some View {
@@ -256,6 +258,7 @@ struct HabitWidgetEntryView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .widgetBackground(Color(uiColor: .systemBackground))
+        .widgetURL(URL(string: "habitwidget://\(entry.identifier)"))
     }
 }
 

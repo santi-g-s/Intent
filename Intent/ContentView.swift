@@ -5,11 +5,10 @@
 //  Created by Santiago Garcia Santos on 11/11/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ContentView: View {
-    
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.order_)]) var habits: FetchedResults<Habit>
     
@@ -37,10 +36,10 @@ struct ContentView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0){
+        VStack(spacing: 0) {
             toolbar
                 .onChange(of: habitEditorConfig.isGroupViewShown) { isShown in
-                    if (isShown) {
+                    if isShown {
                         sheetType = .habitGroup
                         habitEditorConfig.isGroupViewShown = false
                     }
@@ -71,6 +70,12 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 selectedId = habits.first?.id ?? emptyId
+            }
+            .onOpenURL { url in
+                print("Opening url: \(url)")
+                if let idString = url.host(), let id = UUID(uuidString: idString) {
+                    selectedId = id
+                }
             }
             .onChange(of: selectedId) { newValue in
                 switch newValue {
@@ -103,11 +108,10 @@ struct ContentView: View {
                         }
                 case .settings:
                     SettingsView()
-                case.habitGroup:
+                case .habitGroup:
                     HabitGroupView(selectedID: $selectedId)
                         .presentationDetents([.medium, .large])
                         .presentationDragIndicator(.visible)
-                    
                 }
             }
             .onChange(of: habits.count) { _ in
@@ -136,7 +140,7 @@ struct ContentView: View {
                 buttonSize = size
             }
             
-            GeometryReader { geometry in
+            GeometryReader { _ in
                 HStack {
                     Spacer(minLength: 0)
                     
@@ -186,7 +190,6 @@ struct ContentView: View {
                                 .readSize { size in
                                     indicatorViewSize = size
                                 }
-                                
                             }
                         }
                         .frame(width: min(indicatorViewSize.width, availableWidth))
@@ -224,8 +227,8 @@ struct ContentView: View {
         case habitGroup
         
         var id: Self {
-           return self
-       }
+            return self
+        }
     }
 }
 
