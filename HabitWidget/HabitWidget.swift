@@ -11,36 +11,41 @@ import WidgetKit
 struct Provider: IntentTimelineProvider {
     var dataManager = DataManager.shared
     func placeholder(in context: Context) -> HabitEntry {
-        HabitEntry()
+        HabitEntry.placeholderEntry
     }
 
     func getSnapshot(for configuration: HabitProgressIntent, in context: Context, completion: @escaping (HabitEntry) -> ()) {
-        guard let id = configuration.habit?.identifier else {
-            print("No identifier")
-            print(configuration)
-            return
-        }
-
-        let predicate = NSPredicate(format: "id = %@", (UUID(uuidString: id) ?? UUID()) as CVarArg)
-        let result = DataManager.fetchFirst(Habit.self, predicate: predicate, context: dataManager.viewContext)
-        switch result {
-        case .success(let habit):
-            if let habit = habit {
-                let habitEntry = HabitEntry(from: habit)
-
-                completion(habitEntry)
-            } else {
-                print("Couldn't find habit with id: \(id)")
+        if context.isPreview {
+            completion(HabitEntry.placeholderEntry)
+        } else {
+            guard let id = configuration.habit?.identifier else {
+                print("No identifier")
+                print(configuration)
+                return
             }
-        case .failure:
-            print("Couldn't fetch Habit")
+
+            let predicate = NSPredicate(format: "id = %@", (UUID(uuidString: id) ?? UUID()) as CVarArg)
+            let result = DataManager.fetchFirst(Habit.self, predicate: predicate, context: dataManager.viewContext)
+            switch result {
+            case .success(let habit):
+                if let habit = habit {
+                    let habitEntry = HabitEntry(from: habit)
+
+                    completion(habitEntry)
+                } else {
+                    print("Couldn't find habit with id: \(id)")
+                }
+            case .failure:
+                print("Couldn't fetch Habit")
+            }
         }
     }
 
     func getTimeline(for configuration: HabitProgressIntent, in context: Context, completion: @escaping (Timeline<HabitEntry>) -> ()) {
         guard let id = configuration.habit?.identifier else {
             print("No identifier")
-            print(configuration)
+            let timeline = Timeline(entries: [HabitEntry.noConfigEntry], policy: .atEnd)
+            completion(timeline)
             return
         }
 
@@ -77,7 +82,7 @@ struct HabitEntry: TimelineEntry {
     var requiredCount: Int
     var status: HabitStatus
 
-    init() {
+    private init() {
         self.date = Date()
         self.identifier = UUID().uuidString
         self.displayString = "Habit"
@@ -106,6 +111,16 @@ struct HabitEntry: TimelineEntry {
         self.requiredCount = habit.requiredCount
         self.status = habit.status
     }
+    
+    static let noConfigIdentifier = UUID().uuidString
+    
+    static let placeholderEntry = HabitEntry()
+    
+    static var noConfigEntry: HabitEntry {
+        var e = HabitEntry()
+        e.identifier = noConfigIdentifier
+        return e
+    }
 }
 
 struct HabitWidgetEntryView: View {
@@ -126,8 +141,79 @@ struct HabitWidgetEntryView: View {
     }
 
     var body: some View {
-        switch family {
-        case .systemSmall:
+        if (entry.identifier == HabitEntry.noConfigIdentifier) {
+            emptyState
+        } else {
+            switch family {
+            case .systemSmall:
+                smallWidget
+            default:
+                mediumWidget
+            }
+        }
+        
+    }
+
+    var emptyState: some View {
+        Text("Edit Widget to Display a Habit")
+            .font(.system(.subheadline, design: .rounded)).bold()
+            .foregroundStyle(.secondary)
+    }
+
+    var smallWidget: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                Text(entry.displayString)
+                    .lineLimit(1)
+                    .font(.system(.headline, design: .rounded, weight: .bold))
+                    .minimumScaleFactor(0.6)
+                    .foregroundColor(entry.accentColor)
+                Spacer()
+                Image(systemName: entry.iconName)
+                    .imageScale(.small)
+                    .foregroundColor(entry.accentColor)
+            }
+
+            HStack(spacing: 0) {
+                Text(entry.streak, format: .number)
+                    .font(.system(.subheadline, design: .rounded)).bold()
+                    .foregroundColor(entry.accentColor)
+                    .padding(2)
+                    .padding(.horizontal, 2)
+                    .background {
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                            .foregroundStyle(.regularMaterial)
+                    }
+
+                Text(" \(entry.timePeriod.unitName) streak")
+                    .font(.system(.subheadline, design: .rounded))
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.top, 2)
+
+            Spacer()
+
+            HStack {
+                Spacer()
+
+                Circle()
+                    .foregroundStyle(.regularMaterial)
+                    .overlay {
+                        habitIndicator
+                    }
+            }
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+        .widgetBackground(Color(uiColor: .systemBackground))
+    }
+
+    var mediumWidget: some View {
+        HStack(spacing: 16) {
+            Circle()
+                .foregroundStyle(.regularMaterial)
+                .overlay {
+                    habitIndicator
+                }
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
                     Text(entry.displayString)
@@ -140,7 +226,6 @@ struct HabitWidgetEntryView: View {
                         .imageScale(.small)
                         .foregroundColor(entry.accentColor)
                 }
-
                 HStack(spacing: 0) {
                     Text(entry.streak, format: .number)
                         .font(.system(.subheadline, design: .rounded)).bold()
@@ -160,68 +245,17 @@ struct HabitWidgetEntryView: View {
 
                 Spacer()
 
-                HStack {
-                    Spacer()
-
-                    Circle()
-                        .foregroundStyle(.regularMaterial)
-                        .overlay {
-                            habitIndicator
-                        }
+                if let message = entry.messages.randomElement() {
+                    Text(message)
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundStyle(.secondary)
                 }
+
+                Spacer()
             }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            .widgetBackground(Color(uiColor: .systemBackground))
-        default:
-            HStack(spacing: 16) {
-                Circle()
-                    .foregroundStyle(.regularMaterial)
-                    .overlay {
-                        habitIndicator
-                    }
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: 0) {
-                        Text(entry.displayString)
-                            .lineLimit(1)
-                            .font(.system(.headline, design: .rounded, weight: .bold))
-                            .minimumScaleFactor(0.6)
-                            .foregroundColor(entry.accentColor)
-                        Spacer()
-                        Image(systemName: entry.iconName)
-                            .imageScale(.small)
-                            .foregroundColor(entry.accentColor)
-                    }
-                    HStack(spacing: 0) {
-                        Text(entry.streak, format: .number)
-                            .font(.system(.subheadline, design: .rounded)).bold()
-                            .foregroundColor(entry.accentColor)
-                            .padding(2)
-                            .padding(.horizontal, 2)
-                            .background {
-                                RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                    .foregroundStyle(.regularMaterial)
-                            }
-
-                        Text(" \(entry.timePeriod.unitName) streak")
-                            .font(.system(.subheadline, design: .rounded))
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.top, 2)
-
-                    Spacer()
-
-                    if let message = entry.messages.randomElement() {
-                        Text(message)
-                            .font(.system(.subheadline, design: .rounded))
-                            .foregroundStyle(.secondary)
-                    }
-
-                    Spacer()
-                }
-            }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            .widgetBackground(Color(uiColor: .systemBackground))
         }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+        .widgetBackground(Color(uiColor: .systemBackground))
     }
 }
 
@@ -253,7 +287,7 @@ struct HabitWidget: Widget {
 
 struct HabitWidget_Previews: PreviewProvider {
     static var previews: some View {
-        let entry = HabitEntry()
+        let entry = HabitEntry.placeholderEntry
         Group {
             HabitWidgetEntryView(entry: entry)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
