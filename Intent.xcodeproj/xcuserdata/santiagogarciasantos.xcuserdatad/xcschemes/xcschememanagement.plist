@@ -12,17 +12,35 @@
 		<key>HabitProgressIntentExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 		<key>HabitWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>Intent.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>C70167802B34BBF50085A33D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C701679C2B34C2330085A33D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C73D0677292815370055B13B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

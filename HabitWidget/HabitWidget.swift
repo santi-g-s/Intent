@@ -11,11 +11,13 @@ import WidgetKit
 struct Provider: IntentTimelineProvider {
     var dataManager = DataManager.shared
     func placeholder(in context: Context) -> HabitEntry {
-        HabitEntry(date: Date(), identifier: UUID().uuidString, displayString: "Habit", score: 0.7, streak: 7, timePeriod: .daily, accentColor: .accentColor, iconName: "star", messages: ["Add a motivational message to help you reach your goals"])
+        HabitEntry()
     }
 
     func getSnapshot(for configuration: HabitProgressIntent, in context: Context, completion: @escaping (HabitEntry) -> ()) {
-        guard let id = configuration.habitID else {
+        guard let id = configuration.habit?.identifier else {
+            print("No identifier")
+            print(configuration)
             return
         }
 
@@ -24,7 +26,7 @@ struct Provider: IntentTimelineProvider {
         switch result {
         case .success(let habit):
             if let habit = habit {
-                let habitEntry = HabitEntry(date: Date(), identifier: habit.id?.uuidString ?? "", displayString: habit.title, score: habit.calculateScore(), streak: habit.streakDescriptionsNumDays ?? 0, timePeriod: habit.timePeriod, accentColor: habit.accentColor, iconName: habit.iconName, messages: habit.messages)
+                let habitEntry = HabitEntry(from: habit)
 
                 completion(habitEntry)
             } else {
@@ -36,7 +38,9 @@ struct Provider: IntentTimelineProvider {
     }
 
     func getTimeline(for configuration: HabitProgressIntent, in context: Context, completion: @escaping (Timeline<HabitEntry>) -> ()) {
-        guard let id = configuration.habitID else {
+        guard let id = configuration.habit?.identifier else {
+            print("No identifier")
+            print(configuration)
             return
         }
 
@@ -45,7 +49,7 @@ struct Provider: IntentTimelineProvider {
         switch result {
         case .success(let habit):
             if let habit = habit {
-                let habitEntry = HabitEntry(date: Date(), identifier: habit.id?.uuidString ?? "", displayString: habit.title, score: habit.calculateScore(), streak: habit.streakDescriptionsNumDays ?? 0, timePeriod: habit.timePeriod, accentColor: habit.accentColor, iconName: habit.iconName, messages: habit.messages)
+                let habitEntry = HabitEntry(from: habit)
 
                 let timeline = Timeline(entries: [habitEntry], policy: .atEnd)
 
@@ -69,12 +73,57 @@ struct HabitEntry: TimelineEntry {
     var accentColor: Color
     var iconName: String
     var messages: [String]
+    var completionsInPeriod: Int
+    var requiredCount: Int
+    var status: HabitStatus
+
+    init() {
+        self.date = Date()
+        self.identifier = UUID().uuidString
+        self.displayString = "Habit"
+        self.score = 0.6
+        self.streak = 15
+        self.timePeriod = .daily
+        self.accentColor = .accentColor
+        self.iconName = "sparkles"
+        self.messages = ["Add a motivational message to help you reach your goals"]
+        self.completionsInPeriod = 1
+        self.requiredCount = 1
+        self.status = .complete
+    }
+
+    init(from habit: Habit) {
+        self.date = Date()
+        self.identifier = habit.id?.uuidString ?? ""
+        self.displayString = habit.title
+        self.score = habit.calculateScore()
+        self.streak = habit.streakDescriptionsNumDays ?? 0
+        self.timePeriod = habit.timePeriod
+        self.accentColor = habit.accentColor
+        self.iconName = habit.iconName
+        self.messages = habit.messages
+        self.completionsInPeriod = habit.completionsInPeriod
+        self.requiredCount = habit.requiredCount
+        self.status = habit.status
+    }
 }
 
 struct HabitWidgetEntryView: View {
     var entry: Provider.Entry
 
     @Environment(\.widgetFamily) var family
+
+    var partialCircleProgress: Double {
+        let progress = Double(entry.completionsInPeriod)/Double(entry.requiredCount)
+        return progress.isEqual(to: 0.0) ? 1.0 : progress
+    }
+
+    var habitIndicator: some View {
+        PartialCircle(progress: partialCircleProgress)
+            .foregroundColor(entry.accentColor.opacity(entry.status != .pending(0) ? 1 : 2/3))
+            .shadow(color: entry.accentColor.adjust(brightness: -0.3).opacity(0.2), radius: entry.status == .complete ? 4 : 0, x: 0, y: 0)
+            .scaleEffect(entry.score.roundedUp(toNearest: 0.1))
+    }
 
     var body: some View {
         switch family {
@@ -113,12 +162,11 @@ struct HabitWidgetEntryView: View {
 
                 HStack {
                     Spacer()
+
                     Circle()
                         .foregroundStyle(.regularMaterial)
                         .overlay {
-                            Circle()
-                                .foregroundColor(entry.accentColor)
-                                .scaleEffect(entry.score)
+                            habitIndicator
                         }
                 }
             }
@@ -129,9 +177,7 @@ struct HabitWidgetEntryView: View {
                 Circle()
                     .foregroundStyle(.regularMaterial)
                     .overlay {
-                        Circle()
-                            .foregroundColor(entry.accentColor)
-                            .scaleEffect(entry.score)
+                        habitIndicator
                     }
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: 0) {
@@ -206,7 +252,7 @@ struct HabitWidget: Widget {
 
 struct HabitWidget_Previews: PreviewProvider {
     static var previews: some View {
-        let entry = HabitEntry(date: Date(), identifier: UUID().uuidString, displayString: "Habit", score: 0.7, streak: 7, timePeriod: .daily, accentColor: .accentColor, iconName: "star", messages: ["Add a motivational message to help you reach your goals"])
+        let entry = HabitEntry()
         Group {
             HabitWidgetEntryView(entry: entry)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))

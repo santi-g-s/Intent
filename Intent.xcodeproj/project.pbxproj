@@ -82,6 +82,7 @@
 		C7B021032935372600462E1F /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B021022935372600462E1F /* HabitDetailView.swift */; };
 		C7CFE829293F0A4300A89AAD /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CFE828293F0A4300A89AAD /* ScrollView.swift */; };
 		C7D228162A32C05E00E4990C /* curatedsfsymbols.txt in Resources */ = {isa = PBXBuildFile; fileRef = C7D228152A32C05E00E4990C /* curatedsfsymbols.txt */; };
+		C7D836F92B350C25004B6A3E /* PartialCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A40662B006F35006395DA /* PartialCircle.swift */; };
 		C7DC9FE52965036B0055ACEC /* HabitEditorConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9FE42965036B0055ACEC /* HabitEditorConfig.swift */; };
 /* End PBXBuildFile section */
 
@@ -582,6 +583,7 @@
 				C70167B62B34C3060085A33D /* View+Extensions.swift in Sources */,
 				C70167C22B34C3700085A33D /* UserNotificationsManager.swift in Sources */,
 				C70167BE2B34C32C0085A33D /* DataManager.swift in Sources */,
+				C7D836F92B350C25004B6A3E /* PartialCircle.swift in Sources */,
 				C70167BF2B34C3400085A33D /* CoreDataModel.xcdatamodeld in Sources */,
 				C70167962B34BC320085A33D /* HabitWidgetIntents.intentdefinition in Sources */,
 			);

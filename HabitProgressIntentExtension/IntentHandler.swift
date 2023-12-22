@@ -8,22 +8,15 @@
 import Intents
 
 class IntentHandler: INExtension, HabitProgressIntentHandling {
-    
     var dataManager = DataManager.shared
     
-    
-    func provideHabitIDOptionsCollection(for intent: HabitProgressIntent, with completion: @escaping (INObjectCollection<NSString>?, Error?) -> Void) {
-        
-        let habits = dataManager.getAllHabits().compactMap { h in
-            if let idString = h.id?.uuidString {
-                return idString as NSString
-            }
-            return nil
+    func provideHabitOptionsCollection(for intent: HabitProgressIntent, with completion: @escaping (INObjectCollection<HabitObject>?, Error?) -> Void) {
+        let habits = dataManager.getAllHabits().map { h in
+            HabitObject(identifier: h.id?.uuidString, display: h.title)
         }
         
         let collection = INObjectCollection(items: habits)
         completion(collection, nil)
-        
     }
     
     override func handler(for intent: INIntent) -> Any {
@@ -32,5 +25,4 @@ class IntentHandler: INExtension, HabitProgressIntentHandling {
         
         return self
     }
-    
 }
