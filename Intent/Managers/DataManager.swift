@@ -64,7 +64,7 @@ class DataManager {
         if storeType == .inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
             print("📓 Using in-memory Core Data Store")
-        } else {
+        } else if UserDefaults.standard.bool(forKey: "didMigrateStoreURL") {
             let storeURL = AppGroup.group.containerURL.appendingPathComponent("CoreDataModel.sqlite")
             container.persistentStoreDescriptions.first!.url = storeURL
             print("🤝 Using Shared App Group Core Data Store")

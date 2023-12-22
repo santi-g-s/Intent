@@ -243,9 +243,10 @@ struct HabitWidget: Widget {
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: HabitProgressIntent.self, provider: Provider(), content: { entry in
             HabitWidgetEntryView(entry: entry)
+                .unredacted()
         })
         .configurationDisplayName("Habit Tracker")
-        .description("Quickly glance at a habit's information.")
+        .description("Quickly glance at a habit's information")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
